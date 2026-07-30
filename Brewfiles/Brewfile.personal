@@ -1,0 +1,5 @@
+# Personal Applications
+# Managed via chezmoi — only installed when `is_work_machine` is false.
+
+# Free messaging and calling application
+cask "wechat"

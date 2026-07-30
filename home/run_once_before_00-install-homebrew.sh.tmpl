@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+
+# -----------------------------------------------------------------------------
+# Operating System Gate (Go Template)
+# Compiles and executes this script only on macOS (darwin).
+# -----------------------------------------------------------------------------
+{{ if eq .chezmoi.os "darwin" -}}
+
+set -euo pipefail
+
+echo "==> [macOS Detected] Checking Homebrew installation status..."
+
+# -----------------------------------------------------------------------------
+# Idempotency & Probe Checks
+# Checks PATH and standard paths for Apple Silicon and Intel Macs.
+# -----------------------------------------------------------------------------
+if command -v brew &>/dev/null; then
+    echo "--> Homebrew is already installed. Skipping..."
+    exit 0
+fi
+
+if [[ -f "/opt/homebrew/bin/brew" ]] || [[ -f "/usr/local/bin/brew" ]]; then
+    echo "--> Homebrew binary detected in standard path, but not in PATH. Skipping install..."
+    exit 0
+fi
+
+# -----------------------------------------------------------------------------
+# Non-Interactive Installation
+# NONINTERACTIVE=1 prevents installer prompts from waiting for user confirmation.
+# -----------------------------------------------------------------------------
+echo "--> Homebrew not found. Starting non-interactive installation..."
+
+NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# -----------------------------------------------------------------------------
+# Subshell Environment Injection
+# Immediately exposes the `brew` binary to the current execution context 
+# so subsequent chezmoi hooks can use it.
+# -----------------------------------------------------------------------------
+if [[ -f "/opt/homebrew/bin/brew" ]]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+elif [[ -f "/usr/local/bin/brew" ]]; then
+    eval "$(/usr/local/bin/brew shellenv)"
+fi
+
+echo "==> Homebrew installed successfully."
+
+{{ else -}}
+# No-op for non-macOS platforms
+{{ end -}}

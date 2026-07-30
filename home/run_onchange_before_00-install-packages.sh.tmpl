@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+
+# -----------------------------------------------------------------------------
+# Idempotent Core CLI Tool Installer (Safety Net)
+# Ensures critical CLI tools are available before Brewfile bundle runs.
+# This script uses `run_onchange_before` so chezmoi re-runs it whenever the
+# package list below changes.
+# -----------------------------------------------------------------------------
+# Package list hash (edit this list to trigger re-run):
+# {{ "neovim eza bat bat-extras fd ripgrep fzf zoxide zinit" | sha256sum }}
+
+{{ if eq .chezmoi.os "darwin" -}}
+
+set -euo pipefail
+
+echo "==> [Package Safety Net] Verifying core CLI tools..."
+
+# -----------------------------------------------------------------------------
+# Environment Initialization
+# Load Homebrew into PATH for Apple Silicon / Intel Macs.
+# -----------------------------------------------------------------------------
+if [[ -f "/opt/homebrew/bin/brew" ]]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+elif [[ -f "/usr/local/bin/brew" ]]; then
+    eval "$(/usr/local/bin/brew shellenv)"
+fi
+
+if ! command -v brew &>/dev/null; then
+    echo "--> [Error] Homebrew not found. Cannot install packages."
+    exit 1
+fi
+
+# -----------------------------------------------------------------------------
+# Core CLI Tool Installation
+# Each package is checked before installation for idempotency.
+# Format: "brew_formula:binary_name" (binary_name used for `command -v` check)
+# -----------------------------------------------------------------------------
+declare -a PACKAGES=(
+    "neovim:nvim"
+    "eza:eza"
+    "bat:bat"
+    "bat-extras:prettybat"
+    "fd:fd"
+    "ripgrep:rg"
+    "fzf:fzf"
+    "zoxide:zoxide"
+    "zinit:zinit"
+)
+
+installed_count=0
+skipped_count=0
+
+for entry in "${PACKAGES[@]}"; do
+    formula="${entry%%:*}"
+    binary="${entry##*:}"
+
+    if command -v "$binary" &>/dev/null; then
+        skipped_count=$((skipped_count + 1))
+    else
+        echo "--> Installing ${formula}..."
+        brew install "$formula"
+        installed_count=$((installed_count + 1))
+    fi
+done
+
+echo "==> [Package Safety Net] Done. Installed: ${installed_count}, Already present: ${skipped_count}."
+
+{{ else -}}
+# TODO: Linux package installation (e.g., via apt/pacman)
+# Placeholder for future cross-platform support.
+echo "==> [Package Safety Net] Non-macOS detected. Skipping Homebrew packages."
+{{ end -}}

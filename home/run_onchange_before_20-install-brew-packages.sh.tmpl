@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+
+# Track changes in all relevant Brewfiles using sha256 checksums to trigger execution.
+# chezmoi will re-run this script whenever any included Brewfile's content changes.
+# {{ include "../Brewfiles/Brewfile.base" | sha256sum }}
+# {{ if not (get . "is_work_machine") -}}
+# {{ include "../Brewfiles/Brewfile.personal" | sha256sum }}
+# {{ end -}}
+
+set -euo pipefail
+
+echo "==> [Homebrew Bundle] Brewfile change detected. Syncing dependencies..."
+
+# -----------------------------------------------------------------------------
+# Environment Initialization
+# Load Homebrew into PATH for macOS (Apple Silicon / Intel).
+# -----------------------------------------------------------------------------
+if [[ -f "/opt/homebrew/bin/brew" ]]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+elif [[ -f "/usr/local/bin/brew" ]]; then
+    eval "$(/usr/local/bin/brew shellenv)"
+fi
+
+if ! command -v brew &>/dev/null; then
+    echo "--> [Error] Homebrew binary not found. Skipping bundle execution."
+    exit 1
+fi
+
+# -----------------------------------------------------------------------------
+# Dynamic Brewfile Assembly
+# Construct the array of Brewfiles to execute based on host context.
+# -----------------------------------------------------------------------------
+CHEZMOI_SOURCE_DIR="{{ .chezmoi.sourceDir }}"
+BREWFILES=()
+
+# Base dependencies for all environments
+if [[ -f "${CHEZMOI_SOURCE_DIR}/../Brewfiles/Brewfile.base" ]]; then
+    BREWFILES+=("${CHEZMOI_SOURCE_DIR}/../Brewfiles/Brewfile.base")
+fi
+
+{{ if not (get . "is_work_machine") -}}
+# Personal machine dependencies (non-work)
+if [[ -f "${CHEZMOI_SOURCE_DIR}/../Brewfiles/Brewfile.personal" ]]; then
+    BREWFILES+=("${CHEZMOI_SOURCE_DIR}/../Brewfiles/Brewfile.personal")
+fi
+{{ end -}}
+
+# -----------------------------------------------------------------------------
+# Execution Loop
+# Iterate through target Brewfiles and apply bundle changes.
+# -----------------------------------------------------------------------------
+if [[ ${#BREWFILES[@]} -eq 0 ]]; then
+    echo "--> No valid Brewfiles found for the current environment. Skipping."
+    exit 0
+fi
+
+for file in "${BREWFILES[@]}"; do
+    echo "--> Applying Brewfile: ${file}"
+    brew bundle --file="${file}"
+done
+
+echo "==> [Homebrew Bundle] All target Brewfiles applied successfully."

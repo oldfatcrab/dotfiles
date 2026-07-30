@@ -1,0 +1,178 @@
+# =============================================================================
+# ~/.zshrc — Interactive Shell Configuration
+#
+# Architecture:
+#   1. Powerlevel10k Instant Prompt (must be first — no console output above)
+#   2. Zinit Plugin Manager Bootstrap
+#   3. Powerlevel10k Theme (loaded synchronously for instant rendering)
+#   4. Modular Config Sourcing (~/.config/zsh/{env,aliases,functions,init}.zsh)
+#   5. Zinit Plugins (OMZ snippets + turbo-loaded advanced plugins)
+#   6. Completion Engine & FZF-Tab Configuration
+#   7. Powerlevel10k Config & Optional Banner
+#
+# Convention (https://www.freecodecamp.org/news/how-do-zsh-configuration-files-work/):
+#   ~/.zprofile  → PATH, brew shellenv (login shells only)
+#   ~/.zshrc     → everything interactive (this file)
+# =============================================================================
+
+# =============================================================================
+# 0. Startup Banner (fastfetch)
+# Must run before p10k instant prompt so console output does not trigger warnings
+# or interfere with instant prompt rendering.
+# =============================================================================
+if command -v fastfetch &>/dev/null; then
+    fastfetch
+elif [[ -x "/opt/homebrew/bin/fastfetch" ]]; then
+    /opt/homebrew/bin/fastfetch
+elif [[ -x "/usr/local/bin/fastfetch" ]]; then
+    /usr/local/bin/fastfetch
+fi
+
+# =============================================================================
+# 1. Powerlevel10k Instant Prompt
+# Must remain above all other zshrc configs (except banner output above).
+# =============================================================================
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+    source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+# =============================================================================
+# 2. Zinit Plugin Manager Bootstrap
+# Attempts to load zinit from Homebrew first, then falls back to the
+# self-installing GitHub clone method.
+# =============================================================================
+{{ if eq .chezmoi.arch "arm64" -}}
+ZINIT_BREW_PATH="/opt/homebrew/opt/zinit/zinit.zsh"
+{{ else -}}
+ZINIT_BREW_PATH="/usr/local/opt/zinit/zinit.zsh"
+{{ end -}}
+
+if [[ -f "$ZINIT_BREW_PATH" ]]; then
+    source "$ZINIT_BREW_PATH"
+elif [[ -f "${HOME}/.local/share/zinit/zinit.git/zinit.zsh" ]]; then
+    source "${HOME}/.local/share/zinit/zinit.git/zinit.zsh"
+else
+    # Self-install zinit from GitHub
+    ZINIT_HOME="${HOME}/.local/share/zinit/zinit.git"
+    mkdir -p "$(dirname "$ZINIT_HOME")"
+    git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME" 2>/dev/null
+    source "${ZINIT_HOME}/zinit.zsh"
+fi
+
+# =============================================================================
+# 3. Powerlevel10k Theme (synchronous load for instant prompt)
+# =============================================================================
+zinit ice depth"1"
+zinit light romkatv/powerlevel10k
+
+# =============================================================================
+# 4. Source Modular Configuration
+# Order matters: env → aliases → functions → init
+# =============================================================================
+for config_file in \
+    "${HOME}/.config/zsh/env.zsh" \
+    "${HOME}/.config/zsh/aliases.zsh" \
+    "${HOME}/.config/zsh/functions.zsh" \
+    "${HOME}/.config/zsh/init.zsh"; do
+    [[ -r "$config_file" ]] && source "$config_file"
+done
+unset config_file
+
+# =============================================================================
+# 5. Zinit Plugins
+# =============================================================================
+
+# ---------------------------------------------------------------------------
+# 5a. Oh-My-Zsh Snippets (Turbo Mode — deferred loading)
+# ---------------------------------------------------------------------------
+zinit wait lucid for \
+    OMZP::git \
+    OMZP::sudo \
+    OMZP::extract \
+    OMZP::copypath \
+    OMZP::copyfile
+
+# ---------------------------------------------------------------------------
+# 5b. Advanced Plugins (Turbo Mode — deferred loading)
+# ---------------------------------------------------------------------------
+
+# zsh-eza: Enhanced eza integration with auto-cd support
+zinit wait lucid for \
+    atinit"AUTOCD=1" \
+    z-shell/zsh-eza
+
+# You-Should-Use: Reminds you of existing aliases
+zinit wait lucid for \
+    MichaelAquilina/zsh-you-should-use
+
+# Completions: Additional completion definitions
+zinit wait lucid for \
+    atload"zicompinit; zicdreplay" \
+    blockf \
+    zsh-users/zsh-completions
+
+# Autosuggestions: Fish-like autosuggestions
+zinit wait lucid for \
+    atload"_zsh_autosuggest_start" \
+    zsh-users/zsh-autosuggestions
+
+# Syntax Highlighting: Must be loaded LAST among plugins
+zinit wait lucid for \
+    atinit"zicompinit; zicdreplay" \
+    zsh-users/zsh-syntax-highlighting
+
+# FZF-Tab: Interactive completion UI (load after completions)
+zinit wait lucid for \
+    Aloxaf/fzf-tab
+
+# =============================================================================
+# 6. Completion Engine & FZF-Tab Configuration
+# =============================================================================
+
+# OMZ Plugin Configurations
+zstyle ':omz:plugins:eza' 'git-status' yes
+zstyle ':omz:plugins:eza' 'header' yes
+zstyle ':omz:plugins:eza' 'icons' yes
+zstyle ':omz:plugins:eza' 'hyperlink' yes
+
+# Native Completion Formatting & Styles
+zstyle ':completion:*:git-checkout:*' sort false
+zstyle ':completion:*:descriptions' format '[%d]'
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+
+# FZF-Tab Global Flags & UI Bindings
+zstyle ':fzf-tab:*' switch-group ',' '.'
+zstyle ':fzf-tab:*' fzf-flags '--height=50%'
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza --tree --level=2 --icons=auto --color=always $realpath'
+
+# FZF-Tab Process & Service Previews
+zstyle ':completion:*:*:*:*:processes' command "ps -u $USER -o pid,user,comm -w -w"
+zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-preview \
+    '[[ $group == "[process ID]" ]] && ps -p $word -o command -w | tail -n +2'
+zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-flags --preview-window=down:3:wrap
+zstyle ':fzf-tab:complete:alias:*' fzf-preview 'alias $word 2>/dev/null'
+
+# FZF-Tab Universal File & Syntax Inspector Preview
+zstyle ':fzf-tab:complete:*:*' fzf-preview 'echo "\033[1m${(Q)group}\033[0m\n"
+if [[ "${(Q)group}" == "[file]" ]]; then
+  if [[ -n "${(Q)realpath}" ]]; then
+    if [[ -d "${(Q)realpath}" ]]; then
+      eza --tree --level=2 --icons=auto --color=always "${(Q)realpath}"
+    elif file -bL --mime-type "${(Q)realpath}" | grep -q "^text/"; then
+      bat --color=always --style=plain --paging=never "${(Q)realpath}"
+    fi
+  fi
+elif [[ "${(Q)group}" == "[alias]" ]]; then
+  echo "${(Q)desc}"
+elif [[ "${(Q)group}" =~ "command]$" ]]; then
+  which "${(Q)word}"
+elif [[ "${(Q)group}" == "[parameter]" ]]; then
+  echo "${(P)word}"
+fi'
+
+# =============================================================================
+# 7. Powerlevel10k Config & Optional Banner
+# =============================================================================
+
+# Load Powerlevel10k user configuration
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

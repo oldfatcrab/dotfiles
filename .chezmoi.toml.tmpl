@@ -1,0 +1,8 @@
+# -----------------------------------------------------------------------------
+# Interactive Prompts during `chezmoi init`
+# -----------------------------------------------------------------------------
+
+{{ $is_work := promptBoolOnce . "is_work_machine" "Is this a work machine" -}}
+
+[data]
+    is_work_machine = {{ $is_work }}

@@ -1,0 +1,30 @@
+# -----------------------------------------------------------------------------
+# 1. Global Ignore (Chezmoi Internal & Temporary Files)
+# -----------------------------------------------------------------------------
+.git/
+.gitignore
+README.md
+LICENSE
+
+# -----------------------------------------------------------------------------
+# 2. OS-Specific Ignore (Go Template)
+# Prevent non-macOS machines from trying to manage macOS-only files
+# -----------------------------------------------------------------------------
+{{ if ne .chezmoi.os "darwin" }}
+.config/ghostty/
+Brewfiles/
+run_once_before_00-install-homebrew.sh.tmpl
+run_onchange_before_00-install-packages.sh.tmpl
+run_onchange_before_20-install-brew-packages.sh.tmpl
+{{ end }}
+
+{{ if ne .chezmoi.os "linux" }}
+.config/systemd/
+{{ end }}
+
+# -----------------------------------------------------------------------------
+# 3. Work/Personal Machine Conditional Ignore
+# -----------------------------------------------------------------------------
+{{ if get . "is_work_machine" }}
+Brewfiles/Brewfile.personal
+{{ end }}
