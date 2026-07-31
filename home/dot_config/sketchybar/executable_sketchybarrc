@@ -36,7 +36,7 @@ sketchybar --default "${default[@]}"
 
 sketchybar --add event hyprspace_workspace_change
 
-for sid in $("$HYPRSPACE_BIN" list-workspaces --all 2>/dev/null); do
+for sid in {1..9}; do
 	space=(
 		icon="$sid"
 		background.color=0x40dcd7ba
