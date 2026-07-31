@@ -67,17 +67,20 @@ graph TD
 │   ├── empty_dot_zlogout        ← Empty
 │   │
 │   └── dot_config/
-│       ├── zsh/                 ← Modular Zsh config (sourced by .zshrc)
-│       │   ├── env.zsh          ← Environment vars, history, FZF/BAT config
-│       │   ├── aliases.zsh      ← CLI aliases (eza, bat, git, fzf, etc.)
-│       │   ├── functions.zsh    ← Interactive functions (tmux, git worktree, ssh)
-│       │   └── init.zsh         ← Tool init evals (zoxide, fzf, mise)
-│       │
-│       └── nvim/                ← LazyVim Neovim configuration
-│           ├── init.lua
-│           └── lua/
-│               ├── config/      ← lazy.lua, options.lua, keymaps.lua, autocmds.lua
-│               └── plugins/     ← Plugin specs (example.lua)
+│           ├── ghostty/         ← Ghostty terminal configuration
+│           ├── hyprspace/       ← Hyprspace / Aerospace tiling window manager
+│           ├── nvim/            ← LazyVim Neovim configuration
+│           │   ├── init.lua
+│           │   └── lua/
+│           │       ├── config/  ← lazy.lua, options.lua, keymaps.lua, autocmds.lua
+│           │       └── plugins/ ← Plugin specs (example.lua)
+│           ├── sketchybar/      ← Sketchybar status bar configuration
+│           ├── tmux/            ← Tmux terminal multiplexer configuration
+│           └── zsh/             ← Modular Zsh config (sourced by .zshrc)
+│               ├── env.zsh      ← Environment vars, history, FZF/BAT config
+│               ├── aliases.zsh  ← CLI aliases (eza, bat, git, fzf, etc.)
+│               ├── functions.zsh← Interactive functions (tmux, git worktree, ssh)
+│               └── init.zsh     ← Tool init evals (zoxide, fzf, mise)
 │
 └── omarchy/                     ← READ-ONLY reference (Basecamp's Omarchy bash configs)
 ```
@@ -99,6 +102,10 @@ Following the [standard Zsh configuration hierarchy](https://www.freecodecamp.or
 | Category | Tool | Replaces |
 |----------|------|----------|
 | Shell | Zsh | bash |
+| Terminal | Ghostty | macOS Terminal |
+| Multiplexer | tmux | — |
+| Window Manager | Hyprspace (Aerospace) + JankyBorders | macOS Window Management |
+| Top Bar | Sketchybar | macOS Menu Bar |
 | Plugin Manager | zinit (Turbo Mode) | oh-my-zsh |
 | Prompt | Powerlevel10k | Starship |
 | Editor | Neovim + LazyVim | vim |

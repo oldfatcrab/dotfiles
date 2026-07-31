@@ -1,0 +1,123 @@
+# Hyprspace starter config.
+#
+# This file is intentionally small. Hyprspace already provides opinionated built-in
+# defaults for the dwindle-friendly layout behavior, so this file only contains the
+# first shortcuts new users are likely to want immediately.
+#
+# For a fuller reference config, see: ~/.config/hyprspace/docs/default-config.toml
+# For path rules, see: ~/.config/hyprspace/docs/README.md
+# For all available config options and commands, see:
+# https://nikitabobko.github.io/AeroSpace/guide
+# https://nikitabobko.github.io/AeroSpace/commands
+
+config-version = 2
+start-at-login = true
+
+after-startup-command = [
+    'exec-and-forget borders active_color=0xffdcd7ba inactive_color=0xff1f1f28 width=8.0 hidpi=off',
+]
+
+exec-on-workspace-change = [
+    '/bin/bash',
+    '-lc',
+    'sketchybar --trigger hyprspace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE PREV_WORKSPACE=$AEROSPACE_PREV_WORKSPACE',
+]
+
+[gaps]
+inner.horizontal = 18
+inner.vertical = 18
+outer.left = 18
+outer.right = 18
+outer.bottom = 18
+outer.top = [{ monitor."built-in" = 18 }, { monitor."main" = 48 }, 48]
+
+# ---------- MAIN KEY BINDINGS -----------
+
+[mode.main.binding]
+ctrl-alt-cmd-enter = 'new-window-or-open Ghostty'
+ctrl-alt-cmd-b = 'new-window-or-open Safari'
+ctrl-alt-cmd-m = 'new-window-or-open Music'
+ctrl-alt-cmd-shift-p = 'open-terminal Ghostty btop'
+ctrl-alt-cmd-shift-n = 'new-window-or-open TextEdit'
+ctrl-alt-cmd-o = 'new-window-or-open Obsidian'
+
+ctrl-alt-cmd-1 = 'workspace 1'
+ctrl-alt-cmd-2 = 'workspace 2'
+ctrl-alt-cmd-3 = 'workspace 3'
+ctrl-alt-cmd-4 = 'workspace 4'
+ctrl-alt-cmd-5 = 'workspace 5'
+ctrl-alt-cmd-6 = 'workspace 6'
+ctrl-alt-cmd-7 = 'workspace 7'
+ctrl-alt-cmd-8 = 'workspace 8'
+ctrl-alt-cmd-9 = 'workspace 9'
+
+ctrl-alt-cmd-shift-1 = 'move-node-to-workspace 1'
+ctrl-alt-cmd-shift-2 = 'move-node-to-workspace 2'
+ctrl-alt-cmd-shift-3 = 'move-node-to-workspace 3'
+ctrl-alt-cmd-shift-4 = 'move-node-to-workspace 4'
+
+ctrl-alt-cmd-h = 'focus left'
+ctrl-alt-cmd-j = 'focus down'
+ctrl-alt-cmd-k = 'focus up'
+ctrl-alt-cmd-l = 'focus right'
+
+ctrl-alt-cmd-shift-h = 'move left'
+ctrl-alt-cmd-shift-j = 'move down'
+ctrl-alt-cmd-shift-k = 'move up'
+ctrl-alt-cmd-shift-l = 'move right'
+
+ctrl-alt-cmd-tab = 'focus-back-and-forth'
+ctrl-alt-cmd-shift-space = 'layout floating tiling'
+ctrl-alt-cmd-shift-semicolon = 'mode service'
+ctrl-alt-cmd-shift-slash = 'layout tiles horizontal vertical'
+ctrl-alt-cmd-shift-comma = 'layout accordion horizontal vertical'
+ctrl-alt-cmd-minus = 'resize smart -50'
+ctrl-alt-cmd-equal = 'resize smart +50'
+ctrl-alt-cmd-f = 'fullscreen'
+ctrl-alt-cmd-shift-f = 'macos-native-fullscreen'
+
+# ---------- SERVICE MODE -----------
+
+[mode.service.binding]
+esc = ['reload-config', 'mode main']
+r = ['flatten-workspace-tree', 'mode main']
+f = ['layout floating tiling', 'mode main']
+ctrl-alt-cmd-shift-semicolon = 'mode main'
+
+# ---------- WINDOW CONTROL -----------
+
+[[on-window-detected]]
+if.app-id = "com.apple.ScreenSharing"
+run = ["layout floating"]
+
+[[on-window-detected]]
+if.app-id = "com.apple.MobileSMS"
+run = ["layout floating"]
+
+[[on-window-detected]]
+if.app-id = 'com.apple.iphonesimulator'
+run = ["layout floating"]
+
+[[on-window-detected]]
+if.app-id = 'com.tinyspeck.slackmacgap'
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-id = "com.microsoft.teams2"
+run = ["layout floating"]
+
+[[on-window-detected]]
+if.app-id = 'com.macpaw.CleanMyMac'
+run = ["layout floating"]
+
+[[on-window-detected]]
+if.app-id = "com.macpaw.CleanMyMac4"
+run = ["layout floating"]
+
+[[on-window-detected]]
+if.app-id = "com.bitwarden.desktop"
+run = ["layout floating"]
+
+[[on-window-detected]]
+if.app-id = "com.apple.QuickTimePlayerX"
+run = ["layout floating"]

@@ -13,6 +13,7 @@
 - [x] Created Zsh modular architecture based on the `~/.zprofile` and `~/.zshrc` convention.
 - [x] Configured Zinit with Turbo Mode for `powerlevel10k`, `zsh-eza`, `fzf-tab`, etc.
 - [x] Set up LazyVim structure without dynamically cloning `lazy.nvim` in a script (it bootstraps itself).
+- [x] Integrated Omarchy configurations for Tmux (`C-b` prefix), Ghostty (padding/cursor/CSI-u keys), Hyprspace/Aerospace (Kanagawa borders & `ctrl-alt-cmd` shortcuts), and Sketchybar (`Liga SFMono Nerd Font` & Kanagawa colors).
 
 ## Pending/Future Tasks (TODOs)
 - **Linux Support:** Some scripts (e.g., package installation, certain Omarchy functions like `rsyncing/rsw` or drive management) have placeholder `TODO`s for Linux support since the current focus was macOS. These need to be implemented when expanding OS support.

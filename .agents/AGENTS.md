@@ -21,8 +21,12 @@ home/                   → Chezmoi source root → maps to $HOME
   run_once_before_*     → Run once scripts (install homebrew)
   run_onchange_before_* → Run when content changes (packages)
   dot_config/           → Maps to ~/.config/
-    zsh/                → Modular Zsh config (env, aliases, functions, init)
+    ghostty/            → Ghostty terminal configuration
+    hyprspace/          → Hyprspace / Aerospace tiling WM configuration
     nvim/               → LazyVim Neovim configuration
+    sketchybar/         → Sketchybar status bar configuration
+    tmux/               → Tmux terminal multiplexer configuration
+    zsh/                → Modular Zsh config (env, aliases, functions, init)
 omarchy/                → READ-ONLY Omarchy bash reference
 ```
 
