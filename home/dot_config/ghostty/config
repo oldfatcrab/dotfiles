@@ -1,37 +1,42 @@
-palette = 0=#21222c
-palette = 1=#ff5555
-palette = 2=#50fa7b
-palette = 3=#f1fa8c
-palette = 4=#bd93f9
-palette = 5=#ff79c6
-palette = 6=#8be9fd
-palette = 7=#f8f8f2
-palette = 8=#6272a4
-palette = 9=#ff6e6e
-palette = 10=#69ff94
-palette = 11=#ffffa5
-palette = 12=#d6acff
-palette = 13=#ff92df
-palette = 14=#a4ffff
-palette = 15=#ffffff
-background = #282a36
-foreground = #f8f8f2
-cursor-color = #f8f8f2
-cursor-text = #282a36
+palette = 0=#21222C
+palette = 1=#FF5555
+palette = 2=#62D167
+palette = 3=#FEFB67
+palette = 4=#676ED5
+palette = 5=#C792EA
+palette = 6=#00BBD3
+palette = 7=#C7C7C7
+palette = 8=#676767
+palette = 9=#FF6E6E
+palette = 10=#69FF94
+palette = 11=#FFCB6B
+palette = 12=#82AAFF
+palette = 13=#FF92DF
+palette = 14=#4DCFE0
+palette = 15=#FFFEFE
+background = #282935
+foreground = #EAEAEA
+cursor-color = #C7C7C7
+cursor-text = #FFFEFE
 selection-foreground = #f8f8f2
 selection-background = #44475a
-font-family = "MesloLGS Nerd Font"
+font-family = "Liga SFMono Nerd Font"
+font-thicken = true
+font-synthetic-style = true
+font-size = 16
 
 # Window
 window-padding-x = 14
 window-padding-y = 14
+window-height = "60"
+window-width = "150"
 confirm-close-surface = false
 resize-overlay = never
 gtk-toolbar-style = flat
 
 # Cursor styling
 cursor-style = "block"
-cursor-style-blink = false
+cursor-style-blink = true
 
 # Cursor styling + SSH session terminfo
 # (all shell integration options must be passed together)
