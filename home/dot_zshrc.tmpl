@@ -22,10 +22,13 @@
 # =============================================================================
 if command -v fastfetch &>/dev/null; then
     fastfetch
+    echo
 elif [[ -x "/opt/homebrew/bin/fastfetch" ]]; then
     /opt/homebrew/bin/fastfetch
+    echo
 elif [[ -x "/usr/local/bin/fastfetch" ]]; then
     /usr/local/bin/fastfetch
+    echo
 fi
 
 # =============================================================================
