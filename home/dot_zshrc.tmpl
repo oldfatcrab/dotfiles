@@ -120,13 +120,18 @@ zinit wait lucid for \
     atinit"zicompinit; zicdreplay" \
     zsh-users/zsh-syntax-highlighting
 
-# FZF-Tab: Interactive completion UI (load after completions)
+# fzf-tab-completion: Tab completion using fzf (replaces Aloxaf/fzf-tab)
 zinit wait lucid for \
-    Aloxaf/fzf-tab
+    atload"bindkey '^I' fzf_completion" \
+    pick"zsh/fzf-zsh-completion.sh" \
+    lincheney/fzf-tab-completion
 
 # =============================================================================
 # 6. Completion Engine & FZF-Tab Configuration
 # =============================================================================
+
+# fzf-tab-completion (lincheney): enable display string search
+zstyle ':completion:*' fzf-search-display true
 
 # OMZ Plugin Configurations
 zstyle ':omz:plugins:eza' 'git-status' yes
