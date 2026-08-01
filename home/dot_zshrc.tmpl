@@ -107,27 +107,15 @@ zinit wait lucid for \
 zinit wait lucid for \
     MichaelAquilina/zsh-you-should-use
 
-# Completions: Additional completion definitions
-zinit wait lucid for \
-    atload"zicompinit; zicdreplay" \
-    blockf \
-    zsh-users/zsh-completions
-
-# Autosuggestions: Fish-like autosuggestions
-zinit wait lucid for \
+# Core Completion and Interactive Plugins
+# Must be loaded in strict order: completions -> fzf-tab -> autosuggestions -> syntax-highlighting
+zinit wait lucid blockf for \
+    atinit"zicompinit; zicdreplay; compdef _cd zd" \
+    zsh-users/zsh-completions \
+    Aloxaf/fzf-tab \
     atload"_zsh_autosuggest_start" \
-    zsh-users/zsh-autosuggestions
-
-# Syntax Highlighting: Must be loaded LAST among plugins
-zinit wait lucid for \
-    atinit"zicompinit; zicdreplay" \
+    zsh-users/zsh-autosuggestions \
     zsh-users/zsh-syntax-highlighting
-
-# fzf-tab-completion: Tab completion using fzf (replaces Aloxaf/fzf-tab)
-zinit wait lucid for \
-    atload"bindkey '^I' fzf_completion" \
-    pick"zsh/fzf-zsh-completion.sh" \
-    lincheney/fzf-tab-completion
 
 # =============================================================================
 # 6. Completion Engine & FZF-Tab Configuration
@@ -146,11 +134,23 @@ zstyle ':omz:plugins:eza' 'hyperlink' yes
 zstyle ':completion:*:git-checkout:*' sort false
 zstyle ':completion:*:descriptions' format '[%d]'
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+# Force cd/zd to only complete directories (filters out files in fzf-tab)
+zstyle ':completion:*:*:(cd|zd):*' tag-order local-directories directory-stack path-directories
 
 # FZF-Tab Global Flags & UI Bindings
-zstyle ':fzf-tab:*' switch-group ',' '.'
-zstyle ':fzf-tab:*' fzf-flags '--height=50%'
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza --tree --level=2 --icons=auto --color=always $realpath'
+# Disable default description to focus on the preview window
+zstyle ':fzf-tab:*' show-group no
+zstyle ':fzf-tab:*' single-group ''
+
+# Layout: right side 60% with left border
+zstyle ':fzf-tab:*' fzf-flags '--preview-window=right:60%:border-left'
+
+# Bind tab to continuous completion (allows entering directories)
+zstyle ':fzf-tab:*' continuous-trigger 'tab'
+zstyle ':fzf-tab:*' fzf-bindings 'space:accept' 'btab:ignore'
+
+# Use a custom fzf command wrapper to clear images when fzf-tab exits
+zstyle ':fzf-tab:*' fzf-command ftb_fzf_with_kitty_clear
 
 # FZF-Tab Process & Service Previews
 zstyle ':completion:*:*:*:*:processes' command "ps -u $USER -o pid,user,comm -w -w"
@@ -159,23 +159,33 @@ zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-preview \
 zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-flags --preview-window=down:3:wrap
 zstyle ':fzf-tab:complete:alias:*' fzf-preview 'alias $word 2>/dev/null'
 
-# FZF-Tab Universal File & Syntax Inspector Preview
-zstyle ':fzf-tab:complete:*:*' fzf-preview 'echo "\033[1m${(Q)group}\033[0m\n"
-if [[ "${(Q)group}" == "[file]" ]]; then
-  if [[ -n "${(Q)realpath}" ]]; then
-    if [[ -d "${(Q)realpath}" ]]; then
-      eza --tree --level=2 --icons=auto --color=always "${(Q)realpath}"
-    elif file -bL --mime-type "${(Q)realpath}" | grep -q "^text/"; then
-      bat --color=always --style=plain --paging=never "${(Q)realpath}"
-    fi
+# FZF-Tab Universal File & Syntax Inspector Preview (Yazi style)
+zstyle ':fzf-tab:complete:*:*' fzf-preview '
+  exec 2>/dev/null
+  printf "\e_Ga=d\e\\" # Clear previous kitty images
+  mime=$(file -b --mime-type $realpath)
+  if [[ $mime =~ ^image/ ]]; then
+    chafa -f kitty --size=$((FZF_PREVIEW_COLUMNS * 9 / 10))x$((FZF_PREVIEW_LINES * 9 / 10)) $realpath
+  elif [[ $mime =~ ^video/ && -x "$(command -v ffmpeg)" ]]; then
+    ffmpeg -y -i $realpath -vf thumbnail -frames:v 1 -f image2pipe -vcodec png /tmp/fzf_preview_vid.png
+    chafa -f kitty --size=$((FZF_PREVIEW_COLUMNS * 9 / 10))x$((FZF_PREVIEW_LINES * 9 / 10)) /tmp/fzf_preview_vid.png
+  elif [[ $mime =~ ^application/pdf && -x "$(command -v pdftoppm)" ]]; then
+    pdftoppm -png -f 1 -singlefile $realpath /tmp/fzf_preview_pdf
+    chafa -f kitty --size=$((FZF_PREVIEW_COLUMNS * 9 / 10))x$((FZF_PREVIEW_LINES * 9 / 10)) /tmp/fzf_preview_pdf.png
+  elif [[ -d $realpath ]]; then
+    eza -T -L 2 --color=always --icons=always $realpath
+  elif [[ -f $realpath ]]; then
+    bat --color=always --style=numbers,changes,header --line-range :100 $realpath
+  elif [[ -b $realpath || -c $realpath || -p $realpath ]]; then
+    file -b $realpath
+  else
+    echo $word
   fi
-elif [[ "${(Q)group}" == "[alias]" ]]; then
-  echo "${(Q)desc}"
-elif [[ "${(Q)group}" =~ "command]$" ]]; then
-  which "${(Q)word}"
-elif [[ "${(Q)group}" == "[parameter]" ]]; then
-  echo "${(P)word}"
-fi'
+'
+
+# Command specific previews
+zstyle ':fzf-tab:complete:(cd|z|zi):*' fzf-preview 'eza -T -L 2 --color=always --icons=always $realpath'
+zstyle ':fzf-tab:complete:(-command-|-parameter-|-brace-parameter-|export|unset|expand):*' fzf-preview 'echo ${(P)word}'
 
 # =============================================================================
 # 7. Powerlevel10k Config & Optional Banner

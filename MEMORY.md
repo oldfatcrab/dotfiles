@@ -12,6 +12,7 @@
 - [x] Implemented idempotent package installation script (`run_onchange_before_00-install-packages.sh.tmpl`).
 - [x] Created Zsh modular architecture based on the `~/.zprofile` and `~/.zshrc` convention.
 - [x] Configured Zinit with Turbo Mode for `powerlevel10k`, `zsh-eza`, `fzf-tab`, etc.
+- [x] Enhanced `fzf-tab` with Yazi-style dynamic previews (chafa for images/PDFs/videos), strict directory completion for `cd`, and custom wrappers to clear Kitty image artifacts on exit.
 - [x] Set up LazyVim structure without dynamically cloning `lazy.nvim` in a script (it bootstraps itself).
 - [x] Integrated Omarchy configurations for Tmux (`C-b` prefix), Ghostty (padding/cursor/CSI-u keys), Hyprspace/Aerospace (Kanagawa borders & `ctrl-alt-cmd` shortcuts), and Sketchybar (`Liga SFMono Nerd Font` & Kanagawa colors).
 

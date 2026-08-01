@@ -40,6 +40,16 @@ if command -v zoxide &>/dev/null; then
 fi
 
 # ---------------------------------------------------------------------------
+# FZF Wrapper for fzf-tab (Clear Kitty Images on Exit)
+# ---------------------------------------------------------------------------
+ftb_fzf_with_kitty_clear() {
+    fzf "$@"
+    local ret=$?
+    printf '\e_Ga=d\e\\' > /dev/tty
+    return $ret
+}
+
+# ---------------------------------------------------------------------------
 # FZF + SCP file transfer (from Omarchy aliases)
 # Usage: sff <destination> (e.g., sff host:/tmp/)
 # ---------------------------------------------------------------------------
