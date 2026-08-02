@@ -3,3 +3,29 @@
 
 # Free messaging and calling application
 cask "wechat"
+# Cloud storage service
+cask "baidunetdisk"
+# Voice and text chat software
+cask "discord"
+# Download manager
+cask "jdownloader"
+# Music streaming service
+cask "spotify"
+# Video game digital distribution service
+cask "steam"
+# VPN client for secure internet access and private browsing
+cask "surfshark"
+# Native desktop client for WhatsApp
+cask "whatsapp"
+# Multi-track audio editor and recorder
+cask "audacity"
+# Cross-shell prompt for astronauts
+brew "starship"
+# Organize software neatly under a single directory tree (e.g. /usr/local)
+brew "stow"
+# Multimedia player
+cask "vlc"
+# Video communication and virtual meeting platform
+cask "zoom"
+mas "Numbers", id: 361304891
+mas "搜狗输入法切换助手", id: 6443621266
