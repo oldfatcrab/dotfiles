@@ -16,6 +16,9 @@ This is a **chezmoi** dotfiles repository. The **source directory** is `~/.local
 .chezmoiroot            → "home" (source root is home/, not repo root)
 Brewfiles/              → Homebrew package lists (outside chezmoiroot)
 home/                   → Chezmoi source root → maps to $HOME
+  .chezmoiexternal.toml → External git repositories (oh-my-tmux auto-updates)
+  symlink_dot_tmux.conf → Symlink to ~/.tmux/.tmux.conf
+  dot_tmux.conf.local   → oh-my-tmux local overrides configuration
   dot_*                 → Regular dotfiles (dot_ prefix → . in target)
   empty_dot_*           → Empty placeholder files
   run_once_before_*     → Run once scripts (install homebrew)
@@ -25,7 +28,6 @@ home/                   → Chezmoi source root → maps to $HOME
     hyprspace/          → Hyprspace / Aerospace tiling WM configuration
     nvim/               → LazyVim Neovim configuration
     sketchybar/         → Sketchybar status bar configuration
-    tmux/               → Tmux terminal multiplexer configuration
     zsh/                → Modular Zsh config (env, aliases, functions, init)
 omarchy/                → READ-ONLY Omarchy bash reference
 ```
@@ -139,8 +141,9 @@ Before committing changes, verify:
 
 ## Git
 
-- **Always make a git commit after completing changes.**
-- Commits must be atomic, descriptive, and clearly explain what was changed and why so future agents can easily understand the commit history.
+- Commits are managed by the user (or made only when explicitly requested).
+- If committing, commits must be atomic, descriptive, and clearly explain what was changed and why.
 - Follow conventional/best engineering commit message practices (e.g. `feat: ...`, `fix: ...`, `docs: ...`, `refactor: ...`).
 - Do NOT commit changes to `omarchy/` — it is a read-only reference directory.
 - Test with `chezmoi diff` before committing.
+

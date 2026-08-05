@@ -45,7 +45,6 @@ graph TD
 ### Directory Structure
 
 ```text
-~/.local/share/chezmoi/          ← chezmoi source directory
 ├── .chezmoi.toml.tmpl           ← Interactive prompts (is_work_machine?)
 ├── .chezmoiignore.tmpl          ← OS/context-conditional file ignoring
 ├── .chezmoiroot                 ← Points to home/ as the source root
@@ -55,6 +54,9 @@ graph TD
 │   └── Brewfile.personal        ← Personal apps (ignored on work machines)
 │
 ├── home/                        ← chezmoi source root (.chezmoiroot = home)
+│   ├── .chezmoiexternal.toml    ← External git repositories (oh-my-tmux)
+│   ├── symlink_dot_tmux.conf    ← Symlink to ~/.tmux/.tmux.conf
+│   ├── dot_tmux.conf.local      ← oh-my-tmux local overrides configuration
 │   ├── run_once_before_00-install-homebrew.sh.tmpl
 │   ├── run_onchange_before_00-install-packages.sh.tmpl
 │   ├── run_onchange_before_20-install-brew-packages.sh.tmpl
@@ -75,7 +77,6 @@ graph TD
 │           │       ├── config/  ← lazy.lua, options.lua, keymaps.lua, autocmds.lua
 │           │       └── plugins/ ← Plugin specs (example.lua)
 │           ├── sketchybar/      ← Sketchybar status bar configuration
-│           ├── tmux/            ← Tmux terminal multiplexer configuration
 │           └── zsh/             ← Modular Zsh config (sourced by .zshrc)
 │               ├── env.zsh      ← Environment vars, history, FZF/BAT config
 │               ├── aliases.zsh  ← CLI aliases (eza, bat, git, fzf, etc.)

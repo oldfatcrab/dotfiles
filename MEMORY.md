@@ -14,7 +14,8 @@
 - [x] Configured Zinit with Turbo Mode for `powerlevel10k`, `zsh-eza`, `fzf-tab`, etc.
 - [x] Enhanced `fzf-tab` with Yazi-style dynamic previews (chafa for images/PDFs/videos), strict directory completion for `cd`, and custom wrappers to clear Kitty image artifacts on exit.
 - [x] Set up LazyVim structure without dynamically cloning `lazy.nvim` in a script (it bootstraps itself).
-- [x] Integrated Omarchy configurations for Tmux (`C-b` prefix), Ghostty (padding/cursor/CSI-u keys), Hyprspace/Aerospace (Kanagawa borders & `ctrl-alt-cmd` shortcuts), and Sketchybar (`Liga SFMono Nerd Font` & Kanagawa colors).
+- [x] Migrated Tmux configuration to oh-my-tmux via `.chezmoiexternal`, retaining custom Prefix-less navigation and CSI-u features.
+- [x] Integrated Omarchy configurations for Ghostty (padding/cursor/CSI-u keys), Hyprspace/Aerospace (Kanagawa borders & `ctrl-alt-cmd` shortcuts), and Sketchybar (`Liga SFMono Nerd Font` & Kanagawa colors).
 
 ## Pending/Future Tasks (TODOs)
 - **Linux Support:** Some scripts (e.g., package installation, certain Omarchy functions like `rsyncing/rsw` or drive management) have placeholder `TODO`s for Linux support since the current focus was macOS. These need to be implemented when expanding OS support.
@@ -24,7 +25,7 @@
 ## Important Context for Next Agent
 - **Bugs Fixed:** Fixed a bash `set -e` arithmetic evaluation gotcha where `((var++))` exited with 1 when `var` was 0. Also fixed the template paths so `chezmoi apply` runs successfully.
 - **Fastfetch positioning:** `fastfetch` runs at the very top of `.zshrc` BEFORE Powerlevel10k instant prompt so console output occurs before p10k captures the terminal output.
-- **Documentation & Git Rule:** Agents MUST update markdown files (`README.md`, `MEMORY.md`, `.agents/AGENTS.md`) and create descriptive, atomic git commits after completing work.
+- **Documentation Rule:** Agents MUST update markdown files (`README.md`, `MEMORY.md`, `.agents/AGENTS.md`) when architectural/structural changes occur, but should NOT automatically git commit changes unless explicitly asked by the user.
 - **DO NOT analyze `omarchy/`** directly unless you explicitly need to look up a reference. The migration of its philosophy is largely complete for macOS.
 - **Chezmoi variables:** `.is_work_machine` determines if `Brewfile.personal` is used. Template uses `(get . "is_work_machine")` to avoid panicking before `chezmoi init` runs. `.chezmoiroot` is set to `home/`.
 - Ensure any includes in templates (like Brewfile hashing) use `../` to escape the `home/` root.
