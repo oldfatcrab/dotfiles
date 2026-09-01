@@ -10,6 +10,8 @@ Use the following documentation boundaries:
 
 - `README.md`: user-facing setup, behavior, and repository layout.
 - `TODO.md`: roadmap, status, and acceptance criteria.
+- `DECISIONS.md`: durable architecture decisions, including intentional
+  divergences from Omarchy.
 - `.agents/AGENTS.md`: contributor-only working rules.
 
 Do not create or restore a separate project-memory document. Place durable
@@ -46,3 +48,5 @@ operational facts in the appropriate document above.
   setup issues.
 - Run `git diff --check` before handoff.
 - Keep README and TODO status accurate when behavior or roadmap changes.
+- Add a DECISIONS.md entry when deliberately choosing a different approach from
+  Omarchy or another documented reference.

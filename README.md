@@ -13,6 +13,7 @@ terminal, or application configuration.
 ├── .chezmoiroot        # sets home/ as the chezmoi source root
 ├── .agents/AGENTS.md   # instructions for automated contributors
 ├── Brewfiles/          # optional Homebrew Bundle manifests (currently empty)
+├── DECISIONS.md        # durable design decisions and Omarchy divergences
 ├── home/               # maps to $HOME
 │   ├── run_once_before_00-install-homebrew.sh.tmpl
 │   ├── run_onchange_before_00-install-packages.sh.tmpl
@@ -49,6 +50,7 @@ check conditional paths, and `chezmoi doctor` to diagnose setup problems.
   or encryption workflow when secrets are needed.
 - Update this README or `TODO.md` when user-facing behavior or roadmap status
   changes. Contributor-specific rules belong in `.agents/AGENTS.md`.
+- Record intentional differences from Omarchy in `DECISIONS.md`.
 
 ## Roadmap
 
