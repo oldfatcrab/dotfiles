@@ -1,22 +1,29 @@
 # Roadmap
 
-This is the single source of truth for planned repository work. The checklist
-is derived from the [Omarchy Manual table of contents](https://omarchy.org/manual/toc/),
-but every linked item must be adapted to macOS and chezmoi before implementation.
-Unchecked items are evaluation tasks, not authorization to install software or
-change the target machine.
+This is the source of truth for planned repository work. The source files
+remain authoritative for current behavior, and [DECISIONS.md](DECISIONS.md)
+records durable constraints. The checklist is derived from the
+[Omarchy Manual table of contents](https://omarchy.org/manual/toc/), but every
+linked item must be adapted to macOS and chezmoi before implementation.
+Unchecked items are planned work, not authorization to change a target machine.
 
 ## Operating rules
 
 - Move an item to **In progress** only with a concrete owner, scope, and test.
 - Before marking an item complete, record the managed source files and the
-  validation command in its pull request or commit.
+  validation command in its pull request or commit. A completed manifest item
+  records repository state; it does not claim that every target machine has run
+  `chezmoi apply`.
 - Mark an item **Not planned** when it does not fit macOS, this repository, or
   the user's needs; retain a brief reason rather than silently dropping it.
 - Add packages to the appropriate Brewfile only after the related work is
   explicitly scoped and reviewed.
+- When starting an item, read its linked decision and the affected source files
+  before changing the manifest or script.
 
 ## Next up
+
+### Managed configuration
 
 - [ ] Establish the first managed configuration, using the
   [Omarchy dotfiles workflow](https://omarchy.org/manual/dotfiles/) as a
@@ -30,6 +37,23 @@ change the target machine.
   `batman`, `z`, and `eza` through Oh My Zsh or another Zsh plugin mechanism,
   guided by [Shell Tools](https://omarchy.org/manual/shell-tools/).
 - [ ] Configure defaults for [`eza`, `bat`, and `bat-extras`](https://omarchy.org/manual/shell-tools/).
+- [ ] Install and configure [LazyVim](https://www.lazyvim.org/installation)
+  after confirming how its `~/.config/nvim` starter configuration should be managed.
+- [ ] Configure Visual Studio Code.
+- [ ] Define and manage the Visual Studio Code extension list in a Brewfile.
+- [ ] Configure Ghostty.
+- [ ] Configure tmux, including evaluating [oh-my-tmux](https://github.com/gpakosz/.tmux).
+- [ ] Configure Hyprspace, Sketchybar, and borders.
+
+### Deferred installation and activation
+
+- [ ] Enable the top-bar services with `brew services start borders` and
+  `brew services start sketchybar`.
+- [ ] Install and evaluate the [OpenRouter Ori harness](https://openrouter.ai/docs/guides/guides/ori),
+  including which existing coding agents it should wrap.
+- [ ] Install [AstrillVPN](https://www.astrill.com/download/mac) on personal machines.
+- [ ] Evaluate [network controls](https://omarchy.org/manual/networking/) as
+  part of the [top-bar implementation](https://omarchy.org/manual/the-top-bar/).
 
 ## Capability inventory
 
@@ -39,10 +63,8 @@ change the target machine.
 - [ ] Evaluate [getting-started automation](https://omarchy.org/manual/getting-started/).
 - [ ] Evaluate [migration guidance for macOS or Windows users](https://omarchy.org/manual/coming-from-mac-or-windows/).
 - [ ] Evaluate [navigation and workspace switching](https://omarchy.org/manual/navigation/).
-- [ ] Evaluate a [top-bar solution](https://omarchy.org/manual/the-top-bar/).
 - [ ] Evaluate [themes and theme switching](https://omarchy.org/manual/themes/).
 - [ ] Evaluate [global hotkeys](https://omarchy.org/manual/hotkeys/).
-- [ ] Evaluate [unified clipboard and history](https://omarchy.org/manual/unified-clipboard-history/).
 - [ ] Evaluate [reminders](https://omarchy.org/manual/reminders/).
 - [ ] Evaluate [notices](https://omarchy.org/manual/notices/).
 - [ ] Evaluate [text extraction and dictation](https://omarchy.org/manual/text-extraction-dictation/).
@@ -53,19 +75,9 @@ change the target machine.
 
 - [ ] Evaluate an [Omarchy-style CLI or macOS-appropriate alternative](https://omarchy.org/manual/omarchy-cli/).
 - [ ] Evaluate [terminal configuration](https://omarchy.org/manual/terminal/).
-- [ ] Evaluate [Neovim configuration](https://omarchy.org/manual/neovim/).
-- [ ] Evaluate [AI tooling](https://omarchy.org/manual/ai/).
-- [ ] Evaluate [development tools](https://omarchy.org/manual/development-tools/).
 - [ ] Evaluate [shell functions](https://omarchy.org/manual/shell-functions/).
-- [ ] Evaluate [terminal user interfaces (TUIs)](https://omarchy.org/manual/tuis/).
-- [ ] Evaluate [graphical user interfaces (GUIs)](https://omarchy.org/manual/guis/).
-- [ ] Evaluate [browser setup](https://omarchy.org/manual/browsers/).
-- [ ] Evaluate [commercial applications and services](https://omarchy.org/manual/commercial-apps-services/).
 - [ ] Define [personal-machine applications and configuration](https://omarchy.org/manual/commercial-apps-services/)
   in [`Brewfile.personal`](Brewfiles/Brewfile.personal) and managed source files.
-- [ ] Evaluate [web applications](https://omarchy.org/manual/web-apps/).
-- [ ] Evaluate [gaming support](https://omarchy.org/manual/gaming/).
-- [ ] Evaluate [PDF form-filling tools](https://omarchy.org/manual/filling-out-pdfs/).
 - [ ] Evaluate [Windows VM support](https://omarchy.org/manual/windows-vm/).
 - [ ] Evaluate [other packages](https://omarchy.org/manual/other-packages/).
 - [ ] Evaluate [update workflow](https://omarchy.org/manual/updates/).
@@ -79,7 +91,6 @@ change the target machine.
 - [ ] Evaluate [networking configuration](https://omarchy.org/manual/networking/).
 - [ ] Evaluate [system-sleep behavior](https://omarchy.org/manual/system-sleep/).
 - [ ] Evaluate [hardware authentication](https://omarchy.org/manual/hardware-authentication/).
-- [ ] Evaluate [fonts](https://omarchy.org/manual/fonts/).
 - [ ] Evaluate [backgrounds](https://omarchy.org/manual/backgrounds/).
 - [ ] Evaluate [shell prompt](https://omarchy.org/manual/prompt/).
 - [ ] Evaluate [branding](https://omarchy.org/manual/branding/).
@@ -102,10 +113,59 @@ change the target machine.
 Add evaluated items here with a reason and date. Do not delete them; the record
 prevents the same proposal from being repeatedly re-evaluated.
 
+- 2026-09-01 — Do not add [Files, Pinta, Aether, LocalSend, LibreOffice, or
+  Omacalc](https://omarchy.org/manual/guis/); use the corresponding native
+  macOS capabilities instead.
+- 2026-09-01 — Do not add [Omawrite](https://omarchy.org/manual/guis/); use
+  Neovim or Visual Studio Code for Markdown writing.
+- 2026-09-01 — Do not add [Omacut](https://omarchy.org/manual/guis/); use
+  native macOS video-editing tools.
+- 2026-09-01 — Do not add any application from
+  [Omarchy Gaming](https://omarchy.org/manual/gaming/). The personal
+  `eve-online` cask is a separate, explicit exception.
+- 2026-09-01 — Do not add an Omarchy PDF viewer or editor; use macOS Preview
+  for [filling out and signing PDFs](https://omarchy.org/manual/filling-out-pdfs/).
+
 ## Completed
 
 Move completed items here with the date, affected source files, and validation
 command.
+
+- [x] 2026-09-01 — Established the selected [AI tooling](https://omarchy.org/manual/ai/)
+  baseline in `Brewfiles/Brewfile.base`; validated with `git diff --check`.
+  OpenRouter Ori remains in **Next up** for separate evaluation.
+
+- [x] 2026-09-01 — Established the selected [TUI baseline](https://omarchy.org/manual/tuis/)
+  in `Brewfiles/Brewfile.base`, including Yazi and its `chafa`, `imagemagick`,
+  and `ffmpeg-full` preview dependencies; validated with `git diff --check`.
+- [x] 2026-09-01 — Established the selected [GUI baseline](https://omarchy.org/manual/guis/)
+  in `Brewfiles/Brewfile.base`; native macOS replacements are recorded in
+  `DECISIONS.md`; validated with `git diff --check`.
+- [x] 2026-09-01 — Established [browser selections](https://omarchy.org/manual/browsers/)
+  in `Brewfiles/Brewfile.base` and `Brewfiles/Brewfile.personal`; validated
+  with `git diff --check`.
+- [x] 2026-09-01 — Established [commercial service selections](https://omarchy.org/manual/commercial-apps-services/)
+  in `Brewfiles/Brewfile.base`; validated with `git diff --check`.
+- [x] 2026-09-01 — Established selected [web applications](https://omarchy.org/manual/web-apps/)
+  in `Brewfiles/Brewfile.base`; validated with `git diff --check`.
+
+- [x] 2026-09-01 — Established the selected [font baseline](https://omarchy.org/manual/fonts/)
+  in `Brewfiles/Brewfile.base`; SF Mono is the primary coding font, as recorded
+  in `DECISIONS.md`; validated with `git diff --check`.
+
+- [x] 2026-09-01 — Established the [Neovim](https://omarchy.org/manual/neovim/)
+  package baseline in `Brewfiles/Brewfile.base`; validated with `git diff --check`.
+
+- [x] 2026-09-01 — Established selected [development tools](https://omarchy.org/manual/development-tools/)
+  in `Brewfiles/Brewfile.base`; Visual Studio Code configuration and extensions
+  remain in **Next up**; validated with `git diff --check`.
+
+- [x] 2026-09-01 — Established the selected [top-bar baseline](https://omarchy.org/manual/the-top-bar/)
+  in `Brewfiles/Brewfile.base`; configuration and service activation remain in
+  **Next up**; validated with `git diff --check`.
+
+- [x] 2026-09-01 — Established the [unified clipboard and launcher baseline](https://omarchy.org/manual/unified-clipboard-history/)
+  with Raycast in `Brewfiles/Brewfile.base`; validated with `git diff --check`.
 
 - [x] 2026-09-01 — Established the shared
   [Shell Tools package baseline](https://omarchy.org/manual/shell-tools/) in

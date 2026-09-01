@@ -1,3 +1,5 @@
 cask "jdownloader"
-cask "vlc"
+cask "google-chrome"
+cask "eve-online"
+cask "karing"
 cask "wechat"

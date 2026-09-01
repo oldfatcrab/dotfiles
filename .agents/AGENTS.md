@@ -1,5 +1,20 @@
 # Repository instructions for automated contributors
 
+## Required reading order
+
+For every task, use this order:
+
+1. Read this file, then inspect `git status` and the affected source files.
+2. Read relevant accepted entries in `DECISIONS.md`; they constrain the change.
+3. Read the relevant `TODO.md` item to determine whether the work is planned,
+   completed, or explicitly out of scope.
+4. Read `README.md` when the change affects user-facing setup or behavior.
+
+Source files are authoritative for current behavior. `DECISIONS.md` records
+durable tradeoffs, `TODO.md` records roadmap state, and `README.md` summarizes
+the user-facing system. Do not treat a package declaration as proof that it is
+installed on a target machine.
+
 ## Scope and layout
 
 This is a minimal, macOS-oriented **chezmoi** repository. The source directory
@@ -24,9 +39,9 @@ operational facts in the appropriate document above.
 - `.chezmoiignore.tmpl` contains machine-conditional ignore patterns.
 - `home/run_*` files are chezmoi scripts. Retain their naming prefixes,
   ordering, and `.tmpl` suffix unless changing execution semantics.
-- `Brewfiles/Brewfile.base` is for all machines and contains the shared
-  shell-tool baseline. `Brewfiles/Brewfile.personal` is for personal machines
-  only and contains selected personal applications.
+- `Brewfiles/Brewfile.base` is for all machines and contains the shared package
+  baseline. `Brewfiles/Brewfile.personal` is for personal machines only and
+  contains selected personal applications.
 
 ## Implementation rules
 
@@ -48,5 +63,7 @@ operational facts in the appropriate document above.
   setup issues.
 - Run `git diff --check` before handoff.
 - Keep README and TODO status accurate when behavior or roadmap changes.
+- Treat a completed `TODO.md` item as a committed repository state unless its
+  validation records a target-machine command result.
 - Add a DECISIONS.md entry when deliberately choosing a different approach from
   Omarchy or another documented reference.

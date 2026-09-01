@@ -1,9 +1,9 @@
 # dotfiles
 
-Minimal, macOS-oriented dotfiles managed with
-[chezmoi](https://www.chezmoi.io/). This repository deliberately starts with
-only the deployment framework; it does not yet manage a shell, editor,
-terminal, or application configuration.
+macOS-oriented dotfiles managed with [chezmoi](https://www.chezmoi.io/).
+This repository manages bootstrap scripts and Homebrew package manifests. Shell,
+terminal, editor, window-manager, and application configuration are deliberately
+added only when each has a concrete, reviewed requirement.
 
 ## Repository layout
 
@@ -21,10 +21,22 @@ terminal, or application configuration.
 └── TODO.md             # product and implementation roadmap
 ```
 
-`Brewfile.base` applies on every machine and contains the shared shell-tool
-baseline. `Brewfile.personal` is included only when `is_personal_machine` is
-true and contains selected personal applications. The package safety-net list
+`Brewfile.base` applies on every machine and contains the shared package
+baseline, including shell, TUI, GUI, browser, service, and web applications.
+`Brewfile.personal` is included only when `is_personal_machine` is true and
+contains selected personal applications. The package safety-net list
 is intentionally empty.
+
+## Current scope
+
+- `chezmoi apply` bootstraps Homebrew, then synchronizes the applicable
+  Brewfile manifests.
+- The source files are authoritative for current behavior: package manifests
+  live in `Brewfiles/` and action order lives in `home/run_*.tmpl`.
+- [DECISIONS.md](DECISIONS.md) records durable choices; [TODO.md](TODO.md)
+  records deferred work. Neither replaces the source files.
+- Package declarations do not claim that a target machine has already been
+  configured.
 
 ## Common workflow
 
@@ -55,6 +67,6 @@ check conditional paths, and `chezmoi doctor` to diagnose setup problems.
 
 ## Roadmap
 
-See [TODO.md](TODO.md) for the Omarchy-inspired capability inventory and
-acceptance criteria. It is a planning reference, not a commitment to reproduce
-Omarchy or its Linux-specific behavior on macOS.
+See [TODO.md](TODO.md) for the Omarchy-inspired roadmap. It is a planning
+reference, not a commitment to reproduce Omarchy or its Linux-specific behavior
+on macOS.
