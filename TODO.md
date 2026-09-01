@@ -51,6 +51,7 @@ Unchecked items are planned work, not authorization to change a target machine.
   `brew services start sketchybar`.
 - [ ] Install and evaluate the [OpenRouter Ori harness](https://openrouter.ai/docs/guides/guides/ori),
   including which existing coding agents it should wrap.
+- [ ] Install [Chromium](https://formulae.brew.sh/cask/chromium).
 - [ ] Install [AstrillVPN](https://www.astrill.com/download/mac) on personal machines.
 - [ ] Evaluate [network controls](https://omarchy.org/manual/networking/) as
   part of the [top-bar implementation](https://omarchy.org/manual/the-top-bar/).
@@ -141,9 +142,9 @@ command.
 - [x] 2026-09-01 — Established the selected [GUI baseline](https://omarchy.org/manual/guis/)
   in `Brewfiles/Brewfile.base`; native macOS replacements are recorded in
   `DECISIONS.md`; validated with `git diff --check`.
-- [x] 2026-09-01 — Established [browser selections](https://omarchy.org/manual/browsers/)
-  in `Brewfiles/Brewfile.base` and `Brewfiles/Brewfile.personal`; validated
-  with `git diff --check`.
+- [x] 2026-09-01 — Established the selected [browser baseline](https://omarchy.org/manual/browsers/)
+  in `Brewfiles/Brewfile.personal`; Chromium installation remains in **Next
+  up**; validated with `git diff --check`.
 - [x] 2026-09-01 — Established [commercial service selections](https://omarchy.org/manual/commercial-apps-services/)
   in `Brewfiles/Brewfile.base`; validated with `git diff --check`.
 - [x] 2026-09-01 — Established selected [web applications](https://omarchy.org/manual/web-apps/)
