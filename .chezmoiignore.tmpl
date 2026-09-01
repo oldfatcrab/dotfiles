@@ -25,6 +25,6 @@ run_onchange_before_20-install-brew-packages.sh.tmpl
 # -----------------------------------------------------------------------------
 # 3. Work/Personal Machine Conditional Ignore
 # -----------------------------------------------------------------------------
-{{ if get . "is_work_machine" }}
+{{ if not (get . "is_personal_machine") }}
 Brewfiles/Brewfile.personal
 {{ end }}

@@ -1,135 +1,57 @@
 # dotfiles
 
-Personal dotfiles managed by [chezmoi](https://www.chezmoi.io/), targeting **macOS** with **Zsh**.
+Minimal, macOS-oriented dotfiles managed with
+[chezmoi](https://www.chezmoi.io/). This repository deliberately starts with
+only the deployment framework; it does not yet manage a shell, editor,
+terminal, or application configuration.
 
-Inspired by [Basecamp's Omarchy](https://github.com/basecamp/omarchy) CLI philosophy — modern, minimalist tools replacing legacy UNIX defaults — but rebuilt from scratch for Zsh on macOS.
-
-## Quick Start
-
-```bash
-# First-time setup on a new Mac
-chezmoi init --apply <your-github-username>/dotfiles
-
-# After cloning / editing source files
-chezmoi diff      # Preview changes
-chezmoi apply     # Deploy to $HOME
-```
-
-## Architecture
-
-```mermaid
-graph TD
-    A["~/.zprofile<br/>(login shells)"] --> B["brew shellenv"]
-    A --> C["PATH setup<br/>(typeset -U path)"]
-    A --> D["EDITOR, LANG"]
-
-    E["~/.zshrc<br/>(interactive shells)"] --> F1["fastfetch (startup banner)"]
-    E --> F2["p10k instant prompt"]
-    E --> G["zinit bootstrap"]
-    E --> H["Source ~/.config/zsh/*"]
-    E --> I["zinit plugins<br/>(turbo mode)"]
-    E --> J["fzf-tab zstyle"]
-    E --> K["p10k user config"]
-
-    H --> L["env.zsh"]
-    H --> M["aliases.zsh"]
-    H --> N["functions.zsh"]
-    H --> O["init.zsh"]
-
-    L --> L1["BAT_THEME, FZF_*<br/>history options"]
-    M --> M1["eza, bat, fzf aliases<br/>git shortcuts"]
-    N --> N1["tmux layouts, git worktree<br/>ssh forwarding"]
-    O --> O1["zoxide, fzf, mise<br/>eval init"]
-```
-
-### Directory Structure
+## Repository layout
 
 ```text
-├── .chezmoi.toml.tmpl           ← Interactive prompts (is_work_machine?)
-├── .chezmoiignore.tmpl          ← OS/context-conditional file ignoring
-├── .chezmoiroot                 ← Points to home/ as the source root
-│
-├── Brewfiles/
-│   ├── Brewfile.base            ← All-machine Homebrew dependencies
-│   └── Brewfile.personal        ← Personal apps (ignored on work machines)
-│
-├── home/                        ← chezmoi source root (.chezmoiroot = home)
-│   ├── .chezmoiexternal.toml    ← External git repositories (oh-my-tmux)
-│   ├── symlink_dot_tmux.conf    ← Symlink to ~/.tmux/.tmux.conf
-│   ├── dot_tmux.conf.local      ← oh-my-tmux local overrides configuration
+├── .chezmoi.toml.tmpl  # prompts once for is_personal_machine
+├── .chezmoiignore.tmpl # conditional ignore rules
+├── .chezmoiroot        # sets home/ as the chezmoi source root
+├── .agents/AGENTS.md   # instructions for automated contributors
+├── Brewfiles/          # optional Homebrew Bundle manifests (currently empty)
+├── home/               # maps to $HOME
 │   ├── run_once_before_00-install-homebrew.sh.tmpl
 │   ├── run_onchange_before_00-install-packages.sh.tmpl
-│   ├── run_onchange_before_20-install-brew-packages.sh.tmpl
-│   │
-│   ├── dot_zprofile             ← Login shell: brew shellenv, PATH, EDITOR
-│   ├── dot_zshrc.tmpl           ← Interactive shell: p10k, zinit, plugins
-│   ├── dot_p10k.zsh             ← Powerlevel10k theme config
-│   ├── empty_dot_zshenv         ← Empty (macOS convention)
-│   ├── empty_dot_zlogin         ← Empty
-│   ├── empty_dot_zlogout        ← Empty
-│   │
-│   └── dot_config/
-│           ├── ghostty/         ← Ghostty terminal configuration
-│           ├── hyprspace/       ← Hyprspace / Aerospace tiling window manager
-│           ├── nvim/            ← LazyVim Neovim configuration
-│           │   ├── init.lua
-│           │   └── lua/
-│           │       ├── config/  ← lazy.lua, options.lua, keymaps.lua, autocmds.lua
-│           │       └── plugins/ ← Plugin specs (example.lua)
-│           ├── sketchybar/      ← Sketchybar status bar configuration
-│           └── zsh/             ← Modular Zsh config (sourced by .zshrc)
-│               ├── env.zsh      ← Environment vars, history, FZF/BAT config
-│               ├── aliases.zsh  ← CLI aliases (eza, bat, git, fzf, etc.)
-│               ├── functions.zsh← Interactive functions (tmux, git worktree, ssh)
-│               └── init.zsh     ← Tool init evals (zoxide, fzf, mise)
-│
-└── omarchy/                     ← READ-ONLY reference (Basecamp's Omarchy bash configs)
+│   └── run_onchange_before_20-install-brew-packages.sh.tmpl
+└── TODO.md             # product and implementation roadmap
 ```
 
-## Zsh Configuration File Convention
+`Brewfile.base` applies on every machine. `Brewfile.personal` is included only
+when `is_personal_machine` is true. Both manifests and the package safety-net
+list are intentionally empty.
 
-Following the [standard Zsh configuration hierarchy](https://www.freecodecamp.org/news/how-do-zsh-configuration-files-work/):
+## Common workflow
 
-| File | When Loaded | Purpose in This Repo |
-|------|------------|---------------------|
-| `~/.zshenv` | All shells | Empty — not used on macOS (path_helper overrides) |
-| `~/.zprofile` | Login shells | `brew shellenv`, PATH setup, EDITOR/LANG |
-| `~/.zshrc` | Interactive shells | Zinit, p10k, plugins, sources `~/.config/zsh/*.zsh` |
-| `~/.zlogin` | Login shells (after .zshrc) | Empty — rarely needed |
-| `~/.zlogout` | Shell exit | Empty |
+```bash
+# Add a regular configuration file.
+chezmoi add ~/.gitconfig
 
-## Toolchain
+# Add a machine-aware template.
+chezmoi add --template ~/.some-machine-specific-file
 
-| Category | Tool | Replaces |
-|----------|------|----------|
-| Shell | Zsh | bash |
-| Terminal | Ghostty | macOS Terminal |
-| Multiplexer | tmux | — |
-| Window Manager | Hyprspace (Aerospace) + JankyBorders | macOS Window Management |
-| Top Bar | Sketchybar | macOS Menu Bar |
-| Plugin Manager | zinit (Turbo Mode) | oh-my-zsh |
-| Prompt | Powerlevel10k | Starship |
-| Editor | Neovim + LazyVim | vim |
-| `ls` | eza | ls |
-| `cat` | bat / prettybat | cat |
-| `find` | fd | find |
-| `grep` | ripgrep / batgrep | grep |
-| `cd` | zoxide | cd |
-| Fuzzy Finder | fzf + fzf-tab | — |
+# Inspect before making any target changes.
+chezmoi status
+chezmoi diff
+chezmoi apply
+```
 
-## Chezmoi Template Variables
+Use `chezmoi data` to inspect available template data, `chezmoi ignored` to
+check conditional paths, and `chezmoi doctor` to diagnose setup problems.
 
-| Variable | Source | Description |
-|----------|--------|-------------|
-| `{{ .chezmoi.os }}` | Auto-detected | `darwin` on macOS |
-| `{{ .chezmoi.arch }}` | Auto-detected | `arm64` (Apple Silicon) or `amd64` |
-| `{{ .is_work_machine }}` | Prompted at init | Controls Brewfile.personal inclusion |
+## Development policy
 
-## Key Design Decisions
+- Keep changes small and review `chezmoi diff` before applying them.
+- Never store secrets in plaintext; use chezmoi's supported secret-management
+  or encryption workflow when secrets are needed.
+- Update this README or `TODO.md` when user-facing behavior or roadmap status
+  changes. Contributor-specific rules belong in `.agents/AGENTS.md`.
 
-- **No monolithic `.zshrc`** — modular files under `~/.config/zsh/` sourced in order
-- **`typeset -U path`** — prevents PATH duplication across login/subshell chains
-- **All aliases guarded** with `command -v` checks — degrades gracefully
-- **LazyVim uses static chezmoi files** — no `git clone` scripts; `lazy.nvim` self-bootstraps
-- **Zinit Turbo Mode** — plugins load asynchronously after prompt renders
-- **`.chezmoiroot = home`** — Brewfiles live at repo root, not in target home
+## Roadmap
+
+See [TODO.md](TODO.md) for the Omarchy-inspired capability inventory and
+acceptance criteria. It is a planning reference, not a commitment to reproduce
+Omarchy or its Linux-specific behavior on macOS.

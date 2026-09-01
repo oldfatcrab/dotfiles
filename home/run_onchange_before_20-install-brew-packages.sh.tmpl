@@ -3,7 +3,7 @@
 # Track changes in all relevant Brewfiles using sha256 checksums to trigger execution.
 # chezmoi will re-run this script whenever any included Brewfile's content changes.
 # {{ include "../Brewfiles/Brewfile.base" | sha256sum }}
-# {{ if not (get . "is_work_machine") -}}
+# {{ if get . "is_personal_machine" -}}
 # {{ include "../Brewfiles/Brewfile.personal" | sha256sum }}
 # {{ end -}}
 
@@ -38,8 +38,8 @@ if [[ -f "${CHEZMOI_SOURCE_DIR}/../Brewfiles/Brewfile.base" ]]; then
     BREWFILES+=("${CHEZMOI_SOURCE_DIR}/../Brewfiles/Brewfile.base")
 fi
 
-{{ if not (get . "is_work_machine") -}}
-# Personal machine dependencies (non-work)
+{{ if get . "is_personal_machine" -}}
+# Personal machine dependencies
 if [[ -f "${CHEZMOI_SOURCE_DIR}/../Brewfiles/Brewfile.personal" ]]; then
     BREWFILES+=("${CHEZMOI_SOURCE_DIR}/../Brewfiles/Brewfile.personal")
 fi
