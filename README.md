@@ -12,7 +12,7 @@ terminal, or application configuration.
 ├── .chezmoiignore.tmpl # conditional ignore rules
 ├── .chezmoiroot        # sets home/ as the chezmoi source root
 ├── .agents/AGENTS.md   # instructions for automated contributors
-├── Brewfiles/          # optional Homebrew Bundle manifests (currently empty)
+├── Brewfiles/          # shared and personal Homebrew Bundle manifests
 ├── DECISIONS.md        # durable design decisions and Omarchy divergences
 ├── home/               # maps to $HOME
 │   ├── run_once_before_00-install-homebrew.sh.tmpl
@@ -21,9 +21,10 @@ terminal, or application configuration.
 └── TODO.md             # product and implementation roadmap
 ```
 
-`Brewfile.base` applies on every machine. `Brewfile.personal` is included only
-when `is_personal_machine` is true. Both manifests and the package safety-net
-list are intentionally empty.
+`Brewfile.base` applies on every machine and contains the shared shell-tool
+baseline. `Brewfile.personal` is included only when `is_personal_machine` is
+true and contains selected personal applications. The package safety-net list
+is intentionally empty.
 
 ## Common workflow
 

@@ -13,14 +13,23 @@ change the target machine.
   validation command in its pull request or commit.
 - Mark an item **Not planned** when it does not fit macOS, this repository, or
   the user's needs; retain a brief reason rather than silently dropping it.
-- Add resulting packages to the appropriate Brewfile only after the related
-  configuration is implemented and reviewed.
+- Add packages to the appropriate Brewfile only after the related work is
+  explicitly scoped and reviewed.
 
-## In progress
+## Next up
 
 - [ ] Establish the first managed configuration, using the
   [Omarchy dotfiles workflow](https://omarchy.org/manual/dotfiles/) as a
   reference, and verify it with `chezmoi diff` and `chezmoi apply`.
+- [ ] Decide whether to use [lincheney/fzf-tab-completion](https://github.com/lincheney/fzf-tab-completion),
+  [Aloxaf/fzf-tab](https://github.com/Aloxaf/fzf-tab), or both, in the context
+  of [Omarchy Shell Tools](https://omarchy.org/manual/shell-tools/).
+- [ ] Configure [fzf-backed Tab completion](https://omarchy.org/manual/shell-tools/)
+  after selecting the plugin approach.
+- [ ] Alias common daily commands—`cat`, `man`, `cd`, and `ls`—to `bat`,
+  `batman`, `z`, and `eza` through Oh My Zsh or another Zsh plugin mechanism,
+  guided by [Shell Tools](https://omarchy.org/manual/shell-tools/).
+- [ ] Configure defaults for [`eza`, `bat`, and `bat-extras`](https://omarchy.org/manual/shell-tools/).
 
 ## Capability inventory
 
@@ -47,7 +56,6 @@ change the target machine.
 - [ ] Evaluate [Neovim configuration](https://omarchy.org/manual/neovim/).
 - [ ] Evaluate [AI tooling](https://omarchy.org/manual/ai/).
 - [ ] Evaluate [development tools](https://omarchy.org/manual/development-tools/).
-- [ ] Evaluate [shell tools](https://omarchy.org/manual/shell-tools/).
 - [ ] Evaluate [shell functions](https://omarchy.org/manual/shell-functions/).
 - [ ] Evaluate [terminal user interfaces (TUIs)](https://omarchy.org/manual/tuis/).
 - [ ] Evaluate [graphical user interfaces (GUIs)](https://omarchy.org/manual/guis/).
@@ -98,3 +106,8 @@ prevents the same proposal from being repeatedly re-evaluated.
 
 Move completed items here with the date, affected source files, and validation
 command.
+
+- [x] 2026-09-01 — Established the shared
+  [Shell Tools package baseline](https://omarchy.org/manual/shell-tools/) in
+  `Brewfiles/Brewfile.base`; validated with `git diff --check` and a static
+  formula inventory. Runtime configuration work remains in **Next up**.

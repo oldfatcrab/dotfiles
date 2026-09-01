@@ -24,9 +24,9 @@ operational facts in the appropriate document above.
 - `.chezmoiignore.tmpl` contains machine-conditional ignore patterns.
 - `home/run_*` files are chezmoi scripts. Retain their naming prefixes,
   ordering, and `.tmpl` suffix unless changing execution semantics.
-- `Brewfiles/Brewfile.base` is for all machines;
-  `Brewfiles/Brewfile.personal` is for personal machines only. They are empty
-  by design until a reviewed feature needs a package.
+- `Brewfiles/Brewfile.base` is for all machines and contains the shared
+  shell-tool baseline. `Brewfiles/Brewfile.personal` is for personal machines
+  only and contains selected personal applications.
 
 ## Implementation rules
 

@@ -1,1 +1,3 @@
-
+cask "jdownloader"
+cask "vlc"
+cask "wechat"
