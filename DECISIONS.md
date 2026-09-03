@@ -10,6 +10,34 @@ Add new entries in reverse chronological order. Each entry should state the
 context, decision, rationale, and consequences. Link the relevant source files
 or external reference when useful.
 
+## 2026-09-03 — Keep Zsh startup responsibilities separate
+
+**Status:** accepted
+
+**Reference:** [How Do Zsh Configuration Files Work?](https://www.freecodecamp.org/news/how-do-zsh-configuration-files-work/)
+
+**Context:** The first managed Zsh configuration is planned. Zsh startup files
+run in different shell modes, so putting interactive settings in a universally
+loaded file can affect scripts and automation unexpectedly.
+
+**Decision:** Manage `~/.zprofile` for login-session environment variables
+such as `PATH` and `EDITOR`. Manage `~/.zshrc` for interactive aliases,
+functions, completion, prompt, and plugins. Do not add managed `.zshenv` or
+`.zlogin` files unless a concrete requirement needs their narrower lifecycle.
+Scripts must set the environment they require themselves.
+
+**Rationale:** On macOS, Terminal sessions are login shells, and macOS's
+`path_helper` runs before `.zprofile`; this preserves intended `PATH` ordering
+while keeping interactive customizations out of non-interactive shells.
+
+**Consequences:** New Zsh settings must be assigned to their appropriate
+startup phase instead of accumulating in one file. Adding `.zshenv` or
+`.zlogin` requires documenting the specific lifecycle requirement.
+
+**Implementation / validation:** Future `home/dot_zprofile` and
+`home/dot_zshrc`; verify with `zsh -n <file>` and fresh login and non-login
+interactive Zsh sessions.
+
 ## 2026-09-01 — Use Raycast for clipboard history and application launching
 
 **Status:** accepted
