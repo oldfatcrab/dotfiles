@@ -1,9 +1,10 @@
 # dotfiles
 
 macOS-oriented dotfiles managed with [chezmoi](https://www.chezmoi.io/).
-This repository manages bootstrap scripts and Homebrew package manifests. Shell,
-terminal, editor, window-manager, and application configuration are deliberately
-added only when each has a concrete, reviewed requirement.
+This repository manages bootstrap scripts, Homebrew package manifests, and the
+Zsh startup files. Terminal, editor, window-manager, and application
+configuration are deliberately added only when each has a concrete, reviewed
+requirement.
 
 ## Repository layout
 
@@ -15,6 +16,8 @@ added only when each has a concrete, reviewed requirement.
 ├── Brewfiles/          # shared and personal Homebrew Bundle manifests
 ├── DECISIONS.md        # durable design decisions and Omarchy divergences
 ├── home/               # maps to $HOME
+│   ├── dot_zprofile    # Homebrew environment for login shells
+│   ├── dot_zshrc       # interactive Zsh configuration
 │   ├── run_once_before_00-install-homebrew.sh.tmpl
 │   ├── run_onchange_before_00-install-packages.sh.tmpl
 │   └── run_onchange_before_20-install-brew-packages.sh.tmpl
@@ -32,7 +35,8 @@ is intentionally empty.
 - `chezmoi apply` bootstraps Homebrew, then synchronizes the applicable
   Brewfile manifests.
 - The source files are authoritative for current behavior: package manifests
-  live in `Brewfiles/` and action order lives in `home/run_*.tmpl`.
+  live in `Brewfiles/`, Zsh startup files live in `home/dot_z*`, and action
+  order lives in `home/run_*.tmpl`.
 - [DECISIONS.md](DECISIONS.md) records durable choices; [TODO.md](TODO.md)
   records deferred work. Neither replaces the source files.
 - Package declarations do not claim that a target machine has already been

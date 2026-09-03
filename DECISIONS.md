@@ -34,9 +34,10 @@ while keeping interactive customizations out of non-interactive shells.
 startup phase instead of accumulating in one file. Adding `.zshenv` or
 `.zlogin` requires documenting the specific lifecycle requirement.
 
-**Implementation / validation:** Future `home/dot_zprofile` and
-`home/dot_zshrc`; verify with `zsh -n <file>` and fresh login and non-login
-interactive Zsh sessions.
+**Implementation / validation:** `home/dot_zprofile` initializes Homebrew
+from its standard Apple Silicon or Intel prefix; `home/dot_zshrc` loads Zinit.
+Verify with `zsh -n <file>` and fresh login and non-login interactive Zsh
+sessions.
 
 ## 2026-09-01 — Use Raycast for clipboard history and application launching
 
