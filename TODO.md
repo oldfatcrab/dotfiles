@@ -93,7 +93,6 @@ Unchecked items are planned work, not authorization to change a target machine.
 - [ ] Evaluate [system-sleep behavior](https://omarchy.org/manual/system-sleep/).
 - [ ] Evaluate [hardware authentication](https://omarchy.org/manual/hardware-authentication/).
 - [ ] Evaluate [backgrounds](https://omarchy.org/manual/backgrounds/).
-- [ ] Evaluate [shell prompt](https://omarchy.org/manual/prompt/).
 - [ ] Evaluate [branding](https://omarchy.org/manual/branding/).
 - [ ] Evaluate [common system tweaks](https://omarchy.org/manual/common-tweaks/).
 - [ ] Evaluate [custom theme creation](https://omarchy.org/manual/making-your-own-theme/).
@@ -131,6 +130,11 @@ prevents the same proposal from being repeatedly re-evaluated.
 
 Move completed items here with the date, affected source files, and validation
 command.
+
+- [x] 2026-09-07 — Retired the Starship experiment: removed its configuration,
+  initialization, Brewfile declaration, and tests; preserved the supplied
+  Powerlevel10k configuration at `home/dot_p10k.zsh` without installing or
+  initializing Powerlevel10k. Validate with `git diff --check`.
 
 - [x] 2026-09-01 — Established the selected [AI tooling](https://omarchy.org/manual/ai/)
   baseline in `Brewfiles/Brewfile.base`; validated with `git diff --check`.

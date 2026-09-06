@@ -1,10 +1,10 @@
 # dotfiles
 
 macOS-oriented dotfiles managed with [chezmoi](https://www.chezmoi.io/).
-This repository manages bootstrap scripts, Homebrew package manifests, and the
-Zsh startup files. Terminal, editor, window-manager, and application
-configuration are deliberately added only when each has a concrete, reviewed
-requirement.
+This repository manages bootstrap scripts, Homebrew package manifests, Zsh
+startup files, a Powerlevel10k configuration, and a shared color palette. Terminal, editor, window-manager, and
+application configuration are deliberately added only when each has a
+concrete, reviewed requirement.
 
 ## Repository layout
 
@@ -15,9 +15,11 @@ requirement.
 ├── .agents/AGENTS.md   # instructions for automated contributors
 ├── Brewfiles/          # shared and personal Homebrew Bundle manifests
 ├── DECISIONS.md        # durable design decisions and Omarchy divergences
+├── themes/             # portable palette data for future app configurations
 ├── home/               # maps to $HOME
 │   ├── dot_zprofile    # Homebrew environment for login shells
 │   ├── dot_zshrc       # interactive Zsh configuration
+│   ├── dot_p10k.zsh    # Powerlevel10k configuration (not initialized yet)
 │   ├── run_once_before_00-install-homebrew.sh.tmpl
 │   ├── run_onchange_before_00-install-packages.sh.tmpl
 │   └── run_onchange_before_20-install-brew-packages.sh.tmpl
@@ -41,6 +43,11 @@ is intentionally empty.
   records deferred work. Neither replaces the source files.
 - Package declarations do not claim that a target machine has already been
   configured.
+- `home/dot_p10k.zsh` preserves the supplied Powerlevel10k configuration but
+  does not install or initialize Powerlevel10k yet.
+- `themes/catppuccin-contrast.toml` is the canonical palette data for future
+  terminal and editor configurations; it does not affect a target machine on
+  its own.
 
 ## Common workflow
 

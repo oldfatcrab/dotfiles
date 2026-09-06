@@ -10,6 +10,69 @@ Add new entries in reverse chronological order. Each entry should state the
 context, decision, rationale, and consequences. Link the relevant source files
 or external reference when useful.
 
+## 2026-09-07 — Retire Starship and retain Powerlevel10k configuration
+
+**Status:** accepted
+
+**Context:** Matching Powerlevel10k's Powerline boundaries in Starship required
+adjacent-module state. Starship independently renders optional modules, so an
+exact match would require a custom renderer that duplicated Starship's prompt
+logic.
+
+**Decision:** Remove all managed Starship configuration, initialization,
+package declaration, and tests. Preserve the supplied P10K configuration at
+`home/dot_p10k.zsh`, but do not install or initialize P10K yet. Keep the
+palette independently in `themes/catppuccin-contrast.toml`.
+
+**Rationale:** A custom adjacency renderer would make Starship an unnecessary
+data source rather than the prompt engine. A data-only TOML palette is
+machine-readable, avoids polluting the shell environment, and can be mapped
+directly into future Ghostty, VS Code, Neovim, or other application formats.
+
+**Consequences:** Prompt behavior remains unchanged on target machines until
+P10K is explicitly installed and initialized. Future theme configuration must
+copy or generate its color values from the palette data rather than reusing a
+prompt-specific configuration.
+
+**Implementation / validation:** Validate `home/dot_p10k.zsh` with `zsh -n`,
+validate the palette as TOML, and run `git diff --check`. No `chezmoi apply`
+occurs as part of this decision.
+
+## 2026-09-07 — Use Starship for the managed shell prompt
+
+**Status:** superseded by the 2026-09-07 P10K-retention decision
+
+**Context:** The user supplied a Powerlevel10k configuration with a
+Powerline-style prompt, Git detail, command status and duration, active
+environments, cloud context, and a clock.
+
+**Decision:** Use Starship and manage its standard configuration at
+`home/dot_config/starship.toml`. Initialize it from `home/dot_zshrc`. Preserve
+the supplied layout through native Starship modules and small inline custom
+modules for Powerlevel10k's directory-icon states, conditional left tails, and
+the first right-prompt wedge.
+
+**Rationale:** Starship natively supplies the requested Git, duration, job,
+direnv, language, cloud, Nix, and time information in one portable
+configuration. Two conditional status modules use the shell's exported exit
+status to select the correct green or red first wedge. Its project-language
+modules replace p10k's manager-specific version segments, which avoids
+maintaining one wrapper per version manager.
+Starship only natively distinguishes the home directory; one inline command
+supplies p10k's read-only, `/etc`, home, home-subdirectory, and folder icons.
+Two mutually exclusive tails preserve the final directory or Git triangle.
+
+**Consequences:** `starship` belongs in the shared Brewfile. Exact p10k-only
+segments (such as its unique-prefix directory shortening and file-manager
+indicators) remain intentionally absent until a concrete need justifies a
+custom module. Individual PUA glyph scaling remains a terminal-font concern;
+Starship cannot request it.
+
+**Implementation / validation:** Run `tests/test_starship_directory_icon.sh`,
+then `starship prompt` and start a fresh interactive Zsh session after
+`chezmoi apply`; inspect the resulting prompt in a Git repository and an
+activated environment.
+
 ## 2026-09-06 — Use enhanced Frappé accents on the Mocha neutral ramp
 
 **Status:** accepted
@@ -119,10 +182,9 @@ distinction between the derived accent palette and official Catppuccin
 concepts. No theme configuration is currently managed in this repository, so
 this decision does not change target-machine appearance yet.
 
-**Implementation / validation:** No current configuration source contains
-Catppuccin palette values. When a theme configuration is added, compare its
-values against this entry and validate terminal/editor syntax roles in normal
-use.
+**Implementation / validation:** `themes/catppuccin-contrast.toml` is the
+machine-readable source of truth. When a theme configuration is added, map its
+values from that file and validate terminal/editor syntax roles in normal use.
 
 ## 2026-09-03 — Keep Zsh startup responsibilities separate
 
