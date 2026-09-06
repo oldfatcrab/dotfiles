@@ -10,6 +10,120 @@ Add new entries in reverse chronological order. Each entry should state the
 context, decision, rationale, and consequences. Link the relevant source files
 or external reference when useful.
 
+## 2026-09-06 — Use enhanced Frappé accents on the Mocha neutral ramp
+
+**Status:** accepted
+
+**Upstream inspiration:** [Catppuccin palette](https://github.com/catppuccin/catppuccin) and its [style guide](https://github.com/catppuccin/catppuccin/blob/main/docs/style-guide.md)
+
+**Attribution:** Catppuccin selected the original Frappé hues, their
+relationships, and the aesthetic foundation of this palette. This repository
+does not claim authorship of those color choices. Its contribution is limited
+to the documented lightness/chroma transformation and combination with the
+stock Mocha neutral ramp.
+
+**Context:** Catppuccin's dark palettes preserve hue harmony and a restrained
+pastel character, but their relatively high-lightness accents can make syntax
+colors read as different varieties of near-white on a dark background. The
+problem is accent-to-accent discrimination, not only foreground-to-background
+contrast.
+
+**Decision:** Use a personal derived palette: **enhanced Frappé accents +
+Mocha neutral ramp**. “Frappé HD on Mocha” is an informal shorthand only; it
+is not an official Catppuccin flavor or an upstream-endorsed palette.
+
+The accent palette is authoritative wherever terminal or editor configuration
+is later added:
+
+```toml
+rosewater = "#f7ccc3"
+flamingo = "#f2abac"
+pink = "#faa1e4"
+mauve = "#c17de9"
+red = "#e64f5c"
+maroon = "#ec757e"
+peach = "#f37d38"
+yellow = "#e6ba60"
+green = "#89c857"
+teal = "#41bdaf"
+sky = "#6fc9d8"
+sapphire = "#4fb2db"
+blue = "#6790f5"
+lavender = "#a9a8f8"
+```
+
+Use Catppuccin's stock Mocha neutral ramp unchanged:
+
+```toml
+text = "#cdd6f4"
+subtext1 = "#bac2de"
+subtext0 = "#a6adc8"
+overlay2 = "#9399b2"
+overlay1 = "#7f849c"
+overlay0 = "#6c7086"
+surface2 = "#585b70"
+surface1 = "#45475a"
+surface0 = "#313244"
+base = "#1e1e2e"
+mantle = "#181825"
+crust = "#11111b"
+```
+
+Its intended hierarchy is:
+
+```text
+text → subtext → overlay → surface → base → mantle → crust
+```
+
+**Rationale:** Accent colors and neutral UI colors have different jobs.
+Accents require semantic distinction; neutrals require low salience,
+monotonic hierarchy, and separation without competing with content. The
+darker Mocha background improves accent-to-background contrast, while the
+enhanced Frappé accents improve accent-to-accent discrimination.
+
+The accent values were derived conceptually in OKLCH/OKLab, whose `L`, `C`,
+and `h` correspond to perceptual lightness, chroma, and hue. HSL is not used
+for this reasoning because its lightness and saturation are not perceptually
+uniform. Starting with Frappé accents, the conceptual transform is:
+
+```text
+L' = L_mean + 1.35 * (L - L_mean) - 0.05
+C' = 1.50 * C
+h' = h
+```
+
+Out-of-gamut results are mapped or clipped to sRGB. This is a derivation
+description, not a generator: the hex values above are the source of truth.
+The transform expands existing lightness differences, shifts accents slightly
+darker, and raises chroma while retaining Frappé hue identity. It avoids both
+the washed-out appearance of brighter pastels and a neon/high-saturation
+aesthetic.
+
+**Rules for future changes:**
+
+- Prefer perceptual discrimination over strict upstream palette purity. If
+  syntax colors are difficult to distinguish in normal use, treat that as a
+  design problem.
+- Preserve hue identity before changing hue. Adjust OKLCH lightness and chroma
+  first; alter hue only when additional separation is necessary.
+- Do not apply the accent transform to neutral colors. Maintain the Mocha
+  neutral hierarchy unless a UI-hierarchy problem warrants a separate change.
+- Do not improve contrast merely by increasing brightness. Keep accents
+  restrained rather than moving toward a neon aesthetic.
+- Evaluate changes as a coherent palette system, including syntax and UI
+  roles, rather than as isolated hex-value tweaks.
+
+**Consequences:** Future Ghostty, tmux, Neovim, VS Code, or other theme
+configuration should reference these names and values, while preserving the
+distinction between the derived accent palette and official Catppuccin
+concepts. No theme configuration is currently managed in this repository, so
+this decision does not change target-machine appearance yet.
+
+**Implementation / validation:** No current configuration source contains
+Catppuccin palette values. When a theme configuration is added, compare its
+values against this entry and validate terminal/editor syntax roles in normal
+use.
+
 ## 2026-09-03 — Keep Zsh startup responsibilities separate
 
 **Status:** accepted
