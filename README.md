@@ -19,7 +19,7 @@ concrete, reviewed requirement.
 ├── home/               # maps to $HOME
 │   ├── dot_zprofile    # Homebrew environment for login shells
 │   ├── dot_zshrc       # interactive Zsh configuration
-│   ├── dot_p10k.zsh    # Powerlevel10k configuration (not initialized yet)
+│   ├── dot_p10k.zsh.tmpl # Powerlevel10k configuration rendered from the palette
 │   ├── run_once_before_00-install-homebrew.sh.tmpl
 │   ├── run_onchange_before_00-install-packages.sh.tmpl
 │   └── run_onchange_before_20-install-brew-packages.sh.tmpl
@@ -43,8 +43,9 @@ is intentionally empty.
   records deferred work. Neither replaces the source files.
 - Package declarations do not claim that a target machine has already been
   configured.
-- `home/dot_p10k.zsh` preserves the supplied Powerlevel10k configuration but
-  does not install or initialize Powerlevel10k yet.
+- `home/dot_p10k.zsh.tmpl` preserves the supplied Powerlevel10k configuration,
+  renders its colors from `themes/catppuccin-contrast.toml`, and does not
+  install or initialize Powerlevel10k yet.
 - `themes/catppuccin-contrast.toml` is the canonical palette data for future
   terminal and editor configurations; it does not affect a target machine on
   its own.

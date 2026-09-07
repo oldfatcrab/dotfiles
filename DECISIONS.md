@@ -10,6 +10,31 @@ Add new entries in reverse chronological order. Each entry should state the
 context, decision, rationale, and consequences. Link the relevant source files
 or external reference when useful.
 
+## 2026-09-07 — Render P10K colors from the canonical palette
+
+**Status:** accepted
+
+**Context:** The P10K wizard configuration expresses its rainbow prompt using
+ANSI colour indices, while `themes/catppuccin-contrast.toml` is this
+repository's authoritative palette.
+
+**Decision:** Rename the source to `home/dot_p10k.zsh.tmpl`. At render time,
+parse `../themes/catppuccin-contrast.toml` with chezmoi's `fromToml` and use
+only existing, semantically nearest palette colours for P10K foregrounds and
+backgrounds.
+
+**Rationale:** The rendered target remains a plain Zsh P10K configuration and
+has no runtime parser or duplicated palette. Editing the palette updates every
+rendered P10K colour consistently.
+
+**Consequences:** ANSI colour indices no longer determine the managed P10K
+appearance. Render the template before testing it; do not edit the rendered
+target as the source of truth.
+
+**Implementation / validation:** Run `chezmoi execute-template --file
+home/dot_p10k.zsh.tmpl`, validate the rendered output with `zsh -n`, and run
+`git diff --check`. No `chezmoi apply` occurs as part of this decision.
+
 ## 2026-09-07 — Retire Starship and retain Powerlevel10k configuration
 
 **Status:** accepted
