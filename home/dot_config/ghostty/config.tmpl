@@ -1,0 +1,87 @@
+{{- $palette := include "../themes/catppuccin-contrast.toml" | fromToml -}}
+{{- $colors := index $palette "colors" -}}
+{{- $ui := index $palette "ui" -}}
+{{- $terminal := index $palette "terminal" -}}
+{{- $ansi := index $terminal "ansi" -}}
+{{- $editor := index $palette "editor" -}}
+{{- $highlight := index $editor "highlight" -}}
+# Render colors from themes/catppuccin-contrast.toml; keep it authoritative.
+background = {{ index $colors (index $terminal "background") }}
+foreground = {{ index $colors (index $terminal "foreground") }}
+cursor-color = {{ index $colors (index $terminal "cursor") }}
+cursor-text = {{ index $colors (index $terminal "cursor_text") }}
+selection-foreground = {{ index $colors (index $highlight "text") }}
+selection-background = {{ index $colors (index $ui "selection_background") }}
+search-foreground = {{ index $colors (index $editor "search_foreground") }}
+search-background = {{ index $colors (index $editor "search_background") }}
+search-selected-foreground = {{ index $colors (index $editor "search_active_foreground") }}
+search-selected-background = {{ index $colors (index $editor "search_active_background") }}
+palette = 0={{ index $colors (index $ansi "color0") }}
+palette = 1={{ index $colors (index $ansi "color1") }}
+palette = 2={{ index $colors (index $ansi "color2") }}
+palette = 3={{ index $colors (index $ansi "color3") }}
+palette = 4={{ index $colors (index $ansi "color4") }}
+palette = 5={{ index $colors (index $ansi "color5") }}
+palette = 6={{ index $colors (index $ansi "color6") }}
+palette = 7={{ index $colors (index $ansi "color7") }}
+palette = 8={{ index $colors (index $ansi "color8") }}
+palette = 9={{ index $colors (index $ansi "color9") }}
+palette = 10={{ index $colors (index $ansi "color10") }}
+palette = 11={{ index $colors (index $ansi "color11") }}
+palette = 12={{ index $colors (index $ansi "color12") }}
+palette = 13={{ index $colors (index $ansi "color13") }}
+palette = 14={{ index $colors (index $ansi "color14") }}
+palette = 15={{ index $colors (index $ansi "color15") }}
+bold-color = bright
+
+# Font
+font-family = "Liga SFMono Nerd Font"
+font-synthetic-style = true
+font-size = 16
+adjust-cell-height = 1
+
+# Window
+window-theme = ghostty
+window-padding-x = 14
+window-padding-y = 14
+window-padding-balance = true
+confirm-close-surface = true
+resize-overlay = never
+gtk-toolbar-style = flat
+
+# Quake-style drop-down terminal: a compact top panel that follows the active Space.
+quick-terminal-position = top
+quick-terminal-size = 40%
+quick-terminal-animation-duration = 0.2
+quick-terminal-autohide = true
+
+# Cursor styling
+cursor-style = "block"
+cursor-style-blink = true
+shell-integration-features = no-cursor,ssh-env
+
+# Keyboard bindings
+keybind = global:ctrl+backquote=toggle_quick_terminal
+keybind = shift+insert=paste_from_clipboard
+keybind = control+insert=copy_to_clipboard
+keybind = shift+enter=csi:13;2u
+keybind = alt+shift+enter=csi:13;4u
+keybind = super+control+shift+alt+arrow_down=resize_split:down,100
+keybind = super+control+shift+alt+arrow_up=resize_split:up,100
+keybind = super+control+shift+alt+arrow_left=resize_split:left,100
+keybind = super+control+shift+alt+arrow_right=resize_split:right,100
+mouse-scroll-multiplier = 0.95
+
+# Scrollback (50 MiB per terminal surface)
+scrollback-limit = 53477376
+
+# Notify when an unfocused command runs for at least 10 seconds and completes.
+notify-on-command-finish = unfocused
+notify-on-command-finish-action = no-bell,notify
+notify-on-command-finish-after = 10s
+
+# Retained from Omarchy for later evaluation; intended for Linux/Hyprland.
+async-backend = epoll
+
+# Ghostty is managed by Homebrew; avoid a second updater.
+auto-update = off

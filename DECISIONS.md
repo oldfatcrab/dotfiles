@@ -10,11 +10,52 @@ Add new entries in reverse chronological order. Each entry should state the
 context, decision, rationale, and consequences. Link the relevant source files
 or external reference when useful.
 
+## 2026-09-08 — Render Ghostty from the canonical palette
+
+**Status:** accepted
+
+**Context:** Omarchy's native `foot` terminal is Linux-only and unavailable on
+macOS, so this repository uses Ghostty for that terminal role. The existing
+macOS Ghostty configuration used a static palette, while Omarchy reads
+dynamically generated Linux theme colors. This repository already has one
+authoritative terminal/editor palette.
+
+**Decision:** Manage `home/dot_config/ghostty/config.tmpl`, rendering its
+background, foreground, ANSI palette, cursor, selection, and search colors
+from `themes/catppuccin-contrast.toml`. Use `Liga SFMono Nerd Font` at 16pt
+with synthetic-style behavior; it keeps the native macOS SF Mono character
+while supplying Nerd Font glyphs. The
+shared Brewfile also declares JetBrains Mono, Caskaydia Mono, Meslo LG, Fira
+Code, Bitstream Vera Sans Mono, and Iosevka Nerd Fonts as switchable options.
+
+**Rationale:** One palette prevents terminal colors from drifting away from
+the editor and prompt. A self-contained template is sufficient; Omarchy's
+theme-switching runtime is neither present nor required. The other font casks
+remain available for deliberate future evaluation rather than configuring
+fallbacks speculatively.
+
+**Consequences:** Ghostty uses the palette's existing semantic roles; no new
+color values are introduced. It uses a one-cell taller line height, bright ANSI
+colours for bold text, 14px balanced padding, a 50 MiB scrollback limit, and
+completion notifications for unfocused commands that run for at least 10
+seconds. `Ctrl+\`` toggles a 40%-high, autohiding top quick terminal. The
+Omarchy-derived `window-theme=ghostty` and `async-backend=epoll` remain
+temporarily, but are Linux/Hyprland-oriented and should be reassessed if their
+macOS behavior matters. Ghostty auto-updates are disabled because Homebrew is
+the update authority. The template omits initial window dimensions because
+Hyprspace owns placement and sizing. Platform-specific defaults—such as sRGB
+colour interpretation, native macOS chrome, and GTK/systemd resource
+controls—remain implicit unless a concrete need arises.
+
+**Implementation / validation:** Render with `chezmoi execute-template --file
+home/dot_config/ghostty/config.tmpl`, then inspect `chezmoi status`, `chezmoi
+diff`, and `git diff --check`. Do not apply without explicit authorization.
+
 ## 2026-09-07 — Render P10K colors from the canonical palette
 
 **Status:** accepted
 
-**Context:** The P10K wizard configuration expresses its rainbow prompt using
+**Context:** The P10K wizard configuration expresses its classic prompt using
 ANSI colour indices, while `themes/catppuccin-contrast.toml` is this
 repository's authoritative palette.
 

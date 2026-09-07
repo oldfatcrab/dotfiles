@@ -41,7 +41,7 @@ Unchecked items are planned work, not authorization to change a target machine.
   after confirming how its `~/.config/nvim` starter configuration should be managed.
 - [ ] Configure Visual Studio Code.
 - [ ] Define and manage the Visual Studio Code extension list in a Brewfile.
-- [ ] Configure Ghostty.
+- [x] Configure Ghostty; see the 2026-09-08 completed entry.
 - [ ] Configure tmux, including evaluating [oh-my-tmux](https://github.com/gpakosz/.tmux).
 - [ ] Configure Hyprspace, Sketchybar, and borders.
 
@@ -127,6 +127,14 @@ prevents the same proposal from being repeatedly re-evaluated.
   for [filling out and signing PDFs](https://omarchy.org/manual/filling-out-pdfs/).
 
 ## Completed
+
+- [x] 2026-09-08 — Added `home/dot_config/ghostty/config.tmpl`, rendering
+  Ghostty colors from `themes/catppuccin-contrast.toml`; retained Liga SFMono
+  Nerd Font and selected Omarchy-derived behavior, including the `Ctrl+\``
+  quick terminal and a 50 MiB scrollback limit, without applying to a target
+  machine. Validate with `chezmoi execute-template --file
+  home/dot_config/ghostty/config.tmpl`, `chezmoi status`, `chezmoi diff`, and
+  `git diff --check`.
 
 Move completed items here with the date, affected source files, and validation
 command.
