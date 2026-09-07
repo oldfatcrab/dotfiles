@@ -1,5 +1,16 @@
 # Canonical enhanced Frappé accents on Catppuccin Mocha neutrals.
-# Application-specific configurations map these names into their own syntax.
+#
+# Accent derivation from Frappé in OKLCH/OKLab, where L/C/h are perceptual lightness/chroma/hue:
+#   - L' = L_mean + 1.35 * (L - L_mean) - 0.05;
+#   - C' = 1.50 * C;
+#   - h' = h.
+#
+# Out-of-gamut results are mapped or clipped to sRGB.
+# This explains the selected accents; the hex values below are the source of truth, not values to regenerate from the formula.
+#
+# Semantic values below name a key in [colors], keeping hex values singular.
+# Roles follow https://github.com/catppuccin/catppuccin/blob/main/docs/style-guide.md.
+
 [colors]
 rosewater = "#f7ccc3"
 flamingo = "#f2abac"
@@ -27,3 +38,118 @@ surface0 = "#313244"
 base = "#1e1e2e"
 mantle = "#181825"
 crust = "#11111b"
+
+[ui]
+background = "base"
+background_secondary = "mantle"
+background_tertiary = "crust"
+surface = "surface0"
+surface_hover = "surface1"
+surface_active = "surface2"
+overlay = "overlay0"
+overlay_muted = "overlay1"
+overlay_emphasis = "overlay2"
+text = "text"
+text_muted = "subtext0"
+text_subtle = "overlay1"
+text_on_accent = "base"
+link = "blue"
+link_visited = "lavender"
+link_hover = "sky"
+success = "green"
+warning = "yellow"
+warning_secondary = "peach"
+error = "red"
+information = "teal"
+tag = "blue"
+cursor = "rosewater"
+selection_background = "overlay2"
+selection_background_opacity = 0.25
+
+[terminal]
+background = "base"
+foreground = "text"
+cursor = "rosewater"
+cursor_text = "crust"
+active_border = "lavender"
+inactive_border = "overlay0"
+bell_border = "yellow"
+
+[terminal.ansi]
+color0 = "surface1"
+color1 = "red"
+color2 = "green"
+color3 = "yellow"
+color4 = "blue"
+color5 = "pink"
+color6 = "teal"
+color7 = "subtext0"
+color8 = "surface2"
+# Bright slots reuse the palette's deliberately enhanced accents; terminals
+# should render these slots bold instead of introducing another derived ramp.
+color9 = "red"
+color10 = "green"
+color11 = "yellow"
+color12 = "blue"
+color13 = "pink"
+color14 = "teal"
+color15 = "subtext1"
+color16 = "peach"
+color17 = "rosewater"
+
+[syntax]
+keyword = "mauve"
+string = "green"
+symbol = "red"
+regex = "pink"
+comment = "overlay2"
+number = "peach"
+operator = "sky"
+delimiter = "overlay2"
+function = "blue"
+parameter = "maroon"
+builtin = "red"
+type = "yellow"
+enum_variant = "teal"
+property = "blue"
+attribute = "yellow"
+macro = "rosewater"
+
+[editor]
+cursor = "rosewater"
+cursor_line_opacity = 0.10
+line_number = "overlay1"
+line_number_active = "lavender"
+search_foreground = "text"
+search_background = "teal"
+search_active_foreground = "text"
+search_active_background = "red"
+
+[editor.highlight]
+mark1 = "lavender"
+mark2 = "mauve"
+mark3 = "sapphire"
+text = "crust"
+
+[editor.rainbow]
+color1 = "red"
+color2 = "peach"
+color3 = "yellow"
+color4 = "green"
+color5 = "sapphire"
+color6 = "lavender"
+
+[editor.diff]
+header = "blue"
+metadata = "overlay2"
+file_marker = "pink"
+hunk_header = "peach"
+changed = "blue"
+changed_text_opacity = 0.15
+changed_line_opacity = 0.20
+inserted = "green"
+inserted_text_opacity = 0.15
+inserted_line_opacity = 0.20
+removed = "red"
+removed_text_opacity = 0.15
+removed_line_opacity = 0.20
