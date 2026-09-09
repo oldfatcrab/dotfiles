@@ -4,6 +4,32 @@ This log records durable decisions that intentionally differ from Omarchy or
 other reference setups. It explains *why* this repository chose a different
 path, so future changes do not repeat the same evaluation.
 
+## 2026-09-08 — Bootstrap Zsh from the XDG configuration directory
+
+**Status:** accepted
+
+**Context:** Zsh reads its first user `.zshenv` from `$ZDOTDIR`, or `$HOME`
+when `ZDOTDIR` is unset. The repository keeps the full Zsh startup set under
+the XDG configuration directory.
+
+**Decision:** Manage `home/dot_zshenv` as a three-line bootstrap: default and
+export `XDG_CONFIG_HOME`, set but do not export `ZDOTDIR` to
+`$XDG_CONFIG_HOME/zsh`, then source its `.zshenv`. Manage `.zshenv`,
+`.zprofile`, `.zshrc`, `.zlogin`, and `.zlogout` in `home/dot_config/zsh/`.
+
+**Rationale:** The root file is a stable Zsh entry point while all substantive
+configuration remains XDG-scoped. Leaving `ZDOTDIR` unexported makes every
+child Zsh run the same bootstrap instead of requiring a second bootstrap file.
+
+**Consequences:** After `chezmoi apply`, Zsh reads its startup files from
+`$XDG_CONFIG_HOME/zsh`. `.zshenv` contains only non-interactive environment
+defaults; terminal-bound `GPG_TTY` remains in interactive `.zshrc`. No startup
+file creates XDG directories.
+
+**Implementation / validation:** Validate `home/dot_zshenv` with `zsh -n` and
+verify an isolated login and interactive startup with `XDG_CONFIG_HOME` set and
+unset. Do not apply without explicit authorization.
+
 ## Entry format
 
 Add new entries in reverse chronological order. Each entry should state the

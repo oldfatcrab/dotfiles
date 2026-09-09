@@ -17,8 +17,8 @@ concrete, reviewed requirement.
 ├── DECISIONS.md        # durable design decisions and Omarchy divergences
 ├── themes/             # portable palette data for future app configurations
 ├── home/               # maps to $HOME
-│   ├── dot_zprofile    # Homebrew environment for login shells
-│   ├── dot_zshrc       # interactive Zsh configuration
+│   ├── dot_zshenv      # bootstrap into the XDG Zsh directory
+│   ├── dot_config/zsh/ # managed Zsh startup files
 │   ├── dot_p10k.zsh.tmpl # Powerlevel10k configuration rendered from the palette
 │   ├── dot_config/ghostty/config.tmpl # Ghostty configuration rendered from the palette
 │   ├── run_once_before_00-install-homebrew.sh.tmpl
@@ -38,8 +38,10 @@ is intentionally empty.
 - `chezmoi apply` bootstraps Homebrew, then synchronizes the applicable
   Brewfile manifests.
 - The source files are authoritative for current behavior: package manifests
-  live in `Brewfiles/`, Zsh startup files live in `home/dot_z*`, and action
-  order lives in `home/run_*.tmpl`.
+  live in `Brewfiles/`, Zsh startup files live in `home/dot_config/zsh/`, and
+  action order lives in `home/run_*.tmpl`.
+- `home/dot_zshenv` defaults `XDG_CONFIG_HOME` to `~/.config` and bootstraps
+  the complete Zsh startup set from `~/.config/zsh`.
 - [DECISIONS.md](DECISIONS.md) records durable choices; [TODO.md](TODO.md)
   records deferred work. Neither replaces the source files.
 - Package declarations do not claim that a target machine has already been
