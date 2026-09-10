@@ -26,8 +26,8 @@ Unchecked items are planned work, not authorization to change a target machine.
 ### Managed configuration
 
 - [ ] Validate the existing managed Zsh, Powerlevel10k configuration, and Ghostty
-  configuration on the target machine. Source implementation already exists in
-  `home/dot_config/zsh/`, `home/dot_p10k.zsh.tmpl`, and
+  configuration on the target machine. Zsh and Powerlevel10k source already
+  exist in `home/dot_config/zsh/`, with Ghostty at
   `home/dot_config/ghostty/config.tmpl`; inspect `chezmoi diff` before any
   explicitly authorized `chezmoi apply`. Target validation remains unrecorded.
 - [ ] Verify fzf-backed Tab completion in a fresh interactive target shell.

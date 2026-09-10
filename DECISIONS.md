@@ -118,8 +118,9 @@ diff`, and `git diff --check`. Do not apply without explicit authorization.
 ANSI colour indices, while `themes/catppuccin-contrast.toml` is this
 repository's authoritative palette.
 
-**Decision:** Rename the source to `home/dot_p10k.zsh.tmpl`. At render time,
-parse `../themes/catppuccin-contrast.toml` with chezmoi's `fromToml` and use
+**Decision:** Place the source at `home/dot_config/zsh/dot_p10k.zsh.tmpl`. At
+render time, parse `../themes/catppuccin-contrast.toml` with chezmoi's
+`fromToml` and use
 only existing, semantically nearest palette colours for P10K foregrounds and
 backgrounds.
 
