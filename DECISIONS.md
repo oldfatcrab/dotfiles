@@ -4,6 +4,39 @@ This log records durable decisions that intentionally differ from Omarchy or
 other reference setups. It explains *why* this repository chose a different
 path, so future changes do not repeat the same evaluation.
 
+Historical entries describe the state at the time of the decision. Paths,
+implementation status, and validation commands updated by later entries are
+not current operating instructions; consult the current source and the
+relevant later decision.
+
+## 2026-09-10 — Give terminal bold ANSI colours a dedicated ramp
+
+**Status:** accepted
+
+**Context:** Ghostty uses ANSI colours 9–14 for bold text. Reusing colours
+1–6 made the bold and normal variants visually identical, so font weight was
+the only distinction.
+
+**Decision:** Keep the shared Catppuccin-derived semantic accents unchanged.
+Define the terminal-only colours `crimson`, `moss`, `ochre`, `cornflower`,
+`orchid`, and `verdigris` in `[colors]`, and map them to ANSI colours 9–14.
+They are derived in OKLCH from their matching ANSI accents with `L' = 0.88 *
+L`, `C' = C + 0.035`, and `h' = h + 2 degrees`, then gamut-mapped to sRGB.
+
+**Rationale:** This preserves each ANSI colour's identity while providing a
+visibly deeper, more saturated bold layer. The approach follows Catppuccin's
+principle that ANSI bright colours should be bolder and more saturated, not
+necessarily brighter.
+
+**Consequences:** P10K, syntax, and UI roles continue to use the shared
+semantic accents. Only terminal ANSI bold rendering changes through Ghostty's
+`bold-color = bright` behavior.
+
+**Implementation / validation:**
+`themes/catppuccin-contrast.toml`; validate TOML, render
+`home/dot_config/ghostty/config.tmpl`, check palette entries 9–14, and run
+`git diff --check`. Do not apply without explicit authorization.
+
 ## 2026-09-08 — Bootstrap Zsh from the XDG configuration directory
 
 **Status:** accepted
@@ -187,42 +220,10 @@ contrast.
 Mocha neutral ramp**. “Frappé HD on Mocha” is an informal shorthand only; it
 is not an official Catppuccin flavor or an upstream-endorsed palette.
 
-The accent palette is authoritative wherever terminal or editor configuration
-is later added:
-
-```toml
-rosewater = "#f7ccc3"
-flamingo = "#f2abac"
-pink = "#faa1e4"
-mauve = "#c17de9"
-red = "#e64f5c"
-maroon = "#ec757e"
-peach = "#f37d38"
-yellow = "#e6ba60"
-green = "#89c857"
-teal = "#41bdaf"
-sky = "#6fc9d8"
-sapphire = "#4fb2db"
-blue = "#6790f5"
-lavender = "#a9a8f8"
-```
-
-Use Catppuccin's stock Mocha neutral ramp unchanged:
-
-```toml
-text = "#cdd6f4"
-subtext1 = "#bac2de"
-subtext0 = "#a6adc8"
-overlay2 = "#9399b2"
-overlay1 = "#7f849c"
-overlay0 = "#6c7086"
-surface2 = "#585b70"
-surface1 = "#45475a"
-surface0 = "#313244"
-base = "#1e1e2e"
-mantle = "#181825"
-crust = "#11111b"
-```
+Use the enhanced accents and unchanged stock Mocha neutral ramp defined in
+[`themes/catppuccin-contrast.toml`](themes/catppuccin-contrast.toml).
+Its `[colors]` table is the sole source of color values; this decision records
+their provenance and design rationale rather than duplicating the palette.
 
 Its intended hierarchy is:
 
@@ -248,7 +249,8 @@ h' = h
 ```
 
 Out-of-gamut results are mapped or clipped to sRGB. This is a derivation
-description, not a generator: the hex values above are the source of truth.
+description, not a generator: the hex values in the TOML `[colors]` table are
+the source of truth.
 The transform expands existing lightness differences, shifts accents slightly
 darker, and raises chroma while retaining Frappé hue identity. It avoids both
 the washed-out appearance of brighter pastels and a neon/high-saturation
@@ -271,8 +273,8 @@ aesthetic.
 **Consequences:** Future Ghostty, tmux, Neovim, VS Code, or other theme
 configuration should reference these names and values, while preserving the
 distinction between the derived accent palette and official Catppuccin
-concepts. No theme configuration is currently managed in this repository, so
-this decision does not change target-machine appearance yet.
+concepts. At the time of this decision, no theme configuration was managed.
+The later P10K and Ghostty rendering decisions document its current consumers.
 
 **Implementation / validation:** `themes/catppuccin-contrast.toml` is the
 machine-readable source of truth. When a theme configuration is added, map its
@@ -302,10 +304,13 @@ while keeping interactive customizations out of non-interactive shells.
 startup phase instead of accumulating in one file. Adding `.zshenv` or
 `.zlogin` requires documenting the specific lifecycle requirement.
 
-**Implementation / validation:** `home/dot_zprofile` initializes Homebrew
-from its standard Apple Silicon or Intel prefix; `home/dot_zshrc` loads Zinit.
-Verify with `zsh -n <file>` and fresh login and non-login interactive Zsh
-sessions.
+**Implementation / validation:** The
+[2026-09-08 XDG bootstrap decision](#2026-09-08--bootstrap-zsh-from-the-xdg-configuration-directory)
+updates the original startup paths and documents the additional lifecycle
+files. `home/dot_config/zsh/dot_zprofile` initializes Homebrew from its
+standard Apple Silicon or Intel prefix; `home/dot_config/zsh/dot_zshrc` loads
+Zinit. Verify current files with `zsh -n <file>` and fresh login and non-login
+interactive Zsh sessions.
 
 ## 2026-09-01 — Use Raycast for clipboard history and application launching
 

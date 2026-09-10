@@ -10,10 +10,8 @@ For every task, use this order:
    completed, or explicitly out of scope.
 4. Read `README.md` when the change affects user-facing setup or behavior.
 
-Source files are authoritative for current behavior. `DECISIONS.md` records
-durable tradeoffs, `TODO.md` records roadmap state, and `README.md` summarizes
-the user-facing system. Do not treat a package declaration as proof that it is
-installed on a target machine.
+Source files are authoritative for current behavior. Package declarations do
+not prove target-machine installation.
 
 ## Scope and layout
 
@@ -49,16 +47,18 @@ operational facts in the appropriate document above.
   `run_onchange_`.
 - Use Go templates for OS- or machine-specific behavior. Files outside `home/`
   require `../` in `include` paths from templates under `home/`.
-- Shell scripts must use `#!/usr/bin/env bash`, `set -euo pipefail`, and
-  `command -v` guards for optional programs. Do not hardcode user home paths.
+- Executable Bash scripts use `#!/usr/bin/env bash` and `set -euo pipefail`.
+  Zsh startup files use Zsh syntax and appropriate startup semantics. Guard
+  optional commands and avoid hardcoded home paths.
 - Do not add credentials or secrets in plaintext.
 - Prefer minimal, reversible changes. Do not commit unless the user explicitly
-  asks.
+  asks. Run `chezmoi apply` only when explicitly requested.
 
 ## Validation
 
 - Render edited templates with `chezmoi execute-template` where practical.
-- Run `chezmoi status` and `chezmoi diff` before applying source changes.
+- Before applying to the target machine, review `chezmoi status` and
+  `chezmoi diff`.
 - Run `chezmoi ignored` after editing ignore rules and `chezmoi doctor` for
   setup issues.
 - Run `git diff --check` before handoff.

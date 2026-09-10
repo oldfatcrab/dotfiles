@@ -8,6 +8,14 @@
 # Out-of-gamut results are mapped or clipped to sRGB.
 # This explains the selected accents; the hex values below are the source of truth, not values to regenerate from the formula.
 #
+# Terminal bright colors use a separate, deeper OKLCH ramp from their matching
+# ANSI accents:
+#   - L' = 0.88 * L
+#   - C' = C + 0.035
+#   - h' = h + 2 degrees.
+#
+# Results are gamut-mapped to sRGB; the selected hex values below remain the source of truth.
+#
 # Semantic values below name a key in [colors], keeping hex values singular.
 # Roles follow https://github.com/catppuccin/catppuccin/blob/main/docs/style-guide.md.
 
@@ -38,6 +46,12 @@ surface0 = "#313244"
 base = "#1e1e2e"
 mantle = "#181825"
 crust = "#11111b"
+crimson = "#d61637"
+moss = "#5daf16"
+ochre = "#cb9a10"
+cornflower = "#4d72eb"
+orchid = "#e577c8"
+verdigris = "#0fa197"
 
 [ui]
 background = "base"
@@ -85,14 +99,14 @@ color5 = "pink"
 color6 = "teal"
 color7 = "subtext0"
 color8 = "surface2"
-# Bright slots reuse the palette's deliberately enhanced accents; terminals
-# should render these slots bold instead of introducing another derived ramp.
-color9 = "red"
-color10 = "green"
-color11 = "yellow"
-color12 = "blue"
-color13 = "pink"
-color14 = "teal"
+# Bright slots use the terminal-only, deeper ANSI ramp; terminals render them
+# for bold text without changing shared semantic accents.
+color9 = "crimson"
+color10 = "moss"
+color11 = "ochre"
+color12 = "cornflower"
+color13 = "orchid"
+color14 = "verdigris"
 color15 = "subtext1"
 color16 = "peach"
 color17 = "rosewater"

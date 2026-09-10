@@ -9,11 +9,11 @@ Unchecked items are planned work, not authorization to change a target machine.
 
 ## Operating rules
 
-- Move an item to **In progress** only with a concrete owner, scope, and test.
-- Before marking an item complete, record the managed source files and the
-  validation command in its pull request or commit. A completed manifest item
-  records repository state; it does not claim that every target machine has run
-  `chezmoi apply`.
+- When starting work, define its scope and validation method.
+- At handoff, record the managed source files and validation results; include
+  them in the commit description when committing. Record source implementation
+  and target-machine validation separately. A completed manifest item does not
+  claim that every target machine has run `chezmoi apply`.
 - Mark an item **Not planned** when it does not fit macOS, this repository, or
   the user's needs; retain a brief reason rather than silently dropping it.
 - Add packages to the appropriate Brewfile only after the related work is
@@ -25,17 +25,19 @@ Unchecked items are planned work, not authorization to change a target machine.
 
 ### Managed configuration
 
-- [ ] Establish the first managed configuration, using the
-  [Omarchy dotfiles workflow](https://omarchy.org/manual/dotfiles/) as a
-  reference, and verify it with `chezmoi diff` and `chezmoi apply`.
-- [ ] Decide whether to use [lincheney/fzf-tab-completion](https://github.com/lincheney/fzf-tab-completion),
-  [Aloxaf/fzf-tab](https://github.com/Aloxaf/fzf-tab), or both, in the context
-  of [Omarchy Shell Tools](https://omarchy.org/manual/shell-tools/).
-- [ ] Configure [fzf-backed Tab completion](https://omarchy.org/manual/shell-tools/)
-  after selecting the plugin approach.
-- [ ] Alias common daily commands—`cat`, `man`, `cd`, and `ls`—to `bat`,
-  `batman`, `z`, and `eza` through Oh My Zsh or another Zsh plugin mechanism,
-  guided by [Shell Tools](https://omarchy.org/manual/shell-tools/).
+- [ ] Validate the existing managed Zsh, Powerlevel10k configuration, and Ghostty
+  configuration on the target machine. Source implementation already exists in
+  `home/dot_config/zsh/`, `home/dot_p10k.zsh.tmpl`, and
+  `home/dot_config/ghostty/config.tmpl`; inspect `chezmoi diff` before any
+  explicitly authorized `chezmoi apply`. Target validation remains unrecorded.
+- [ ] Verify fzf-backed Tab completion in a fresh interactive target shell.
+  [Aloxaf/fzf-tab](https://github.com/Aloxaf/fzf-tab) is already selected in
+  `Brewfiles/Brewfile.base` and loaded after `compinit` in
+  `home/dot_config/zsh/dot_zshrc`; plugin selection and source wiring are done.
+- [ ] Configure remaining daily-command aliases: `cat`, `man`, and `ls` to
+  `bat`, `batman`, and `eza`, guided by
+  [Shell Tools](https://omarchy.org/manual/shell-tools/). The Zsh source already
+  initializes zoxide with `--cmd cd`; target behavior remains to be verified.
 - [ ] Configure defaults for [`eza`, `bat`, and `bat-extras`](https://omarchy.org/manual/shell-tools/).
 - [ ] Install and configure [LazyVim](https://www.lazyvim.org/installation)
   after confirming how its `~/.config/nvim` starter configuration should be managed.
@@ -131,8 +133,8 @@ prevents the same proposal from being repeatedly re-evaluated.
 - [x] 2026-09-08 — Added `home/dot_config/ghostty/config.tmpl`, rendering
   Ghostty colors from `themes/catppuccin-contrast.toml`; retained Liga SFMono
   Nerd Font and selected Omarchy-derived behavior, including the `Ctrl+\``
-  quick terminal and a 50 MiB scrollback limit, without applying to a target
-  machine. Validate with `chezmoi execute-template --file
+  quick terminal, a 50 MiB scrollback limit, and a distinct named ANSI bold
+  ramp, without applying to a target machine. Validate with `chezmoi execute-template --file
   home/dot_config/ghostty/config.tmpl`, `chezmoi status`, `chezmoi diff`, and
   `git diff --check`.
 

@@ -46,14 +46,17 @@ is intentionally empty.
   records deferred work. Neither replaces the source files.
 - Package declarations do not claim that a target machine has already been
   configured.
-- `home/dot_p10k.zsh.tmpl` preserves the supplied Powerlevel10k configuration,
-  renders its colors from `themes/catppuccin-contrast.toml`, and does not
-  install or initialize Powerlevel10k yet.
-- `themes/catppuccin-contrast.toml` is the canonical palette data for future
-  terminal and editor configurations. `home/dot_config/ghostty/config.tmpl`
-  renders Ghostty's colors from it and manages the Mac substitute for
-  Omarchy's Linux-only `foot`: Liga SFMono Nerd Font, a `Ctrl+\`` quick
-  terminal, 50 MiB scrollback, and Homebrew-owned updates.
+- `home/dot_p10k.zsh.tmpl` preserves the supplied Powerlevel10k configuration
+  and renders its colors from `themes/catppuccin-contrast.toml`. The current
+  Zsh source loads `~/.p10k.zsh` when present. Loading these settings does not
+  initialize the Powerlevel10k theme; installation and theme initialization
+  are not yet managed.
+- `themes/catppuccin-contrast.toml` is the canonical palette data for terminal
+  and editor configurations. `home/dot_config/ghostty/config.tmpl` renders
+  Ghostty's colors from it, including its named, deeper ANSI bold ramp, and
+  manages the Mac substitute for Omarchy's Linux-only `foot`: Liga SFMono Nerd
+  Font, a `Ctrl+\`` quick terminal, 50 MiB scrollback, and Homebrew-owned
+  updates.
 
 ## Common workflow
 
