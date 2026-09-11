@@ -1,0 +1,4 @@
+# Shared interactive defaults. Keep color and paging automatic; aliases opt
+# out of paging only where replacing `cat` requires it.
+--theme="Catppuccin Contrast"
+--style="numbers,changes,header"

@@ -19,7 +19,7 @@ concrete, reviewed requirement.
 ├── home/               # maps to $HOME
 │   ├── dot_zshenv      # bootstrap into the XDG Zsh directory
 │   ├── dot_config/zsh/ # managed Zsh startup files
-│   ├── dot_p10k.zsh.tmpl # Powerlevel10k configuration rendered from the palette
+│   ├── dot_config/zsh/dot_p10k.zsh.tmpl # Powerlevel10k configuration rendered from the palette
 │   ├── dot_config/ghostty/config.tmpl # Ghostty configuration rendered from the palette
 │   ├── run_once_before_00-install-homebrew.sh.tmpl
 │   ├── run_onchange_before_00-install-packages.sh.tmpl
@@ -46,18 +46,24 @@ is intentionally empty.
   records deferred work. Neither replaces the source files.
 - Package declarations do not claim that a target machine has already been
   configured.
-- `home/dot_config/zsh/dot_p10k.zsh.tmpl` preserves the supplied
-  Powerlevel10k configuration and renders its colors from
-  `themes/catppuccin-contrast.toml`. The current Zsh source loads
-  `$ZDOTDIR/.p10k.zsh` when present. Loading these settings does not initialize
-  the Powerlevel10k theme; installation and theme initialization are not yet
-  managed.
+- `home/dot_config/zsh/dot_p10k.zsh.tmpl` renders the Powerlevel10k
+  configuration from `themes/catppuccin-contrast.toml`. The shared Brewfile
+  installs Powerlevel10k, and `.zshrc` loads its theme before `$ZDOTDIR/.p10k.zsh`.
 - `themes/catppuccin-contrast.toml` is the canonical palette data for terminal
   and editor configurations. `home/dot_config/ghostty/config.tmpl` renders
   Ghostty's colors from it, including its named, deeper ANSI bold ramp, and
   manages the Mac substitute for Omarchy's Linux-only `foot`: Liga SFMono Nerd
   Font, a `Ctrl+\`` quick terminal, 50 MiB scrollback, and Homebrew-owned
   updates.
+- `home/dot_config/bat/config` sets the Catppuccin Contrast theme and concise
+  interactive style. Interactive Zsh aliases replace `cat`, `less`, `man`,
+  `rg`, `watch`, and `diff` with bat or bat-extras equivalents, and colorize
+  `grep` results through batgrep. The explicit `batfind` and `batlog` functions
+  render find results and followed logs without changing native `find` or
+  `tail`; `batdiff` uses delta when available.
+- `home/dot_config/zsh/vi-mode.zsh.tmpl` configures blinking zsh-vi-mode
+  cursors, palette-derived selection highlighting, and fzf widget restoration
+  after the plugin's deferred initialization.
 
 ## Common workflow
 

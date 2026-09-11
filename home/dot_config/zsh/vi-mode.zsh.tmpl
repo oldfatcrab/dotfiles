@@ -1,0 +1,24 @@
+{{- $palette := include "../themes/catppuccin-contrast.toml" | fromToml -}}
+{{- $colors := index $palette "colors" -}}
+{{- $ui := index $palette "ui" -}}
+{{- $editor := index $palette "editor" -}}
+{{- $highlight := index $editor "highlight" -}}
+# Render selection colors from the canonical palette, matching Ghostty.
+
+# zsh-vi-mode calls this after defining its cursor-style constants.
+zvm_config() {
+  ZVM_NORMAL_MODE_CURSOR=$ZVM_CURSOR_BLINKING_BLOCK
+  ZVM_INSERT_MODE_CURSOR=$ZVM_CURSOR_BLINKING_BEAM
+  ZVM_VISUAL_MODE_CURSOR=$ZVM_CURSOR_BLINKING_BLOCK
+  ZVM_VISUAL_LINE_MODE_CURSOR=$ZVM_CURSOR_BLINKING_BLOCK
+  ZVM_OPPEND_MODE_CURSOR=$ZVM_CURSOR_BLINKING_UNDERLINE
+
+  ZVM_VI_HIGHLIGHT_FOREGROUND='{{ index $colors (index $highlight "text") }}'
+  ZVM_VI_HIGHLIGHT_BACKGROUND='{{ index $colors (index $ui "selection_background") }}'
+}
+
+# zsh-vi-mode initializes lazily and replaces ZLE widgets. Restore the fzf
+# widgets after that initialization so they remain available in vi keymaps.
+zvm_after_init() {
+  source "$HOMEBREW_PREFIX/opt/fzf/shell/key-bindings.zsh"
+}

@@ -9,6 +9,27 @@ implementation status, and validation commands updated by later entries are
 not current operating instructions; consult the current source and the
 relevant later decision.
 
+## 2026-09-10 — Activate Powerlevel10k from Homebrew
+
+**Status:** accepted
+
+**Context:** The managed `.p10k.zsh` sets Powerlevel10k options but cannot
+render a prompt until the theme itself is loaded.
+
+**Decision:** Declare `powerlevel10k` in `Brewfiles/Brewfile.base`. At the end
+of interactive `.zshrc`, source Homebrew's theme file, then source
+`$ZDOTDIR/.p10k.zsh`.
+
+**Rationale:** Homebrew supplies the theme at a stable path and is already the
+package authority. Loading the theme first is the required, minimal order.
+
+**Consequences:** New shells use the managed P10K prompt after Homebrew has
+installed the formula. The configuration remains plain Zsh rendered from the
+canonical palette.
+
+**Implementation / validation:** Validate the rendered P10K file with `zsh -n`,
+then open a new interactive shell after applying the formula and source files.
+
 ## 2026-09-10 — Give terminal bold ANSI colours a dedicated ramp
 
 **Status:** accepted

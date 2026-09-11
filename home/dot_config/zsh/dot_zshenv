@@ -12,5 +12,6 @@ fi
 
 export EDITOR="nvim"
 export VISUAL="nvim"
+# export ZSH_HIGHLIGHT_HIGHLIGHTERS_DIR=$HOMEBREW_PREFIX/share/zsh-syntax-highlighting/highlighters
 
 export PATH="$HOME/.local/bin:$PATH"

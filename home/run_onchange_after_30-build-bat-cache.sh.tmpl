@@ -1,0 +1,6 @@
+{{- $batSourceDir := joinPath .chezmoi.sourceDir "dot_config" "bat" -}}
+#!/usr/bin/env bash
+set -euo pipefail
+
+# bat source-tree hash: {{ output "sh" "-c" "find \"$1\" -type f -exec shasum {} + | LC_ALL=C sort | shasum -a 256" "sh" $batSourceDir }}
+bat cache --build

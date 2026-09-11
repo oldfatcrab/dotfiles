@@ -34,11 +34,16 @@ Unchecked items are planned work, not authorization to change a target machine.
   [Aloxaf/fzf-tab](https://github.com/Aloxaf/fzf-tab) is already selected in
   `Brewfiles/Brewfile.base` and loaded after `compinit` in
   `home/dot_config/zsh/dot_zshrc`; plugin selection and source wiring are done.
-- [ ] Configure remaining daily-command aliases: `cat`, `man`, and `ls` to
-  `bat`, `batman`, and `eza`, guided by
-  [Shell Tools](https://omarchy.org/manual/shell-tools/). The Zsh source already
-  initializes zoxide with `--cmd cd`; target behavior remains to be verified.
-- [ ] Configure defaults for [`eza`, `bat`, and `bat-extras`](https://omarchy.org/manual/shell-tools/).
+- [x] 2026-09-11 — Configured daily-command aliases and explicit visual
+  workflows guided by
+  [Shell Tools](https://omarchy.org/manual/shell-tools/): `zsh-eza` manages
+  eza-backed listings, while `bat`, `batman`, and bat-extras are configured in
+  `home/dot_config/bat/` and `home/dot_config/zsh/aliases.zsh`; `batfind` and
+  `batlog` preserve the native command names, and batdiff uses delta when
+  available.
+- [x] 2026-09-11 — Configured zsh-vi-mode with blinking per-mode cursors,
+  palette-derived selection highlighting, and restored fzf widgets after its
+  deferred initialization.
 - [ ] Install and configure [LazyVim](https://www.lazyvim.org/installation)
   after confirming how its `~/.config/nvim` starter configuration should be managed.
 - [ ] Configure Visual Studio Code.
@@ -145,6 +150,9 @@ command.
   initialization, Brewfile declaration, and tests; preserved the supplied
   Powerlevel10k configuration at `home/dot_p10k.zsh` without installing or
   initializing Powerlevel10k. Validate with `git diff --check`.
+
+- [x] 2026-09-10 — Activated Powerlevel10k from `Brewfile.base`; load its
+  Homebrew theme before the managed `$ZDOTDIR/.p10k.zsh` configuration.
 
 - [x] 2026-09-01 — Established the selected [AI tooling](https://omarchy.org/manual/ai/)
   baseline in `Brewfiles/Brewfile.base`; validated with `git diff --check`.
