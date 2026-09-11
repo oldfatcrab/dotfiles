@@ -21,4 +21,12 @@ zvm_config() {
 # widgets after that initialization so they remain available in vi keymaps.
 zvm_after_init() {
   source "$HOMEBREW_PREFIX/opt/fzf/shell/key-bindings.zsh"
+  zvm_bindkey viins '^[[1;5D' backward-word
+  zvm_bindkey viins '^[[1;5C' forward-word
+}
+
+# Normal-mode bindings are installed lazily by zsh-vi-mode.
+zvm_after_lazy_keybindings() {
+  zvm_bindkey vicmd '^[[1;5D' backward-word
+  zvm_bindkey vicmd '^[[1;5C' forward-word
 }

@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+{{ if eq .chezmoi.os "darwin" -}}
+set -euo pipefail
+
+# AppleSymbolicHotKeys 79/81 are Ctrl-Left/Right Space navigation.
+# Reserve them for terminal word navigation instead.
+disabled_hotkey='<dict><key>enabled</key><false/></dict>'
+defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 79 "$disabled_hotkey"
+defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 81 "$disabled_hotkey"
+/System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
+{{ else -}}
+exit 0
+{{ end -}}

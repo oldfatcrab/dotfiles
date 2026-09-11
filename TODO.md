@@ -96,6 +96,9 @@ Unchecked items are planned work, not authorization to change a target machine.
 
 - [ ] Evaluate [multi-monitor support](https://omarchy.org/manual/monitors/).
 - [ ] Evaluate [keyboard, mouse, and trackpad settings](https://omarchy.org/manual/keyboard-mouse-trackpad/).
+- [x] 2026-09-11 — Disabled macOS Mission Control's Ctrl-Left/Right Space
+  shortcuts through a chezmoi run script, reserving them for terminal word
+  navigation.
 - [ ] Evaluate [networking configuration](https://omarchy.org/manual/networking/).
 - [ ] Evaluate [system-sleep behavior](https://omarchy.org/manual/system-sleep/).
 - [ ] Evaluate [hardware authentication](https://omarchy.org/manual/hardware-authentication/).
