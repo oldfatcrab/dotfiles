@@ -49,6 +49,8 @@ is intentionally empty.
 - `home/dot_config/zsh/dot_p10k.zsh.tmpl` renders the Powerlevel10k
   configuration from `themes/catppuccin-contrast.toml`. The shared Brewfile
   installs Powerlevel10k, and `.zshrc` loads its theme before `$ZDOTDIR/.p10k.zsh`.
+- `home/dot_config/zsh/fzf.zsh` renders fzf's Catppuccin-style colors from the
+  same palette while retaining the existing fzf command and options.
 - `themes/catppuccin-contrast.toml` is the canonical palette data for terminal
   and editor configurations. `home/dot_config/ghostty/config.tmpl` renders
   Ghostty's colors from it, including its named, deeper ANSI bold ramp, and

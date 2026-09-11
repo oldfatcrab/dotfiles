@@ -1,5 +1,17 @@
+{{- $palette := include "../themes/catppuccin-contrast.toml" | fromToml -}}
+{{- $colors := index $palette "colors" -}}
+{{- $base := index $colors "base" -}}
+{{- $surface0 := index $colors "surface0" -}}
+{{- $surface1 := index $colors "surface1" -}}
+{{- $overlay0 := index $colors "overlay0" -}}
+{{- $text := index $colors "text" -}}
+{{- $rosewater := index $colors "rosewater" -}}
+{{- $red := index $colors "red" -}}
+{{- $mauve := index $colors "mauve" -}}
+{{- $lavender := index $colors "lavender" -}}
+# Colors are rendered from themes/catppuccin-contrast.toml; keep the palette authoritative.
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --strip-cwd-prefix'
-export FZF_DEFAULT_OPTS='--layout=reverse --inline-info'
+export FZF_DEFAULT_OPTS="--layout=reverse --inline-info --color=bg+:{{ $surface0 }},bg:{{ $base }},spinner:{{ $rosewater }},hl:{{ $red }} --color=fg:{{ $text }},header:{{ $red }},info:{{ $mauve }},pointer:{{ $rosewater }} --color=marker:{{ $lavender }},fg+:{{ $text }},prompt:{{ $mauve }},hl+:{{ $red }} --color=selected-bg:{{ $surface1 }} --color=border:{{ $overlay0 }},label:{{ $text }}"
 export FZF_CTRL_R_OPTS="
   --preview 'printf \"%s\\n\" {}' --preview-window up:3:hidden:wrap
   --bind 'ctrl-/:toggle-preview'
