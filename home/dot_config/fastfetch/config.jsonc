@@ -1,6 +1,11 @@
 // Based on #1576
 {
     "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+    "logo": {
+        "padding": {
+            "top": 7
+        }
+    },
     "display": {
         "color": {
             "keys": "blue"
@@ -9,11 +14,11 @@
         // Constants are reusable strings referenced by {$1}, {$2}, etc.
         // These contain ANSI escape codes for cursor positioning
         "constants": [
-            "──────────────────────────────────────────────", // {$1} - horizontal line for inner borders
-            "\u001b[47D",                                     // {$2} - move cursor left 47 columns
-            "\u001b[47C",                                     // {$3} - move cursor right 47 columns
-            "\u001b[46C",                                     // {$4} - move cursor right 46 columns
-            "══════════════════════════════════════════════"  // {$5} - horizontal line for outer borders
+            "────────────────────────────────────────────────────────", // {$1} - horizontal line for inner borders
+            "\u001b[57D",                                               // {$2} - move cursor left 57 columns
+            "\u001b[57C",                                               // {$3} - move cursor right 57 columns
+            "\u001b[56C",                                               // {$4} - move cursor right 56 columns
+            "════════════════════════════════════════════════════════"  // {$5} - horizontal line for outer borders
         ],
         "brightColor": false
     },
@@ -23,7 +28,7 @@
         "break",
         {
             "type": "version",
-            "key": "╔═══════════════╦═{$5}╗\u001b[41D",
+            "key": "╔═══════════════╦═{$5}╗\u001b[51D",
             "format": "\u001b[1m{#keys} {1} - {2} "
         },
         {
@@ -39,9 +44,9 @@
             //                        Necessary because the length of `{sysname}` differs between different platforms
             // \u001b[10C           - ANSI escape: move cursor right 10 columns (ESC[10C)
             // │                    - Right border of key block (always 10 columns from left border)
-            // {$3}                 - Reference to constants[2]: move cursor right 47 columns
+            // {$3}                 - Reference to constants[2]: move cursor right 57 columns
             // ║                    - Right border of value block
-            // {$2}                 - Reference to constants[1]: move cursor left 47 columns
+            // {$2}                 - Reference to constants[1]: move cursor left 57 columns
             //
             // This creates a fixed-width layout where the key block is exactly 10 columns wide,
             // regardless of the actual content length. The cursor manipulation ensures proper
@@ -61,7 +66,7 @@
         // Hardware section with cyan color theme
         {
             "type": "custom",
-            "key": "║{#cyan}┌──────────────┬{$1}┐{#keys}║\u001b[37D",
+            "key": "║{#cyan}┌──────────────┬{$1}┐{#keys}║\u001b[47D",
             "format": "{#bright_cyan} Hardware "
         },
         {
@@ -84,11 +89,13 @@
         {
             "type": "cpu",
             "key": "║{#cyan}│ {icon}  CPU       │{$4}│{#keys}║{$2}",
-            "showPeCoreCount": true
+            "showPeCoreCount": true,
+            "temp": true
         },
         {
             "type": "gpu",
-            "key": "║{#cyan}│ {icon}  GPU       │{$4}│{#keys}║{$2}"
+            "key": "║{#cyan}│ {icon}  GPU       │{$4}│{#keys}║{$2}",
+            "temp": true
         },
         {
             "type": "disk",
@@ -108,7 +115,7 @@
         // Desktop section with green color theme
         {
             "type": "custom",
-            "key": "║{#green}┌──────────────┬{$1}┐{#keys}║\u001b[37D",
+            "key": "║{#green}┌──────────────┬{$1}┐{#keys}║\u001b[47D",
             "format": "{#bright_green} Desktop "
         },
         {
@@ -122,7 +129,19 @@
         {
             "type": "display",
             "key": "║{#green}│ {icon}  Display   │{$4}│{#keys}║{$2}",
-            "compactType": "original-with-refresh-rate"
+            "format": "{name} ({width}x{height} @ {refresh-rate} Hz)"
+        },
+        {
+            "type": "keyboard",
+            "key": "║{#green}│ {icon}  Keyboard  │{$4}│{#keys}║{$2}"
+        },
+        {
+            "type": "mouse",
+            "key": "║{#green}│ {icon}  Mouse     │{$4}│{#keys}║{$2}"
+        },
+        {
+            "type": "sound",
+            "key": "║{#green}│ {icon}  Sound     │{$4}│{#keys}║{$2}"
         },
         {
             "type": "gpu",
@@ -138,7 +157,7 @@
         // Terminal section with yellow color theme
         {
             "type": "custom",
-            "key": "║{#yellow}┌──────────────┬{$1}┐{#keys}║\u001b[37D",
+            "key": "║{#yellow}┌──────────────┬{$1}┐{#keys}║\u001b[47D",
             "format": "{#bright_yellow} Terminal "
         },
         {
@@ -170,7 +189,7 @@
         // Uptime section with red color theme
         {
             "type": "custom",
-            "key": "║{#red}┌──────────────┬{$1}┐{#keys}║\u001b[36D",
+            "key": "║{#red}┌──────────────┬{$1}┐{#keys}║\u001b[46D",
             "format": "{#bright_red} Uptime "
         },
         {
@@ -181,7 +200,8 @@
             "type": "users",
             "myselfOnly": true,                               // Only show current user
             "keyIcon": "",
-            "key": "║{#red}│ {icon}  Login     │{$4}│{#keys}║{$2}"
+            "key": "║{#red}│ {icon}  Login     │{$4}│{#keys}║{$2}",
+            "format": "login time {login-time}"
         },
         {
             "condition": {                                    // Conditional module: only show on non-macOS
@@ -219,11 +239,9 @@
         // Terminal colors in the default order: normal 0-7, then bright 8-15.
         {
             "type": "custom",
-            "format": "{#30}●  {#31}●  {#32}●  {#33}●  {#34}●  {#35}●  {#36}●  {#37}●"
-        },
-        {
-            "type": "custom",
-            "format": "{#90}●  {#91}●  {#92}●  {#93}●  {#94}●  {#95}●  {#96}●  {#97}●"
+            // Print below the logo, then restore Fastfetch's normal cursor position.
+            "key": "\u001b[s\u001b[9A\u001b[34D",
+            "format": "{#30}   {#31}   {#32}   {#33}   {#34}   {#35}   {#36}   {#37}\n{#90}   {#91}   {#92}   {#93}   {#94}   {#95}   {#96}   {#97}\u001b[u"
         }
     ]
 }

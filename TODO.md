@@ -148,17 +148,22 @@ prevents the same proposal from being repeatedly re-evaluated.
 
 ## Completed
 
-- [x] 2026-09-14 — Added
-  `home/dot_config/btop/themes/catppuccin_contrast.theme.tmpl`, mapping btop's
-  existing theme roles to `themes/catppuccin-contrast.toml`; chezmoi renders
-  `catppuccin_contrast.theme`. Validate with `chezmoi execute-template --file
+- [x] 2026-09-14 — Added `home/dot_config/btop/btop.conf` and
+  `home/dot_config/btop/themes/catppuccin_contrast.theme.tmpl`. The config
+  enables truecolor and selects the rendered `catppuccin_contrast.theme`, which
+  maps btop's existing theme roles to `themes/catppuccin-contrast.toml`.
+  Validate with `chezmoi execute-template --file
   home/dot_config/btop/themes/catppuccin_contrast.theme.tmpl` and
   `git diff --check`.
 
 - [x] 2026-09-14 — Added `home/dot_config/fastfetch/config.jsonc`, derived
   from Fastfetch `examples/25.jsonc`: it uses the `examples/7.jsonc` title
-  header, omits development-tool probes, renders Uptime red, and prints normal
-  then bright terminal colors as two rows of circles. Validate with
+  header, a 7-line logo offset, and a 56-column table; omits development-tool
+  probes; renders Uptime red with login time only; reports display
+  name/resolution/refresh rate, keyboard, mouse, sound, and CPU/GPU
+  temperatures; and prints normal then bright terminal colors as two rows of
+  circled dots beneath the logo. Their ANSI cursor positioning is coupled to
+  the default macOS logo's 34-column indent. Validate with
   `fastfetch --config home/dot_config/fastfetch/config.jsonc --pipe` and
   `git diff --check`.
 
