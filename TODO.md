@@ -46,10 +46,20 @@ Unchecked items are planned work, not authorization to change a target machine.
   deferred initialization.
 - [ ] Install and configure [LazyVim](https://www.lazyvim.org/installation)
   after confirming how its `~/.config/nvim` starter configuration should be managed.
+- [ ] After LazyVim is configured, evaluate its selected picker before adding fzf
+  integration. Prefer that picker when it already covers files, buffers, live
+  grep, Git status, diagnostics, and help; otherwise evaluate `fzf-lua` for
+  those actions and its native sorter. Do not add the legacy `fzf.vim` plugin
+  alongside a Lua picker.
 - [ ] Configure Visual Studio Code.
 - [ ] Define and manage the Visual Studio Code extension list in a Brewfile.
 - [x] Configure Ghostty; see the 2026-09-08 completed entry.
 - [ ] Configure tmux, including evaluating [oh-my-tmux](https://github.com/gpakosz/.tmux).
+- [ ] After tmux is configured, evaluate fzf popup integration: use fzf's
+  `--tmux`/`FZF_TMUX_OPTS` for its existing shell widgets, and, on tmux 3.2+,
+  evaluate `fzf-tab`'s `ftb-tmux-popup` for Tab completion. Keep tmux's native
+  session/window chooser unless it proves inadequate; do not add a second
+  fzf-based tmux navigator by default.
 - [ ] Configure Hyprspace, Sketchybar, and borders.
 
 ### Deferred installation and activation
@@ -137,6 +147,20 @@ prevents the same proposal from being repeatedly re-evaluated.
   for [filling out and signing PDFs](https://omarchy.org/manual/filling-out-pdfs/).
 
 ## Completed
+
+- [x] 2026-09-14 — Added
+  `home/dot_config/btop/themes/catppuccin_contrast.theme.tmpl`, mapping btop's
+  existing theme roles to `themes/catppuccin-contrast.toml`; chezmoi renders
+  `catppuccin_contrast.theme`. Validate with `chezmoi execute-template --file
+  home/dot_config/btop/themes/catppuccin_contrast.theme.tmpl` and
+  `git diff --check`.
+
+- [x] 2026-09-14 — Added `home/dot_config/fastfetch/config.jsonc`, derived
+  from Fastfetch `examples/25.jsonc`: it uses the `examples/7.jsonc` title
+  header, omits development-tool probes, renders Uptime red, and prints normal
+  then bright terminal colors as two rows of circles. Validate with
+  `fastfetch --config home/dot_config/fastfetch/config.jsonc --pipe` and
+  `git diff --check`.
 
 - [x] 2026-09-08 — Added `home/dot_config/ghostty/config.tmpl`, rendering
   Ghostty colors from `themes/catppuccin-contrast.toml`; retained Liga SFMono

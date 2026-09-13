@@ -49,7 +49,7 @@ is intentionally empty.
 - `home/dot_config/zsh/dot_p10k.zsh.tmpl` renders the Powerlevel10k
   configuration from `themes/catppuccin-contrast.toml`. The shared Brewfile
   installs Powerlevel10k, and `.zshrc` loads its theme before `$ZDOTDIR/.p10k.zsh`.
-- `home/dot_config/zsh/fzf.zsh` renders fzf's Catppuccin-style colors from the
+- `home/dot_config/zsh/fzf.zsh.tmpl` renders fzf's Catppuccin-style colors from the
   same palette while retaining the existing fzf command and options.
 - `themes/catppuccin-contrast.toml` is the canonical palette data for terminal
   and editor configurations. `home/dot_config/ghostty/config.tmpl` renders
@@ -63,6 +63,11 @@ is intentionally empty.
   `grep` results through batgrep. The explicit `batfind` and `batlog` functions
   render find results and followed logs without changing native `find` or
   `tail`; `batdiff` uses delta when available.
+- `home/dot_config/fastfetch/config.jsonc` derives from Fastfetch example 25,
+  adds a title header, omits development-tool probes, and prints the terminal
+  palette as two ordered rows of circles.
+- `home/dot_config/btop/themes/catppuccin_contrast.theme.tmpl` renders btop's
+  Catppuccin Contrast theme from the canonical palette.
 - `home/dot_config/zsh/vi-mode.zsh.tmpl` configures blinking zsh-vi-mode
   cursors, palette-derived selection highlighting, and fzf widget restoration
   after the plugin's deferred initialization.

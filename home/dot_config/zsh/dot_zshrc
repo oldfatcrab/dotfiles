@@ -2,6 +2,16 @@
 
 export GPG_TTY="$(tty)"
 
+# Show system information for direct Ghostty and SSH sessions, once per shell
+# ancestry; never inside tmux or the VS Code integrated terminal.
+if [[ -z ${FASTFETCH_SHOWN-} && -z ${TMUX-} ]] &&
+   [[ ${TERM_PROGRAM-} != vscode && -z ${VSCODE_INJECTION-} ]] &&
+   { [[ ${TERM_PROGRAM-} == ghostty ]] || [[ -n ${SSH_CONNECTION-} ]]; } &&
+   (( $+commands[fastfetch] )); then
+  export FASTFETCH_SHOWN=1
+  command fastfetch
+fi
+
 # History control
 HISTFILE="${ZDOTDIR:-$HOME}/.zsh_history"
 HISTSIZE=1024000
