@@ -12,9 +12,11 @@ concrete, reviewed requirement.
 ├── .chezmoi.toml.tmpl  # prompts once for is_personal_machine
 ├── .chezmoiignore.tmpl # conditional ignore rules
 ├── .chezmoiroot        # sets home/ as the chezmoi source root
-├── .agents/AGENTS.md   # instructions for automated contributors
+├── AGENTS.md           # instructions for automated contributors
+├── CLAUDE.md           # pointer to AGENTS.md for Claude
 ├── Brewfiles/          # shared and personal Homebrew Bundle manifests
 ├── DECISIONS.md        # durable design decisions and Omarchy divergences
+├── docs/agents/        # issue-tracker, triage, and domain-doc conventions
 ├── themes/             # portable palette data for future app configurations
 ├── home/               # maps to $HOME
 │   ├── dot_zshenv      # bootstrap into the XDG Zsh directory
@@ -105,7 +107,7 @@ check conditional paths, and `chezmoi doctor` to diagnose setup problems.
 - Never store secrets in plaintext; use chezmoi's supported secret-management
   or encryption workflow when secrets are needed.
 - Update this README or `TODO.md` when user-facing behavior or roadmap status
-  changes. Contributor-specific rules belong in `.agents/AGENTS.md`.
+  changes. Contributor-specific rules belong in `AGENTS.md`.
 - Record intentional differences from Omarchy in `DECISIONS.md`.
 
 ## Roadmap

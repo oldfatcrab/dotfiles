@@ -25,7 +25,7 @@ Use the following documentation boundaries:
 - `TODO.md`: roadmap, status, and acceptance criteria.
 - `DECISIONS.md`: durable architecture decisions, including intentional
   divergences from Omarchy.
-- `.agents/AGENTS.md`: contributor-only working rules.
+- `AGENTS.md`: contributor-only working rules.
 
 Do not create or restore a separate project-memory document. Place durable
 operational facts in the appropriate document above.
@@ -67,3 +67,17 @@ operational facts in the appropriate document above.
   validation records a target-machine command result.
 - Add a DECISIONS.md entry when deliberately choosing a different approach from
   Omarchy or another documented reference.
+
+## Agent skills
+
+### Issue tracker
+
+Issues are tracked in this repository's GitHub Issues. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+This repository uses the default triage label vocabulary. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+This repository uses a single-context domain-doc layout. See `docs/agents/domain.md`.
