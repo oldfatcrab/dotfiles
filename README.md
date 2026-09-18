@@ -83,6 +83,8 @@ is intentionally empty.
 - `home/dot_config/zsh/vi-mode.zsh.tmpl` configures blinking zsh-vi-mode
   cursors, palette-derived selection highlighting, and fzf widget restoration
   after the plugin's deferred initialization.
+- `vscode/settings.json.tmpl` is the canonical VS Code user-settings template;
+  OS-specific source paths render it to VS Code's native user-settings location.
 - `home/run_after_40-disable-mission-control-space-shortcuts.sh.tmpl` disables
   macOS Mission Control's Ctrl-Left/Right Space shortcuts so Ghostty can pass
   them to zsh-vi-mode.

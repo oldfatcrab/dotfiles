@@ -53,7 +53,6 @@ Unchecked items are planned work, not authorization to change a target machine.
   grep, Git status, diagnostics, and help; otherwise evaluate `fzf-lua` for
   those actions and its native sorter. Do not add the legacy `fzf.vim` plugin
   alongside a Lua picker.
-- [ ] Configure Visual Studio Code.
 - [ ] Define and manage the Visual Studio Code extension list in a Brewfile.
 - [x] Configure Ghostty; see the 2026-09-08 completed entry.
 - [ ] Configure tmux, including evaluating [oh-my-tmux](https://github.com/gpakosz/.tmux).
@@ -151,6 +150,11 @@ prevents the same proposal from being repeatedly re-evaluated.
   for [filling out and signing PDFs](https://omarchy.org/manual/filling-out-pdfs/).
 
 ## Completed
+
+- [x] 2026-09-18 — Configured VS Code user settings from the shared
+  `vscode/settings.json.tmpl` template, rendered to the native macOS, Linux,
+  or Windows settings path; validated with `chezmoi execute-template`, JSON
+  parsing, and `git diff --check`.
 
 - [x] 2026-09-18 — Replaced fzf-tab with Carapace while retaining fzf widgets.
   `Brewfiles/Brewfile.base` declares `carapace` and `vivid` (the current target

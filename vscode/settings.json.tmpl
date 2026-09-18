@@ -1,0 +1,41 @@
+{
+    "editor.fontSize": 15,
+    "editor.fontFamily": "'Liga SFMono Nerd Font', Monaco, 'Courier New', monospace",
+    "terminal.integrated.fontFamily": "Liga SFMono Nerd Font",
+    "workbench.iconTheme": "catppuccin-mocha",
+    "chat.editor.fontSize": 15,
+    "chat.fontSize": 15,
+    "terminal.integrated.fontSize": 15,
+{{ if eq .chezmoi.os "darwin" }}
+    "terminal.external.osxExec": "Ghostty.app",
+    "terminal.integrated.agentHostProfile.osx": "",
+{{ end }}
+    "files.autoSave": "afterDelay",
+    "explorer.confirmDragAndDrop": false,
+    "files.associations": {
+        "*.sh.tmpl": "shellscript",
+        "*.bash.tmpl": "shellscript",
+        "*.zsh.tmpl": "shellscript",
+        "*.fish.tmpl": "shellscript",
+        "*.toml.tmpl": "toml",
+        "*.json.tmpl": "json",
+        "*.jsonc.tmpl": "jsonc",
+        "*.yaml.tmpl": "yaml",
+        "*.yml.tmpl": "yaml",
+        "*.ini.tmpl": "ini",
+        "*.conf.tmpl": "ini",
+        "*.xml.tmpl": "xml",
+        "*.html.tmpl": "html",
+        "*.css.tmpl": "css",
+        "*.js.tmpl": "javascript",
+        "*.ts.tmpl": "typescript",
+        "**/.chezmoitemplates/*.zsh": "shellscript",
+        "**/.chezmoitemplates/*.toml": "toml",
+        "dot_*.tmpl": "shellscript",
+        "**/dot_*.tmpl": "shellscript"
+    },
+    "go-template.patterns": [
+        "**/*.tmpl",
+        "**/.chezmoitemplates/**"
+    ]
+}
