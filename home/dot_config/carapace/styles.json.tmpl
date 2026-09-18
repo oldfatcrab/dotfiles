@@ -1,0 +1,10 @@
+{{- $palette := include "../themes/catppuccin-contrast.toml" | fromToml -}}
+{{- $colors := index $palette "colors" -}}
+{{- $overlay1 := index $colors "overlay1" -}}
+{{- $text := index $colors "text" -}}
+{
+  "carapace": {
+    "Description": "italic fg-{{ $overlay1 }}",
+    "Value": "fg-{{ $text }}"
+  }
+}

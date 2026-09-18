@@ -36,13 +36,22 @@ zinit light z-shell/zsh-eza
 autoload -Uz compinit
 compinit -d "$XDG_CACHE_HOME/zsh/.zcompdump"
 
+if (( $+commands[vivid] )); then
+  export LS_COLORS="$(vivid generate "$XDG_CONFIG_HOME/vivid/themes/catppuccin-contrast.yml")"
+  zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+fi
+
+# Carapace registers its completers with the initialized Zsh completion system.
+zstyle ':completion:*' format $'\e[2;37mCompleting %d\e[m'
+source <(carapace _carapace zsh)
+
 # Let fzf-tab capture completion candidates instead of Zsh's native menu.
-zstyle ':completion:*' menu no
+# zstyle ':completion:*' menu no
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' 'l:|=* r:|=*'
 
 source "$HOMEBREW_PREFIX/opt/fzf/shell/key-bindings.zsh"
 source "$HOMEBREW_PREFIX/opt/fzf/shell/completion.zsh"
-source "$HOMEBREW_PREFIX/opt/fzf-tab/share/fzf-tab/fzf-tab.zsh"
+# source "$HOMEBREW_PREFIX/opt/fzf-tab/share/fzf-tab/fzf-tab.zsh"
 
 eval "$(zoxide init --cmd cd zsh)"
 

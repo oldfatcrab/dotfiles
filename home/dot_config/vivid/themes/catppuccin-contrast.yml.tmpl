@@ -1,0 +1,120 @@
+{{- $palette := include "../themes/catppuccin-contrast.toml" | fromToml -}}
+{{- $colors := index $palette "colors" -}}
+{{- $base := index $colors "base" | trimPrefix "#" -}}
+{{- $blue := index $colors "blue" | trimPrefix "#" -}}
+{{- $flamingo := index $colors "flamingo" | trimPrefix "#" -}}
+{{- $green := index $colors "green" | trimPrefix "#" -}}
+{{- $lavender := index $colors "lavender" | trimPrefix "#" -}}
+{{- $maroon := index $colors "maroon" | trimPrefix "#" -}}
+{{- $overlay2 := index $colors "overlay2" | trimPrefix "#" -}}
+{{- $peach := index $colors "peach" | trimPrefix "#" -}}
+{{- $red := index $colors "red" | trimPrefix "#" -}}
+{{- $sapphire := index $colors "sapphire" | trimPrefix "#" -}}
+{{- $sky := index $colors "sky" | trimPrefix "#" -}}
+{{- $surface2 := index $colors "surface2" | trimPrefix "#" -}}
+{{- $text := index $colors "text" | trimPrefix "#" -}}
+{{- $yellow := index $colors "yellow" | trimPrefix "#" -}}
+# Rendered from themes/catppuccin-contrast.toml; keep the palette authoritative.
+colors:
+  base: '{{ $base }}'
+  blue: '{{ $blue }}'
+  flamingo: '{{ $flamingo }}'
+  green: '{{ $green }}'
+  lavender: '{{ $lavender }}'
+  maroon: '{{ $maroon }}'
+  overlay2: '{{ $overlay2 }}'
+  peach: '{{ $peach }}'
+  red: '{{ $red }}'
+  sapphire: '{{ $sapphire }}'
+  sky: '{{ $sky }}'
+  surface2: '{{ $surface2 }}'
+  text: '{{ $text }}'
+  yellow: '{{ $yellow }}'
+
+core:
+  normal_text: {}
+  regular_file: {}
+  reset_to_normal: {}
+  multi_hard_link: {}
+  directory:
+    foreground: blue
+  symlink:
+    foreground: lavender
+  fifo:
+    foreground: base
+    background: sky
+  socket:
+    foreground: base
+    background: lavender
+  door:
+    foreground: base
+    background: lavender
+  block_device:
+    foreground: sky
+    background: surface2
+  character_device:
+    foreground: peach
+    background: surface2
+  broken_symlink:
+    foreground: base
+    background: red
+  missing_symlink_target:
+    foreground: base
+    background: red
+  setuid:
+    foreground: base
+    background: maroon
+  setgid:
+    foreground: base
+    background: peach
+  file_with_capability: {}
+  sticky_other_writable:
+    foreground: base
+    background: peach
+  other_writable:
+    foreground: peach
+  sticky:
+    foreground: peach
+  executable_file:
+    foreground: green
+    font-style: bold
+
+text:
+  special:
+    foreground: text
+  todo:
+    font-style: bold
+  licenses:
+    foreground: overlay2
+  configuration:
+    foreground: yellow
+  other:
+    foreground: yellow
+
+markup:
+  foreground: yellow
+
+programming:
+  source:
+    foreground: green
+  tooling:
+    foreground: green
+    continuous-integration:
+      foreground: green
+
+archives:
+  foreground: sky
+  font-style: underline
+
+executable:
+  foreground: red
+  font-style: bold
+
+media:
+  foreground: flamingo
+
+office:
+  foreground: red
+
+unimportant:
+  foreground: surface2

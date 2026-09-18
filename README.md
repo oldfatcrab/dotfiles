@@ -53,6 +53,10 @@ is intentionally empty.
   installs Powerlevel10k, and `.zshrc` loads its theme before `$ZDOTDIR/.p10k.zsh`.
 - `home/dot_config/zsh/fzf.zsh.tmpl` renders fzf's Catppuccin-style colors from the
   same palette while retaining the existing fzf command and options.
+- `home/dot_config/vivid/themes/catppuccin-contrast.yml.tmpl` renders `LS_COLORS`
+  from the same palette for Zsh and Carapace file completions, while
+  `home/dot_config/carapace/styles.json.tmpl` renders Carapace value and
+  description styles.
 - `themes/catppuccin-contrast.toml` is the canonical palette data for terminal
   and editor configurations. `home/dot_config/ghostty/config.tmpl` renders
   Ghostty's colors from it, including its named, deeper ANSI bold ramp, and

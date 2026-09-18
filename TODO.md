@@ -30,10 +30,12 @@ Unchecked items are planned work, not authorization to change a target machine.
   exist in `home/dot_config/zsh/`, with Ghostty at
   `home/dot_config/ghostty/config.tmpl`; inspect `chezmoi diff` before any
   explicitly authorized `chezmoi apply`. Target validation remains unrecorded.
+<!--
 - [ ] Verify fzf-backed Tab completion in a fresh interactive target shell.
-  [Aloxaf/fzf-tab](https://github.com/Aloxaf/fzf-tab) is already selected in
+  [Aloxaf/fzf-tab](https://github.com/Aloxaf/fzf-tab) is selected in
   `Brewfiles/Brewfile.base` and loaded after `compinit` in
   `home/dot_config/zsh/dot_zshrc`; plugin selection and source wiring are done.
+-->
 - [x] 2026-09-11 — Configured daily-command aliases and explicit visual
   workflows guided by
   [Shell Tools](https://omarchy.org/manual/shell-tools/): `zsh-eza` manages
@@ -55,11 +57,13 @@ Unchecked items are planned work, not authorization to change a target machine.
 - [ ] Define and manage the Visual Studio Code extension list in a Brewfile.
 - [x] Configure Ghostty; see the 2026-09-08 completed entry.
 - [ ] Configure tmux, including evaluating [oh-my-tmux](https://github.com/gpakosz/.tmux).
+<!--
 - [ ] After tmux is configured, evaluate fzf popup integration: use fzf's
   `--tmux`/`FZF_TMUX_OPTS` for its existing shell widgets, and, on tmux 3.2+,
   evaluate `fzf-tab`'s `ftb-tmux-popup` for Tab completion. Keep tmux's native
   session/window chooser unless it proves inadequate; do not add a second
   fzf-based tmux navigator by default.
+-->
 - [ ] Configure Hyprspace, Sketchybar, and borders.
 
 ### Deferred installation and activation
@@ -147,6 +151,15 @@ prevents the same proposal from being repeatedly re-evaluated.
   for [filling out and signing PDFs](https://omarchy.org/manual/filling-out-pdfs/).
 
 ## Completed
+
+- [x] 2026-09-18 — Replaced fzf-tab with Carapace while retaining fzf widgets.
+  `Brewfiles/Brewfile.base` declares `carapace` and `vivid` (the current target
+  has Carapace 1.7.3 and vivid 0.11.1 installed); `home/dot_config/zsh/dot_zshrc`
+  initializes `compinit`, applies vivid-generated `LS_COLORS`, and registers
+  Carapace. The vivid and Carapace style templates render from
+  `themes/catppuccin-contrast.toml`. Validate with `chezmoi execute-template`,
+  `vivid generate`, `zsh -n`, and `git diff --check`. The source remains
+  unapplied to the target machine; fzf-tab is not removed from existing targets.
 
 - [x] 2026-09-14 — Added `home/dot_config/btop/btop.conf` and
   `home/dot_config/btop/themes/catppuccin_contrast.theme.tmpl`. The config
