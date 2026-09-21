@@ -83,6 +83,11 @@ is intentionally empty.
   Contrast theme, rendered by
   `home/dot_config/btop/themes/catppuccin_contrast.theme.tmpl` from the
   canonical palette.
+- `home/dot_config/nvim/` is the vendored LazyVim starter configuration. Its
+  personal-only Catppuccin override renders the canonical palette as a Mocha
+  color override; plugin data, state, and cache remain unmanaged. Commit
+  `lazy-lock.json` to record reviewed plugin revisions, and update it only
+  after a successful target-machine sync.
 - `home/dot_config/zsh/vi-mode.zsh.tmpl` configures blinking zsh-vi-mode
   cursors, palette-derived selection highlighting, and fzf widget restoration
   after the plugin's deferred initialization.

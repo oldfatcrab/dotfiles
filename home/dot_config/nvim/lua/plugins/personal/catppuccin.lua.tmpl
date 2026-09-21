@@ -1,0 +1,51 @@
+{{- $palette := include "../themes/catppuccin-contrast.toml" | fromToml -}}
+{{- $colors := $palette.colors -}}
+{{- if not (get . "is_personal_machine") -}}
+return {}
+{{- else -}}
+return {
+  {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    opts = {
+      flavour = "mocha",
+      color_overrides = {
+        mocha = {
+          rosewater = "{{ index $colors "rosewater" }}",
+          flamingo = "{{ index $colors "flamingo" }}",
+          pink = "{{ index $colors "pink" }}",
+          mauve = "{{ index $colors "mauve" }}",
+          red = "{{ index $colors "red" }}",
+          maroon = "{{ index $colors "maroon" }}",
+          peach = "{{ index $colors "peach" }}",
+          yellow = "{{ index $colors "yellow" }}",
+          green = "{{ index $colors "green" }}",
+          teal = "{{ index $colors "teal" }}",
+          sky = "{{ index $colors "sky" }}",
+          sapphire = "{{ index $colors "sapphire" }}",
+          blue = "{{ index $colors "blue" }}",
+          lavender = "{{ index $colors "lavender" }}",
+          text = "{{ index $colors "text" }}",
+          subtext1 = "{{ index $colors "subtext1" }}",
+          subtext0 = "{{ index $colors "subtext0" }}",
+          overlay2 = "{{ index $colors "overlay2" }}",
+          overlay1 = "{{ index $colors "overlay1" }}",
+          overlay0 = "{{ index $colors "overlay0" }}",
+          surface2 = "{{ index $colors "surface2" }}",
+          surface1 = "{{ index $colors "surface1" }}",
+          surface0 = "{{ index $colors "surface0" }}",
+          base = "{{ index $colors "base" }}",
+          mantle = "{{ index $colors "mantle" }}",
+          crust = "{{ index $colors "crust" }}",
+        },
+      },
+    },
+  },
+  {
+    "LazyVim/LazyVim",
+    opts = {
+      colorscheme = "catppuccin-mocha",
+    },
+  },
+}
+{{- end -}}

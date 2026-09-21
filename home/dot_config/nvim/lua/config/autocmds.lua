@@ -1,0 +1,15 @@
+-- =============================================================================
+-- User Autocommands — ~/.config/nvim/lua/config/autocmds.lua
+--
+-- LazyVim default autocmds are set in:
+--   https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/autocmds.lua
+-- Add or override autocommands below.
+-- =============================================================================
+
+-- Example: Disable autoformat for specific filetypes
+-- vim.api.nvim_create_autocmd("FileType", {
+--   pattern = { "markdown" },
+--   callback = function()
+--     vim.b.autoformat = false
+--   end,
+-- })

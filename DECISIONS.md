@@ -220,6 +220,40 @@ then `starship prompt` and start a fresh interactive Zsh session after
 `chezmoi apply`; inspect the resulting prompt in a Git repository and an
 activated environment.
 
+## 2026-09-22 — Vendor LazyVim configuration and isolate personal theming
+
+**Status:** accepted
+
+**Context:** Neovim is a shared package, while Catppuccin Contrast is a
+personal-machine choice. LazyVim's starter is designed to become the user's
+own configuration; its runtime plugins, state, and cache are separate from
+that configuration.
+
+**Decision:** Keep the LazyVim starter's small configuration source in
+`home/dot_config/nvim/`, targeting `~/.config/nvim/`. Do not clone it from a
+chezmoi script, use a submodule, or manage Neovim data/state/cache. Commit the
+managed `lazy-lock.json` to record reviewed plugin revisions, and update it
+only after a successful target sync.
+
+Render exactly one personal-only plugin spec from
+`themes/catppuccin-contrast.toml`. It overrides Catppuccin's supported Mocha
+palette keys and selects `catppuccin-mocha`; it does not create an invented
+Catppuccin flavour or copy color literals into Lua.
+
+**Rationale:** The starter stays a reviewable, ordinary chezmoi source tree.
+The personal overlay has one scope boundary and lets work machines retain
+LazyVim defaults without a second configuration tree.
+
+**Consequences:** LazyVim updates are explicit source diffs. The first
+target-machine startup downloads lazy.nvim and plugins, then validates with
+`:LazyHealth`; that runtime activity is not part of `chezmoi apply` source
+rendering.
+
+**Implementation / validation:** `home/dot_config/nvim/` and
+`themes/catppuccin-contrast.toml`; render the personal template for both
+machine scopes, run `git diff --check`, and defer target startup until
+explicitly authorized.
+
 ## 2026-09-06 — Use enhanced Frappé accents on the Mocha neutral ramp
 
 **Status:** accepted
