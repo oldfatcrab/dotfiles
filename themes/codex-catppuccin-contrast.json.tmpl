@@ -1,0 +1,3 @@
+{{- $palette := include "../themes/catppuccin-contrast.toml" | fromToml -}}
+{{- $colors := index $palette "colors" -}}
+codex-theme-v1:{"codeThemeId":"catppuccin","theme":{"accent":"{{ index $colors "mauve" }}","accentSource":"custom","contrast":60,"fonts":{"code":null,"ui":null},"ink":"{{ index $colors "text" }}","opaqueWindows":false,"semanticColors":{"diffAdded":"{{ index $colors "green" }}","diffRemoved":"{{ index $colors "red" }}","skill":"{{ index $colors "mauve" }}"},"surface":"{{ index $colors "base" }}"},"variant":"dark"}

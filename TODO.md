@@ -46,6 +46,9 @@ Unchecked items are planned work, not authorization to change a target machine.
 - [x] 2026-09-11 — Configured zsh-vi-mode with blinking per-mode cursors,
   palette-derived selection highlighting, and restored fzf widgets after its
   deferred initialization.
+- [ ] Research the [fzf wiki](https://github.com/junegunn/fzf/wiki) and refine
+  the fzf configuration. Prioritize complete system-tool configuration before
+  editor or tmux integration.
 - [ ] Install and configure [LazyVim](https://www.lazyvim.org/installation)
   after confirming how its `~/.config/nvim` starter configuration should be managed.
 - [ ] After LazyVim is configured, evaluate its selected picker before adding fzf
@@ -150,6 +153,12 @@ prevents the same proposal from being repeatedly re-evaluated.
   for [filling out and signing PDFs](https://omarchy.org/manual/filling-out-pdfs/).
 
 ## Completed
+
+- [x] 2026-09-22 — Added `themes/codex-catppuccin-contrast.json.tmpl`, which
+  renders a manually importable ChatGPT desktop Appearance token from
+  `themes/catppuccin-contrast.toml`. The desktop `codex-theme-v1` payload is
+  observed rather than documented; re-export after app upgrades before relying
+  on it.
 
 - [x] 2026-09-18 — Configured VS Code user settings from the shared
   `vscode/settings.json.tmpl` template, rendered to the native macOS, Linux,

@@ -63,6 +63,9 @@ is intentionally empty.
   manages the Mac substitute for Omarchy's Linux-only `foot`: Liga SFMono Nerd
   Font, a `Ctrl+\`` quick terminal, 50 MiB scrollback, and Homebrew-owned
   updates.
+- `themes/codex-catppuccin-contrast.json.tmpl` renders a ChatGPT desktop
+  Appearance import token from the same palette. It retains the observable
+  built-in `catppuccin` ID because `codex-theme-v1` has no published schema.
 - `home/dot_config/bat/config` sets the Catppuccin Contrast theme and concise
   interactive style. Interactive Zsh aliases replace `cat`, `less`, `man`,
   `rg`, `watch`, and `diff` with bat or bat-extras equivalents, and colorize
