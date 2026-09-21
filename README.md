@@ -16,7 +16,7 @@ concrete, reviewed requirement.
 ├── CLAUDE.md           # pointer to AGENTS.md for Claude
 ├── Brewfiles/          # shared and personal Homebrew Bundle manifests
 ├── DECISIONS.md        # durable design decisions and Omarchy divergences
-├── docs/agents/        # issue-tracker, triage, and domain-doc conventions
+├── docs/               # implementation history, research, and agent conventions
 ├── themes/             # portable palette data for future app configurations
 ├── home/               # maps to $HOME
 │   ├── dot_zshenv      # bootstrap into the XDG Zsh directory
@@ -46,6 +46,10 @@ is intentionally empty.
   the complete Zsh startup set from `~/.config/zsh`.
 - [DECISIONS.md](DECISIONS.md) records durable choices; [TODO.md](TODO.md)
   records deferred work. Neither replaces the source files.
+- [docs/implementation-history.md](docs/implementation-history.md) indexes
+  every implementation commit after `889d46408030fdc3d20c09a9595b7bacbe075536`;
+  its entries point back to the current source of truth rather than prescribing
+  target-machine actions.
 - Package declarations do not claim that a target machine has already been
   configured.
 - `home/dot_config/zsh/dot_p10k.zsh.tmpl` renders the Powerlevel10k

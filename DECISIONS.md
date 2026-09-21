@@ -220,7 +220,7 @@ then `starship prompt` and start a fresh interactive Zsh session after
 `chezmoi apply`; inspect the resulting prompt in a Git repository and an
 activated environment.
 
-## 2026-09-22 — Vendor LazyVim configuration and isolate personal theming
+## 2026-09-22 — Vendor LazyVim configuration and render shared theming
 
 **Status:** accepted
 

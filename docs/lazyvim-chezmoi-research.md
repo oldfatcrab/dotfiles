@@ -2,8 +2,8 @@
 
 **Research date:** 2026-09-22
 **Scope:** manage a LazyVim starter configuration in this chezmoi repository,
-with Catppuccin Contrast as the only personal-machine customization. This note
-does not install or apply anything.
+with Catppuccin Contrast as the only theme customization on every managed
+machine. This note does not install or apply anything.
 
 ## Recommendation
 
@@ -24,16 +24,15 @@ is `stdpath("config") .. "/lazy-lock.json"`, so commit the observed
 `home/dot_config/nvim/lazy-lock.json`. This gives reproducible plugin revisions
 without versioning plugin clones or cache.
 
-Use exactly one personal-only plugin-spec file:
+Use exactly one local plugin-spec file:
 `home/dot_config/nvim/lua/plugins/personal/catppuccin.lua.tmpl`. It returns an
-empty spec when `not (get . "is_personal_machine")`, following this
-repository's existing machine flag. Keep it within the existing `plugins`
-import instead of adding a second loader: LazyVim automatically loads
-`lua/plugins/`, and the starter's spec intentionally imports LazyVim first and
-local `plugins` second. A local spec for the same plugin merges with LazyVim's
-Catppuccin spec.
+identical Catppuccin configuration on every machine. Keep it within the
+existing `plugins` import instead of adding a second loader: LazyVim
+automatically loads `lua/plugins/`, and the starter's spec intentionally
+imports LazyVim first and local `plugins` second. A local spec for the same
+plugin merges with LazyVim's Catppuccin spec.
 
-The personal spec should override the already-present `catppuccin/nvim`
+The shared spec should override the already-present `catppuccin/nvim`
 plugin, set LazyVim's colorscheme to `catppuccin-mocha`, and render
 `color_overrides.mocha` plus only necessary highlights from
 `themes/catppuccin-contrast.toml`, using the repository's established
@@ -59,8 +58,6 @@ highlight overrides only after a specific LazyVim surface needs correction.
   over custom `config` functions. Its [configuration defaults](https://lazy.folke.io/configuration)
   locate plugins under `stdpath("data")` and the lockfile under
   `stdpath("config")`.
-- [chezmoi's machine-difference guide](https://www.chezmoi.io/user-guide/manage-machine-to-machine-differences/)
-  supports content templates for machine-specific configuration.
 - [Catppuccin for Neovim](https://github.com/catppuccin/nvim) documents its
   lazy.nvim spec, supported flavours, and `color_overrides`; setup must occur
   before loading the colorscheme.
@@ -69,9 +66,9 @@ highlight overrides only after a specific LazyVim surface needs correction.
 
 1. Import the existing target's starter-compatible configuration and lockfile
    into `home/dot_config/nvim/`; exclude `.git` metadata and runtime paths.
-2. Add the single personal Catppuccin template. Do not add extras, language
-   servers, pickers, or a second theme plugin in this change.
-3. Render the personal template for both machine scopes and run
-   `git diff --check`.
+2. Add the single shared Catppuccin template. Do not add a second theme plugin.
+   Selected LazyExtras and their supporting tools are recorded separately in
+   `home/dot_config/nvim/lazyvim.json` and `Brewfiles/Brewfile.base`.
+3. Render the template and run `git diff --check`.
 4. After explicit permission to apply, start `nvim` and run `:LazyHealth`.
    Target-machine validation is separate from source validation.
