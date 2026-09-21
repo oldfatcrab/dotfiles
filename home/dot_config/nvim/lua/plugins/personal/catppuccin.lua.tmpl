@@ -1,8 +1,5 @@
 {{- $palette := include "../themes/catppuccin-contrast.toml" | fromToml -}}
 {{- $colors := $palette.colors -}}
-{{- if not (get . "is_personal_machine") -}}
-return {}
-{{- else -}}
 return {
   {
     "catppuccin/nvim",
@@ -48,4 +45,3 @@ return {
     },
   },
 }
-{{- end -}}

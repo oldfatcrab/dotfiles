@@ -59,4 +59,20 @@ for file in "${BREWFILES[@]}"; do
     brew bundle --file="${file}"
 done
 
+{{ if eq .chezmoi.os "darwin" }}
+if brew list --formula openjdk &>/dev/null; then
+    jdk_bundle="$(brew --prefix openjdk)/libexec/openjdk.jdk"
+    jdk_link="/Library/Java/JavaVirtualMachines/openjdk.jdk"
+
+    if [[ -e "${jdk_link}" && ! -L "${jdk_link}" ]]; then
+        echo "--> [Error] ${jdk_link} exists and is not a symlink."
+        exit 1
+    fi
+    if [[ "$(readlink "${jdk_link}" 2>/dev/null || true)" != "${jdk_bundle}" ]]; then
+        echo "--> Registering Homebrew OpenJDK with macOS..."
+        sudo ln -sfn "${jdk_bundle}" "${jdk_link}"
+    fi
+fi
+{{ end }}
+
 echo "==> [Homebrew Bundle] All target Brewfiles applied successfully."

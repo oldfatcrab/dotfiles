@@ -24,8 +24,8 @@ concrete, reviewed requirement.
 │   ├── dot_config/zsh/dot_p10k.zsh.tmpl # Powerlevel10k configuration rendered from the palette
 │   ├── dot_config/ghostty/config.tmpl # Ghostty configuration rendered from the palette
 │   ├── run_once_before_00-install-homebrew.sh.tmpl
-│   ├── run_onchange_before_00-install-packages.sh.tmpl
-│   └── run_onchange_before_20-install-brew-packages.sh.tmpl
+│   ├── run_onchange_before_20-install-brew-packages.sh.tmpl
+│   └── run_after_40-disable-mission-control-space-shortcuts.sh.tmpl
 └── TODO.md             # product and implementation roadmap
 ```
 
@@ -84,10 +84,11 @@ is intentionally empty.
   `home/dot_config/btop/themes/catppuccin_contrast.theme.tmpl` from the
   canonical palette.
 - `home/dot_config/nvim/` is the vendored LazyVim starter configuration. Its
-  personal-only Catppuccin override renders the canonical palette as a Mocha
-  color override; plugin data, state, and cache remain unmanaged. Commit
-  `lazy-lock.json` to record reviewed plugin revisions, and update it only
-  after a successful target-machine sync.
+  Catppuccin override renders the canonical palette on every machine as a
+  Mocha color override, and `lazyvim.json` records selected LazyExtras; plugin
+  data, state, and cache remain unmanaged. Commit `lazy-lock.json` to record
+  reviewed plugin revisions, and update it only after a successful
+  target-machine sync.
 - `home/dot_config/zsh/vi-mode.zsh.tmpl` configures blinking zsh-vi-mode
   cursors, palette-derived selection highlighting, and fzf widget restoration
   after the plugin's deferred initialization.
@@ -96,6 +97,9 @@ is intentionally empty.
 - `home/run_after_40-disable-mission-control-space-shortcuts.sh.tmpl` disables
   macOS Mission Control's Ctrl-Left/Right Space shortcuts so Ghostty can pass
   them to zsh-vi-mode.
+- On macOS, the Homebrew package hook registers the managed `openjdk` bundle
+  with the system Java wrappers, requesting `sudo` only when the link is absent
+  or points elsewhere.
 
 ## Common workflow
 

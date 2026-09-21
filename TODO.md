@@ -50,11 +50,10 @@ Unchecked items are planned work, not authorization to change a target machine.
   the fzf configuration. Prioritize complete system-tool configuration before
   editor or tmux integration.
 - [x] 2026-09-22 — Added the LazyVim starter source under
-  `home/dot_config/nvim/` and a personal-machine-only Catppuccin Contrast
-  override rendered from `themes/catppuccin-contrast.toml`. It preserves the
-  target's existing `lazy-lock.json`; the source has not been applied or
-  started on a target. After an explicit apply, run `:LazyHealth` before any
-  plugin update.
+  `home/dot_config/nvim/` and a shared Catppuccin Contrast override rendered
+  from `themes/catppuccin-contrast.toml`. Its selected LazyExtras are managed
+  in `lazyvim.json`; `lazy-lock.json` was updated after target `:Lazy sync`.
+  Run `:LazyHealth` after a fresh target sync before further plugin updates.
 - [ ] After LazyVim is configured, evaluate its selected picker before adding fzf
   integration. Prefer that picker when it already covers files, buffers, live
   grep, Git status, diagnostics, and help; otherwise evaluate `fzf-lua` for
