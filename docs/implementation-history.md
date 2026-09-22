@@ -6,9 +6,11 @@ installation guide: current source files define behaviour, while
 [DECISIONS.md](../DECISIONS.md) records durable rationale and
 [TODO.md](../TODO.md) records planned work.
 
-For the current configuration, the Omarchy comparison, and the explicit
-macOS/Zsh boundaries for every implementation commit, read
-[post-889d464 tooling and Omarchy alignment](post-889d464-tooling.md).
+For the current configuration and per-tool Omarchy comparisons, start at
+[the tool-document index](tools/README.md); use
+[Omarchy reference research](omarchy-reference-research.md) for the shared
+configuration-model boundary and
+[Omarchy tool source index](omarchy-tool-source-index.md) for primary sources.
 
 | Date | Commit | Change and current source of truth |
 | --- | --- | --- |
@@ -40,7 +42,7 @@ macOS/Zsh boundaries for every implementation commit, read
 | 2026-09-22 | `592720d` | Added a palette-rendered `codex-theme-v1` import snapshot. Its observed-format limits are documented in [codex-theme-v1-format.md](codex-theme-v1-format.md). |
 | 2026-09-22 | `c54a5af` | Vendored the LazyVim starter configuration and its lockfile under `home/dot_config/nvim/`; the evidence and runtime boundary are in [lazyvim-chezmoi-research.md](lazyvim-chezmoi-research.md). |
 | 2026-09-22 | `eb62d3c` | Added shared LazyVim extras/tooling, updated the lockfile after target sync, added the OpenJDK registration guard to the Homebrew hook, and made the Catppuccin override render on every machine. |
-| 2026-09-22 | `2d83977` | Added this historical index and refined the LazyVim research boundary. The later tooling-alignment document carries the configuration comparison. |
+| 2026-09-22 | `2d83977` | Added this historical index and refined the LazyVim research boundary. Per-tool documents now carry configuration comparisons. |
 | 2026-09-22 | `c8f1543` | Added Neovim gap research and expanded `scripts/validate-source.sh` source checks; neither substitutes for a target-machine runtime check. |
 
 ## How to use this record
@@ -55,3 +57,8 @@ git show 6257995 -- vscode/settings.json.tmpl .chezmoiignore.tmpl
 Do not use this document to infer target-machine installation or validation;
 package declarations and repository-only checks are not evidence that a target
 has run `chezmoi apply`.
+
+When changing a tool, read its document, current source, relevant accepted
+decision, and TODO item. Render affected templates, run the smallest relevant
+check, then run `scripts/validate-source.sh` and `git diff --check`; inspect
+`chezmoi status` and `chezmoi diff` before an explicitly authorized apply.

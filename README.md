@@ -50,10 +50,11 @@ is intentionally empty.
   every implementation commit after `889d46408030fdc3d20c09a9595b7bacbe075536`;
   its entries point back to the current source of truth rather than prescribing
   target-machine actions.
-- [docs/post-889d464-tooling.md](docs/post-889d464-tooling.md) maps that
-  commit history to the current configuration, its Omarchy inspiration, and
-  explicit macOS/Zsh boundaries; its linked research note cites the official
-  Omarchy manual and quattro source tree.
+- [docs/tools/README.md](docs/tools/README.md) indexes dedicated configuration
+  documents for each managed tool. Each records its Omarchy reference,
+  intentional macOS/Zsh divergence, and validation boundary;
+  [omarchy-tool-source-index.md](docs/omarchy-tool-source-index.md)
+  cites the official Manual and quattro tree.
 - Package declarations do not claim that a target machine has already been
   configured.
 - `home/dot_config/zsh/dot_p10k.zsh.tmpl` renders the Powerlevel10k
