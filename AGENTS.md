@@ -61,7 +61,8 @@ operational facts in the appropriate document above.
   `chezmoi diff`.
 - Run `chezmoi ignored` after editing ignore rules and `chezmoi doctor` for
   setup issues.
-- Run `git diff --check` before handoff.
+- Run `scripts/validate-source.sh` before handoff; it renders templates,
+  syntax-checks managed shell and JSON sources, and runs `git diff --check`.
 - Keep README and TODO status accurate when behavior or roadmap changes.
 - Treat a completed `TODO.md` item as a committed repository state unless its
   validation records a target-machine command result.

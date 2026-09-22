@@ -126,6 +126,8 @@ check conditional paths, and `chezmoi doctor` to diagnose setup problems.
 ## Development policy
 
 - Keep changes small and review `chezmoi diff` before applying them.
+- Run `scripts/validate-source.sh` before handoff to render templates, check
+  managed shell and JSON syntax, and check the Git diff.
 - Never store secrets in plaintext; use chezmoi's supported secret-management
   or encryption workflow when secrets are needed.
 - Update this README or `TODO.md` when user-facing behavior or roadmap status
