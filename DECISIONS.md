@@ -598,6 +598,38 @@ non-interactive, explicitly portable scripts—not interactive shell settings.
 **Implementation / validation:** Future Zsh source files under `home/`; verify
 with `zsh -n <file>` and a fresh interactive Zsh session.
 
+## 2026-09-22 — Keep tmux native and palette-rendered
+
+**Status:** accepted
+
+**Omarchy reference:** [Terminal](https://omarchy.org/manual/terminal/) and
+[tmux configuration](https://raw.githubusercontent.com/omacom/omarchy/quattro/config/tmux/tmux.conf)
+
+**Context:** Omarchy supplies native tmux behavior plus Linux/Hyprland launch,
+theme, and Bash workflow integration. Catppuccin/tmux supports manual cloning
+or TPM, but only its upstream flavours, not this repository's Contrast palette.
+
+**Decision:** Maintain one native `tmux.conf.tmpl` that follows Omarchy's
+non-keybinding behavior and renders its colours from the canonical Contrast
+palette. Its module selection remains Omarchy's session, window, state, and
+hostname layout; the two-row, rounded status presentation is local. Do not add
+TPM, a theme runtime, session restoration, Bash layouts, or desktop lifecycle
+hooks.
+
+**Rationale:** Native tmux options already express the required layout. Rendering
+them directly is smaller, cannot be asynchronously overwritten by a plugin,
+and preserves the palette's single authority. The omitted components are either
+keybindings, Linux/Hyprland-specific, or unneeded until a concrete workflow asks
+for them.
+
+**Consequences:** Upstream Catppuccin/tmux modules are unavailable by design;
+add one only when its behavior is wanted, not merely for colours. Tmux sessions
+survive terminal detachment but not a server or machine restart.
+
+**Implementation / validation:** `home/dot_config/tmux/tmux.conf.tmpl`; run
+`scripts/validate-source.sh`, then test clipboard and terminal escape sequences
+after an authorized apply.
+
 ## Template — Copy for a new decision
 
 ```markdown

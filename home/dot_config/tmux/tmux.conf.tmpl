@@ -1,0 +1,49 @@
+{{- $palette := include "../themes/catppuccin-contrast.toml" | fromToml -}}
+# Omarchy's native tmux configuration without its key bindings. Colours render
+# from themes/catppuccin-contrast.toml; no tmux theme runtime is required.
+
+# General
+set -g default-terminal "tmux-256color"
+set -ag terminal-overrides ",*:RGB"
+set -g mouse on
+set -g base-index 1
+setw -g pane-base-index 1
+set -g renumber-windows on
+set -g history-limit 50000
+set -g escape-time 0
+set -g focus-events on
+set -g set-clipboard on
+set -g allow-passthrough on
+setw -g aggressive-resize on
+set -g detach-on-destroy off
+set -g extended-keys on
+set -g extended-keys-format csi-u
+set -ag terminal-features "xterm-kitty:extkeys"
+set -as terminal-features ",*:clipboard"
+set -sg escape-time 10
+
+# Names follow the working directory and remain useful in remote clients.
+setw -g automatic-rename on
+setw -g automatic-rename-format '#{b:pane_current_path}'
+set -g set-titles on
+set -g set-titles-string '#h:#W'
+
+# Status layout follows Omarchy; only its ANSI colours become Contrast roles.
+set -g status-position top
+set -g status 2
+set -g status-format[1] "#[fill={{ $palette.colors.base }}]"
+set -g status-interval 5
+set -g status-left-length 30
+set -g status-right-length 50
+set -g window-status-separator ""
+set -g status-style "bg={{ $palette.colors.mantle }},fg={{ $palette.colors.text }}"
+set -g status-left "#[fg={{ $palette.colors.blue }},bg={{ $palette.colors.mantle }}]#[fg={{ $palette.colors.crust }},bg={{ $palette.colors.blue }},bold] #S #[fg={{ $palette.colors.blue }},bg={{ $palette.colors.mantle }}] "
+set -g status-right "#[fg={{ $palette.colors.blue }}]#{?pane_in_mode,COPY ,}#{?client_prefix,PREFIX ,}#{?window_zoomed_flag,ZOOM ,}#[fg={{ $palette.colors.overlay0 }}]#h "
+set -g window-status-format "#[fg={{ $palette.colors.overlay0 }}] #I:#W "
+set -g window-status-current-format "#[fg={{ $palette.colors.blue }},bold] #I:#W "
+set -g pane-border-style "fg={{ $palette.colors.overlay0 }}"
+set -g pane-active-border-style "fg={{ $palette.colors.blue }}"
+set -g message-style "bg={{ $palette.colors.base }},fg={{ $palette.colors.blue }}"
+set -g message-command-style "bg={{ $palette.colors.base }},fg={{ $palette.colors.blue }}"
+set -g mode-style "bg={{ $palette.colors.blue }},fg={{ $palette.colors.crust }}"
+setw -g clock-mode-colour "{{ $palette.colors.blue }}"

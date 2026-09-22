@@ -23,6 +23,7 @@ concrete, reviewed requirement.
 │   ├── dot_config/zsh/ # managed Zsh startup files
 │   ├── dot_config/zsh/dot_p10k.zsh.tmpl # Powerlevel10k configuration rendered from the palette
 │   ├── dot_config/ghostty/config.tmpl # Ghostty configuration rendered from the palette
+│   ├── dot_config/tmux/tmux.conf.tmpl # native tmux configuration rendered from the palette
 │   ├── run_once_before_00-install-homebrew.sh.tmpl
 │   ├── run_onchange_before_20-install-brew-packages.sh.tmpl
 │   └── run_after_40-disable-mission-control-space-shortcuts.sh.tmpl
@@ -72,6 +73,13 @@ is intentionally empty.
   manages the Mac substitute for Omarchy's Linux-only `foot`: Liga SFMono Nerd
   Font, a `Ctrl+\`` quick terminal, 50 MiB scrollback, and Homebrew-owned
   updates.
+- `home/dot_config/tmux/tmux.conf.tmpl` configures Omarchy's non-keybinding
+  tmux behavior: panes, sessions, mouse, clipboard, and CSI-u extended keys.
+  Its session/window/state/hostname modules follow Omarchy and its colours
+  render directly from Contrast; the two-row rounded presentation is local.
+  The managed `~/.tmux.conf` symlink makes it the default startup
+  configuration. TPM, theme runtimes, auto-restoration, and Linux-specific
+  Omarchy launch/theme hooks remain absent.
 - `themes/codex-catppuccin-contrast.json.tmpl` renders a ChatGPT desktop
   Appearance import token from the same palette. It retains the observable
   built-in `catppuccin` ID because `codex-theme-v1` has no published schema.

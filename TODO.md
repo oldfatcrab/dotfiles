@@ -61,7 +61,11 @@ Unchecked items are planned work, not authorization to change a target machine.
   alongside a Lua picker.
 - [ ] Define and manage the Visual Studio Code extension list in a Brewfile.
 - [x] Configure Ghostty; see the 2026-09-08 completed entry.
-- [ ] Configure tmux, including evaluating [oh-my-tmux](https://github.com/gpakosz/.tmux).
+- [x] 2026-09-22 — Configured native tmux with Omarchy's non-keybinding pane,
+  window, session, and protocol behavior. Contrast colours render directly
+  from the canonical palette; module selection follows Omarchy while its
+  two-row rounded presentation is local. TPM, theme runtimes, session
+  restoration, and Bash layout helpers remain absent.
 <!--
 - [ ] After tmux is configured, evaluate fzf popup integration: use fzf's
   `--tmux`/`FZF_TMUX_OPTS` for its existing shell widgets, and, on tmux 3.2+,
