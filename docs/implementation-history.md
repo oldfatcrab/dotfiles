@@ -6,6 +6,10 @@ installation guide: current source files define behaviour, while
 [DECISIONS.md](../DECISIONS.md) records durable rationale and
 [TODO.md](../TODO.md) records planned work.
 
+For the current configuration, the Omarchy comparison, and the explicit
+macOS/Zsh boundaries for every implementation commit, read
+[post-889d464 tooling and Omarchy alignment](post-889d464-tooling.md).
+
 | Date | Commit | Change and current source of truth |
 | --- | --- | --- |
 | 2026-09-01 | `851559f` | Added the decision log and Omarchy-derived roadmap: [DECISIONS.md](../DECISIONS.md) and [TODO.md](../TODO.md). |
@@ -36,6 +40,8 @@ installation guide: current source files define behaviour, while
 | 2026-09-22 | `592720d` | Added a palette-rendered `codex-theme-v1` import snapshot. Its observed-format limits are documented in [codex-theme-v1-format.md](codex-theme-v1-format.md). |
 | 2026-09-22 | `c54a5af` | Vendored the LazyVim starter configuration and its lockfile under `home/dot_config/nvim/`; the evidence and runtime boundary are in [lazyvim-chezmoi-research.md](lazyvim-chezmoi-research.md). |
 | 2026-09-22 | `eb62d3c` | Added shared LazyVim extras/tooling, updated the lockfile after target sync, added the OpenJDK registration guard to the Homebrew hook, and made the Catppuccin override render on every machine. |
+| 2026-09-22 | `2d83977` | Added this historical index and refined the LazyVim research boundary. The later tooling-alignment document carries the configuration comparison. |
+| 2026-09-22 | `c8f1543` | Added Neovim gap research and expanded `scripts/validate-source.sh` source checks; neither substitutes for a target-machine runtime check. |
 
 ## How to use this record
 
