@@ -159,6 +159,12 @@ is intentionally empty.
 
 ## Common workflow
 
+Squirrel custom settings live in `home/private_Library/Rime/`, deployed to
+`~/Library/Rime/` on macOS. `default.custom.yaml` reserves `Ctrl+grave` for
+Ghostty and disables `Ctrl+Shift+grave`, retaining only `F4` as the input scheme
+switcher shortcut. Use Squirrel's **Deploy** menu after changing these settings.
+Generated builds, user dictionaries, and runtime state remain unmanaged.
+
 ```bash
 # Add a regular configuration file.
 chezmoi add ~/.gitconfig
