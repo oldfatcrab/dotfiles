@@ -1,14 +1,16 @@
 # Repository instructions for automated contributors
 
-## Required reading order
+## Task-scoped reading
 
-For every task, use this order:
+When a task concerns this repository, use this order:
 
-1. Read this file, then inspect `git status` and the affected source files.
-2. Read relevant accepted entries in `DECISIONS.md`; they constrain the change.
-3. Read the relevant `TODO.md` item to determine whether the work is planned,
-   completed, or explicitly out of scope.
-4. Read `README.md` when the change affects user-facing setup or behavior.
+1. Read this file. Before modifying files, inspect `git status` and the
+   affected source files.
+2. Read accepted entries in `DECISIONS.md` when the task touches a durable
+   architecture choice or a documented divergence from another reference.
+3. Read the relevant `TODO.md` item when implementing or changing roadmap
+   scope, status, or acceptance criteria.
+4. Read `README.md` when changing user-facing setup or behavior.
 
 Source files are authoritative for current behavior. Package declarations do
 not prove target-machine installation.
@@ -61,8 +63,11 @@ operational facts in the appropriate document above.
   `chezmoi diff`.
 - Run `chezmoi ignored` after editing ignore rules and `chezmoi doctor` for
   setup issues.
-- Run `scripts/validate-source.sh` before handoff; it renders templates,
-  syntax-checks managed shell and JSON sources, and runs `git diff --check`.
+- Run `scripts/validate-source.sh` before handoff when changing managed source,
+  templates, scripts, ignore rules, or package declarations; it renders
+  templates, syntax-checks managed shell and JSON sources, and runs
+  `git diff --check`. For documentation-only changes, run `git diff --check`
+  and any targeted check required by the edited document.
 - Keep README and TODO status accurate when behavior or roadmap changes.
 - Treat a completed `TODO.md` item as a committed repository state unless its
   validation records a target-machine command result.

@@ -80,6 +80,45 @@ is intentionally empty.
   The managed `~/.tmux.conf` symlink makes it the default startup
   configuration. TPM, theme runtimes, auto-restoration, and Linux-specific
   Omarchy launch/theme hooks remain absent.
+- `home/dot_config/hyprspace/config.toml` retains nine workspaces and the
+  configured macOS bindings. `home/dot_config/borders/executable_bordersrc.tmpl`
+  renders a 12pt border using Contrast `lavender` for focus and `overlay0`
+  for inactive windows. SketchyBar's
+  template uses the same palette for a three-section bar: workspaces/front app,
+  centered calendar and status read-outs, and macOS-native system launchers.
+  It deliberately does not emulate Omarchy's Linux-only Quickshell panels,
+  tray, or device-management backends. Colors follow Catppuccin roles: Base bar,
+  Surface0 items, Text labels, Subtext1 secondary icons, and Lavender focused
+  workspace border/number. Battery icons use Yellow at 10–29% and Red below
+  10%; normal levels stay neutral. Item backgrounds have symmetric 6pt
+  outer content padding and a 6pt icon–label gap; backgrounds are 26pt high
+  with 1pt outlines. Labels and workspace numbers use the native macOS
+  `.AppleSystemUIFont:Regular:13.0`; pictograms retain the installed Nerd Font
+  for glyph coverage. The Raycast button is removed. The clock reads `Sep 26, 2026 13:14` and refreshes
+  each second; volume responds to events with a two-second mute fallback.
+  Device buttons open their corresponding System Settings panes. Homebrew's
+  outdated count is informational, without an unrelated Settings shortcut.
+
+  After reviewing the scoped chezmoi diff, apply the changed files and run
+  `sketchybar --reload` for the bar, or `~/.config/borders/bordersrc` for borders.
+  Reloading the bar keeps the currently running binary; executing bordersrc
+  sends the configured options to the existing Borders process.
+
+  **Current target-machine limitation (2026-09-25):** SketchyBar 2.24.0 runs
+  a temporary one-line background-layer patch, verified by repeated clicks.
+  The Homebrew service is unloaded while the temporary service runs; see
+  TODO for the remaining persistent Homebrew installation work. Do not treat
+  the temporary fix as surviving logout/reboot.
+
+  Catppuccin references: [style guide](https://github.com/catppuccin/catppuccin/blob/main/docs/style-guide.md),
+  [Waybar](https://github.com/catppuccin/waybar), and
+  [Polybar](https://github.com/catppuccin/polybar). The ports supply palette
+  variables rather than a mandatory bar design. Contrast keeps its custom
+  accents and follows their semantic roles; it is not an official flavor.
+  SketchyBar's [plugin sharing discussion](https://github.com/FelixKratz/SketchyBar/discussions/12)
+  is the community discovery entry point. Candidates discussed but not installed:
+  native caffeinate toggle, [Now Playing](https://github.com/wthrajat/sketchybar-now-playing),
+  and [showy-quota](https://github.com/enieuwy/showy-quota) (requires CodexBar).
 - `themes/codex-catppuccin-contrast.json.tmpl` renders a ChatGPT desktop
   Appearance import token from the same palette. It retains the observable
   built-in `catppuccin` ID because `codex-theme-v1` has no published schema.
@@ -135,6 +174,42 @@ chezmoi apply
 
 Use `chezmoi data` to inspect available template data, `chezmoi ignored` to
 check conditional paths, and `chezmoi doctor` to diagnose setup problems.
+
+## Codex settings
+
+Codex uses its native `~/.codex/` directory; no `CODEX_HOME` override is
+required. `home/dot_codex/private_AGENTS.md.tmpl` manages global contributor guidance.
+`home/dot_codex/modify_private_config.toml` updates only selected TOML fields,
+preserving local project trust, MCP connections, hooks, and unrelated settings.
+The shared route is Astra (low), Luna (medium), and Sol for complex execution
+as described in the global instructions. Host/model availability still needs
+verification on each machine.
+
+Run `python3 scripts/validate-codex-settings.py` to check both personal/work
+branches, first-run rendering, preservation of host-owned state, and idempotence.
+
+Personal appearance and memory preferences render only when
+`is_personal_machine` is true. The dark appearance reuses the canonical theme
+template; the light appearance preserves the observed desktop settings.
+Desktop appearance keys are version-sensitive; verify them after app upgrades.
+UI edits to managed fields must be deliberately incorporated into source or
+the next apply restores the repository values. Close the app before applying
+to avoid concurrent config writes. TOML serialization may normalize formatting.
+
+Personal background is optionally read from local `~/.codex/user-context.md`
+on personal machines. Keep that file owner-readable/writable only; provision
+it separately, for example from a 1Password document. It is not an automatically
+loaded Codex file: the template embeds it into AGENTS.md. Conditional templates
+and private permissions do not encrypt data, and rendered diffs can expose it.
+No personal background, credentials, generated memories, sessions, databases,
+plugin caches, machine-specific hooks, or historical command approvals are
+tracked. Installed third-party skills remain installer-owned; custom skill
+sources can be added individually after review.
+
+Preview only the intended Codex targets before an explicitly authorized apply;
+do not recursively add `~/.codex`. Fresh machines need their own sign-in and
+local integrations. A work-machine render leaves existing personal config
+fields unchanged; it is not a privacy cleanup of a previously personal host.
 
 ## Development policy
 

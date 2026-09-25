@@ -1,0 +1,23 @@
+{{- $palette := include "../themes/catppuccin-contrast.toml" | fromToml -}}
+{{- $colors := index $palette "colors" -}}
+{{- $subtext1 := index $colors "subtext1" | trimPrefix "#" -}}
+{{- $yellow := index $colors "yellow" | trimPrefix "#" -}}
+{{- $red := index $colors "red" | trimPrefix "#" -}}
+#!/usr/bin/env bash
+
+PERCENTAGE=$(pmset -g batt | grep -o '[0-9]\+%' | cut -d% -f1)
+
+if [[ -z "$PERCENTAGE" ]]; then
+    sketchybar --set "$NAME" icon= label="AC" icon.color=0xff{{ $subtext1 }}
+    exit 0
+fi
+
+case ${PERCENTAGE} in
+9[0-9] | 100) ICON=""; ICON_COLOR="0xff{{ $subtext1 }}" ;;
+[6-8][0-9]) ICON=""; ICON_COLOR="0xff{{ $subtext1 }}" ;;
+[3-5][0-9]) ICON=""; ICON_COLOR="0xff{{ $subtext1 }}" ;;
+[1-2][0-9]) ICON=""; ICON_COLOR="0xff{{ $yellow }}" ;;
+*) ICON=""; ICON_COLOR="0xff{{ $red }}" ;;
+esac
+
+sketchybar --set "$NAME" icon="$ICON" icon.color="$ICON_COLOR" label="${PERCENTAGE}%"

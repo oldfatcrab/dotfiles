@@ -1,0 +1,17 @@
+{{- $palette := include "../themes/catppuccin-contrast.toml" | fromToml -}}
+{{- $colors := index $palette "colors" -}}
+{{- $active := index $colors "lavender" | trimPrefix "#" -}}
+{{- $inactive := index $colors "overlay0" | trimPrefix "#" -}}
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Follow Catppuccin active/inactive border roles from the shared palette.
+options=(
+  style=round
+  width=12.0
+  hidpi=off
+  active_color=0xff{{ $active }}
+  inactive_color=0xff{{ $inactive }}
+)
+
+borders "${options[@]}"

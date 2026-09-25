@@ -1,0 +1,111 @@
+{{- $palette := include "../themes/catppuccin-contrast.toml" | fromToml -}}
+{{- $colors := index $palette "colors" -}}
+{{- $base := index $colors "base" | trimPrefix "#" -}}
+{{- $crust := index $colors "crust" | trimPrefix "#" -}}
+{{- $surface0 := index $colors "surface0" | trimPrefix "#" -}}
+{{- $surface1 := index $colors "surface1" | trimPrefix "#" -}}
+{{- $lavender := index $colors "lavender" | trimPrefix "#" -}}
+{{- $subtext1 := index $colors "subtext1" | trimPrefix "#" -}}
+{{- $text := index $colors "text" | trimPrefix "#" -}}
+#!/usr/bin/env bash
+
+PLUGIN_DIR="$CONFIG_DIR/plugins"
+
+if [ -n "${HYPRSPACE_BIN:-}" ]; then
+	HYPRSPACE_BIN="$HYPRSPACE_BIN"
+elif command -v brew >/dev/null 2>&1; then
+	HYPRSPACE_BIN="$(brew --prefix)/bin/hyprspace"
+elif [ "$(uname -m)" = "arm64" ]; then
+	HYPRSPACE_BIN="/opt/homebrew/bin/hyprspace"
+else
+	HYPRSPACE_BIN="/usr/local/bin/hyprspace"
+fi
+
+if [ ! -x "$HYPRSPACE_BIN" ]; then
+	HYPRSPACE_BIN="$(command -v hyprspace 2>/dev/null || true)"
+fi
+
+# Catppuccin Waybar supplies palette tokens, not layout rules. This keeps its
+# Base/Text roles while using the repository's Contrast palette.
+# Use the status-window level for the bar and its separately drawn items.
+sketchybar --bar topmost=on height=40 color=0xff{{ $base }} border_width=2 border_color=0xff{{ $crust }}
+
+default=(
+	padding_left=5
+	padding_right=5
+	icon.font="Liga SFMono Nerd Font:Bold:16.0"
+	label.font=".AppleSystemUIFont:Regular:13.0"
+	icon.color=0xff{{ $subtext1 }}
+	label.color=0xff{{ $text }}
+	icon.padding_left=6
+	icon.padding_right=3
+	label.padding_left=3
+	label.padding_right=6
+	background.color=0xff{{ $surface0 }}
+	background.border_color=0xff{{ $surface1 }}
+	background.border_width=1
+	background.corner_radius=7
+	background.height=26
+)
+sketchybar --default "${default[@]}"
+
+sketchybar --add event hyprspace_workspace_change
+
+for sid in {1..9}; do
+	space=(
+		icon="$sid"
+		icon.font=".AppleSystemUIFont:Regular:13.0"
+		label.drawing=off
+		icon.padding_right=6
+		background.color=0xff{{ $surface0 }}
+		background.border_color=0xff{{ $lavender }}
+		icon.highlight_color=0xff{{ $lavender }}
+		script="$PLUGIN_DIR/hyprspace_workspace.sh"
+		click_script="$HYPRSPACE_BIN workspace $sid"
+	)
+	sketchybar --add item space."$sid" left \
+		--set space."$sid" "${space[@]}" \
+		--subscribe space."$sid" hyprspace_workspace_change
+done
+
+focused="$("$HYPRSPACE_BIN" list-workspaces --focused 2>/dev/null)"
+[ -n "$focused" ] && sketchybar --trigger hyprspace_workspace_change FOCUSED_WORKSPACE="$focused"
+
+sketchybar --add item front_app left \
+	--set front_app icon.drawing=off label.padding_left=6 script="$PLUGIN_DIR/front_app.sh" \
+	--subscribe front_app front_app_switched
+
+# Omarchy's center anchor maps to SketchyBar's center section. Native launchers
+# deliberately replace Quickshell's Linux-only panels and backends.
+clock=(update_freq=1 icon= script="$PLUGIN_DIR/clock.sh" click_script="open -a Calendar")
+keyboard=(update_freq=30 icon=󰌌 script="$PLUGIN_DIR/keyboard_layout.sh" click_script="open 'x-apple.systempreferences:com.apple.Keyboard-Settings.extension'")
+weather=(icon=󰖐 label.drawing=off icon.padding_right=6 click_script="open -a Weather")
+updates=(update_freq=3600 icon=󰏖 script="$PLUGIN_DIR/brew_updates.sh")
+
+sketchybar \
+	--add item keyboard center --set keyboard "${keyboard[@]}" \
+	--add item weather center --set weather "${weather[@]}" \
+	--add item clock center --set clock "${clock[@]}" \
+	--add item updates center --set updates "${updates[@]}" \
+	--subscribe clock system_woke
+
+audio=(update_freq=2 icon=󰕾 script="$PLUGIN_DIR/audio.sh" click_script="open 'x-apple.systempreferences:com.apple.Sound-Settings.extension'")
+media=(icon=󰎆 label.drawing=off icon.padding_right=6 click_script="open -a Music")
+agent=(icon=󰧑 label.drawing=off icon.padding_right=6 click_script="open -a Codex")
+bluetooth=(icon=󰂯 label.drawing=off icon.padding_right=6 click_script="open 'x-apple.systempreferences:com.apple.BluetoothSettings'")
+network=(icon=󰤨 label.drawing=off icon.padding_right=6 click_script="open 'x-apple.systempreferences:com.apple.wifi-settings-extension'")
+display=(icon=󰍹 label.drawing=off icon.padding_right=6 click_script="open 'x-apple.systempreferences:com.apple.Displays-Settings.extension'")
+battery=(update_freq=120 script="$PLUGIN_DIR/battery.sh" click_script="open 'x-apple.systempreferences:com.apple.Battery-Settings.extension'")
+
+sketchybar \
+	--add item media right --set media "${media[@]}" \
+	--add item agent right --set agent "${agent[@]}" \
+	--add item audio right --set audio "${audio[@]}" \
+	--add item bluetooth right --set bluetooth "${bluetooth[@]}" \
+	--add item network right --set network "${network[@]}" \
+	--add item display right --set display "${display[@]}" \
+	--add item battery right --set battery "${battery[@]}" \
+	--subscribe audio volume_change system_woke \
+	--subscribe battery system_woke power_source_change
+
+sketchybar --update

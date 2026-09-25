@@ -1,0 +1,28 @@
+{{- /* chezmoi:modify-template */ -}}
+{{- $config := fromToml (.chezmoi.stdin | default "") -}}
+{{- $config = setValueAtPath "model" "gpt-6-astra" $config -}}
+{{- $config = setValueAtPath "model_reasoning_effort" "low" $config -}}
+{{- $config = setValueAtPath "agents.enabled" true $config -}}
+{{- $config = setValueAtPath "agents.default_subagent_model" "gpt-6-luna" $config -}}
+{{- $config = setValueAtPath "agents.default_subagent_reasoning_effort" "medium" $config -}}
+{{- $config = setValueAtPath "agents.max_concurrent_threads_per_session" 3 $config -}}
+{{- $config = setValueAtPath "features.multi_agent" true $config -}}
+{{- if get . "is_personal_machine" -}}
+{{- $config = setValueAtPath "features.memories" true $config -}}
+{{- $config = setValueAtPath "memories.generate_memories" true $config -}}
+{{- $config = setValueAtPath "memories.use_memories" true $config -}}
+{{- $preferences := dict "conversationDetailMode" "STEPS_PROSE" "followUpQueueMode" "queue" "sansFontSize" 15 "codeFontSize" 15 "appearanceLightCodeThemeId" "catppuccin" "appearanceDarkCodeThemeId" "catppuccin" "usePointerCursors" false "appearanceDiffMarkerStyle" "color" "appearanceTheme" "system" "show-context-window-usage" true "defaultTerminalLocation" "right" "avatar-overlay-pet-visible" false -}}
+{{- range $key, $value := $preferences -}}
+{{- $config = setValueAtPath (printf "desktop.%s" $key) $value $config -}}
+{{- end -}}
+{{- $theme := includeTemplate "../themes/codex-catppuccin-contrast.json.tmpl" . | trim | trimPrefix "codex-theme-v1:" | fromJson -}}
+{{- $dark := omit (get $theme "theme") "fonts" -}}
+{{- range $key, $value := $dark -}}
+{{- $config = setValueAtPath (printf "desktop.appearanceDarkChromeTheme.%s" $key) $value $config -}}
+{{- end -}}
+{{- $light := dict "accent" "#8839ef" "accentSource" "custom" "contrast" 45 "ink" "#4c4f69" "opaqueWindows" false "surface" "#eff1f5" "semanticColors" (dict "diffAdded" "#40a02b" "diffRemoved" "#d20f39" "skill" "#8839ef") -}}
+{{- range $key, $value := $light -}}
+{{- $config = setValueAtPath (printf "desktop.appearanceLightChromeTheme.%s" $key) $value $config -}}
+{{- end -}}
+{{- end -}}
+{{ $config | toToml }}

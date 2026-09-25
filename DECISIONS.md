@@ -630,6 +630,34 @@ survive terminal detachment but not a server or machine restart.
 `scripts/validate-source.sh`, then test clipboard and terminal escape sequences
 after an authorized apply.
 
+## 2026-09-25 — Use native macOS typography and semantic bar colors
+
+**Status:** accepted
+
+**Context:** The terminal-style bold monospaced top bar did not match macOS;
+window focus and status colors needed consistent roles against a red desktop
+and dark panels. Waybar and Polybar ports provide palettes, not a mandatory
+layout. The existing Contrast palette remains authoritative.
+
+**Decision:** Use Base/Surface0 backgrounds, Text labels, Subtext1 secondary
+icons, and Lavender for the focused workspace. Reserve Yellow/Red battery
+icons for low/critical levels. Use Lavender/Overlay0 active/inactive window
+borders at width 12. Render bar labels and workspace numbers with
+`.AppleSystemUIFont:Regular:13.0`; retain Nerd Font only for pictograms.
+
+**Rationale:** Native proportional typography and restrained semantic accents
+fit the user's macOS UI while preserving the shared custom Contrast palette.
+No additional font installation or theme runtime is required.
+
+**Consequences:** This follows Catppuccin role guidance without claiming
+stock Mocha colors. SF Symbols migration is outside this change. The temporary
+SketchyBar window-layer fix and its Homebrew follow-up are tracked in TODO.
+
+**Implementation / validation:** Managed Borders and SketchyBar templates;
+`scripts/validate-source.sh`, `scripts/test-sketchybar-plugins.py`, and live
+font/color queries. CoreText resolved `.AppleSystemUIFont` to `.SFNS-Regular`;
+plain `SF Pro` resolved to Helvetica on this machine, so it is not used.
+
 ## Template — Copy for a new decision
 
 ```markdown

@@ -25,6 +25,12 @@ Unchecked items are planned work, not authorization to change a target machine.
 
 ### Managed configuration
 
+- [ ] 2026-09-25 — Codex portable settings source prepared: global guidance,
+  selected model/agent fields, and personal-machine appearance/memory settings.
+  Pending explicitly authorized target apply; local private context
+  is provisioned separately. Desktop `session-flags: features.thread_tools`
+  warning remains unresolved; the desktop references a flag its CLI does not list.
+
 - [ ] Validate the existing managed Zsh, Powerlevel10k configuration, and Ghostty
   configuration on the target machine. Zsh and Powerlevel10k source already
   exist in `home/dot_config/zsh/`, with Ghostty at
@@ -73,12 +79,37 @@ Unchecked items are planned work, not authorization to change a target machine.
   session/window chooser unless it proves inadequate; do not add a second
   fzf-based tmux navigator by default.
 -->
-- [ ] Configure Hyprspace, Sketchybar, and borders.
+- [x] 2026-09-23 — Configured Hyprspace, SketchyBar, and JankyBorders from
+  Catppuccin Contrast. Hyprspace retains its nine workspaces and existing
+  bindings; SketchyBar maps the portable Omarchy bar roles to native macOS
+  launchers and read-outs. Linux service panels remain intentionally absent.
 
 ### Deferred installation and activation
 
-- [ ] Enable the top-bar services with `brew services start borders` and
-  `brew services start sketchybar`.
+- [ ] Visually review the final 2026-09-25 typography and colors. Applied on
+  the target machine: no Raycast button; symmetric 6pt content padding and
+  6pt icon–label gap; clock format `Sep 26, 2026 13:14` with 1s updates;
+  volume events plus 2s mute polling; device-specific Settings links;
+  Catppuccin semantic colors; 12pt Lavender/Overlay0 window borders;
+  native macOS regular 13pt text and workspace numbers. Source validation,
+  plugin behavior checks, and live configuration queries passed. Earlier
+  width 4/20 and Sapphire/transparent border experiments are superseded.
+- [ ] Make the verified SketchyBar fix persistent through Homebrew. On this
+  machine, clicking the bar background raised it above same-level item
+  windows. Tests of `topmost`, `sticky`, and paused Hyprspace did not help;
+  runtime settings and Hyprspace were restored. Official 2.24.0 source at
+  `6284ee816601486ace33ca48a0271832eec6de35` was patched in `src/bar.c`:
+  `window_set_level(&bar->window, g_bar_manager.window_level - 1);`.
+  The temporary binary `/tmp/sketchybar-background-fix/bin/sketchybar` runs
+  via `local.sketchybar-background-test`, registered from
+  `/tmp/local.sketchybar-background-test.plist`. User click tests passed;
+  measured background layer 24 stays below component layer 25. The original
+  Homebrew binary and LaunchAgent remain intact, but that service is unloaded.
+  Temporary registration does not persist across logout. Proposed next step:
+  an explicitly authorized local Homebrew formula using official source plus
+  this patch, followed by service/relogin verification. Neither a durable
+  formula nor its installation has been completed; `--HEAD` was not a fix
+  in the upstream source inspected on 2026-09-25.
 - [ ] Install and evaluate the [OpenRouter Ori harness](https://openrouter.ai/docs/guides/guides/ori),
   including which existing coding agents it should wrap.
 - [ ] Install [Chromium](https://formulae.brew.sh/cask/chromium).
