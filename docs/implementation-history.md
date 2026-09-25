@@ -44,6 +44,7 @@ configuration-model boundary and
 | 2026-09-22 | `eb62d3c` | Added shared LazyVim extras/tooling, updated the lockfile after target sync, added the OpenJDK registration guard to the Homebrew hook, and made the Catppuccin override render on every machine. |
 | 2026-09-22 | `2d83977` | Added this historical index and refined the LazyVim research boundary. Per-tool documents now carry configuration comparisons. |
 | 2026-09-22 | `c8f1543` | Added Neovim gap research and expanded `scripts/validate-source.sh` source checks; neither substitutes for a target-machine runtime check. |
+| 2026-09-26 | `ba564ef` | Added `home/private_Library/Rime/default.custom.yaml` with an F4-only scheme switcher; see [Squirrel](tools/squirrel.md) for deployment and validation. |
 
 ## How to use this record
 

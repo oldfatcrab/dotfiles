@@ -11,6 +11,7 @@ validation boundary.
 | Interactive shell | [zsh.md](zsh.md) |
 | Prompt | [powerlevel10k.md](powerlevel10k.md) |
 | Terminal | [ghostty.md](ghostty.md) |
+| Squirrel input method | [squirrel.md](squirrel.md) |
 | Terminal multiplexer | [tmux.md](tmux.md) |
 | bat and bat-extras | [bat.md](bat.md) |
 | fzf | [fzf.md](fzf.md) |
