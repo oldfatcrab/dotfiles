@@ -9,6 +9,46 @@ implementation status, and validation commands updated by later entries are
 not current operating instructions; consult the current source and the
 relevant later decision.
 
+## 2026-09-26 — Darken inactive desktop borders
+
+**Status:** accepted
+
+**Context:** Catppuccin recommends Overlay0 for inactive borders, but the
+user finds it too bright beside the active Lavender border.
+
+**Decision:** Use existing Contrast Surface1 for JankyBorders inactive
+windows; retain Lavender focus and the existing border width.
+
+**Rationale:** A darker neutral separates focused and unfocused windows
+without introducing a new palette value or changing terminal color roles.
+
+**Implementation / validation:** Render the Borders template, check Bash
+syntax, and apply the scoped bordersrc; visually review on the target machine.
+
+## 2026-09-26 — Coordinate native menu access with SketchyBar Toggle
+
+**Status:** accepted
+
+**Context:** Lowering the bar alone leaves overlapping content when the
+native macOS menu bar appears. The user requested automatic hiding at the
+screen's top activation area.
+
+**Decision:** Declare `malpern/tap/sketchybar-toggle` in the shared Brewfile
+and start it from the existing managed SketchyBar template. Use
+`topmost=window`, a 3px trigger, a 50px restore boundary, and 150ms debounce.
+Reloading replaces the current user's helper; no separate LaunchAgent is added.
+
+**Rationale:** Reuse the requested upstream helper instead of maintaining a
+custom mouse watcher. Keep configuration reproducible in the existing template.
+
+**Consequences:** Hiding follows mouse position, not actual native menu
+visibility. The temporary SketchyBar background-layer patch remains a separate
+unresolved persistence task.
+
+**Implementation / validation:** Homebrew 0.5.0 installed, scoped apply and
+source validation passed, `sketchybar-toggle --setup` passed, and repeated
+reloads left one helper. Visual menu interaction remains a TODO.
+
 ## 2026-09-10 — Activate Powerlevel10k from Homebrew
 
 **Status:** accepted

@@ -82,7 +82,7 @@ is intentionally empty.
   Omarchy launch/theme hooks remain absent.
 - `home/dot_config/hyprspace/config.toml` retains nine workspaces and the
   configured macOS bindings. `home/dot_config/borders/executable_bordersrc.tmpl`
-  renders a 12pt border using Contrast `lavender` for focus and `overlay0`
+  renders a 12pt border using Contrast `lavender` for focus and `surface1`
   for inactive windows. SketchyBar's
   template uses the same palette for a three-section bar: workspaces/front app,
   centered calendar and status read-outs, and macOS-native system launchers.
@@ -93,9 +93,16 @@ is intentionally empty.
   10%; normal levels stay neutral. Item backgrounds have symmetric 6pt
   outer content padding and a 6pt icon–label gap; backgrounds are 26pt high
   with 1pt outlines. Labels and workspace numbers use the native macOS
-  `.AppleSystemUIFont:Regular:13.0`; pictograms retain the installed Nerd Font
-  for glyph coverage. The Raycast button is removed. The clock reads `Sep 26, 2026 13:14` and refreshes
-  each second; volume responds to events with a two-second mute fallback.
+  `.AppleSystemUIFont:Regular:15.0`; pictograms use the installed Nerd Font at 18pt
+  for glyph coverage. `topmost=window` floats above application windows.
+  Homebrew-managed `sketchybar-toggle` starts from the bar configuration:
+  the top 3px hides the bar, moving below 50px restores it after 150ms.
+  It polls mouse position; it does not detect whether a native menu is open.
+  Reloading replaces the current user's helper instance. If the helper is
+  unavailable, the bar still starts. To recover a hidden bar manually, run
+  `sketchybar --bar hidden=off y_offset=0` after stopping the helper.
+  The Raycast button is removed. The clock reads `Sep 26, 2026 13:14` and
+  refreshes each second; volume responds to events with a two-second mute fallback.
   Device buttons open their corresponding System Settings panes. Homebrew's
   outdated count is informational, without an unrelated Settings shortcut.
 

@@ -1,11 +1,11 @@
 {{- $palette := include "../themes/catppuccin-contrast.toml" | fromToml -}}
 {{- $colors := index $palette "colors" -}}
 {{- $active := index $colors "lavender" | trimPrefix "#" -}}
-{{- $inactive := index $colors "overlay0" | trimPrefix "#" -}}
+{{- $inactive := index $colors "surface1" | trimPrefix "#" -}}
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Follow Catppuccin active/inactive border roles from the shared palette.
+# Keep Lavender focus; use darker Surface1 for inactive windows.
 options=(
   style=round
   width=12.0

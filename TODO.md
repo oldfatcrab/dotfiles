@@ -86,14 +86,16 @@ Unchecked items are planned work, not authorization to change a target machine.
 
 ### Deferred installation and activation
 
-- [ ] Visually review the final 2026-09-25 typography and colors. Applied on
-  the target machine: no Raycast button; symmetric 6pt content padding and
-  6pt icon–label gap; clock format `Sep 26, 2026 13:14` with 1s updates;
-  volume events plus 2s mute polling; device-specific Settings links;
-  Catppuccin semantic colors; 12pt Lavender/Overlay0 window borders;
-  native macOS regular 13pt text and workspace numbers. Source validation,
-  plugin behavior checks, and live configuration queries passed. Earlier
-  width 4/20 and Sapphire/transparent border experiments are superseded.
+- [x] 2026-09-26 — Installed `sketchybar-toggle` 0.5.0 with Homebrew,
+  declared it in Brewfile.base, and applied its managed startup configuration.
+  `sketchybar-toggle --setup` passed; repeated reloads left one helper instance.
+  Applied native text/workspace numbers 15pt, pictograms 18pt, and 12pt
+  Lavender/Surface1 window borders. Source validation and live font/layer
+  queries passed. These replace the earlier 13pt text and Overlay0 borders.
+- [ ] Visually verify the 2026-09-26 desktop appearance and auto-hide:
+  the top 3px hides SketchyBar; moving below 50px restores it after 150ms.
+  Check native menu interaction and confirm background clicks still leave
+  items visible with the existing temporary binary patch.
 - [ ] Make the verified SketchyBar fix persistent through Homebrew. On this
   machine, clicking the bar background raised it above same-level item
   windows. Tests of `topmost`, `sticky`, and paused Hyprspace did not help;
@@ -103,7 +105,8 @@ Unchecked items are planned work, not authorization to change a target machine.
   The temporary binary `/tmp/sketchybar-background-fix/bin/sketchybar` runs
   via `local.sketchybar-background-test`, registered from
   `/tmp/local.sketchybar-background-test.plist`. User click tests passed;
-  measured background layer 24 stays below component layer 25. The original
+  the original `topmost=on` measurement was background layer 24 below
+  component layer 25; these numeric levels predate `topmost=window`. The original
   Homebrew binary and LaunchAgent remain intact, but that service is unloaded.
   Temporary registration does not persist across logout. Proposed next step:
   an explicitly authorized local Homebrew formula using official source plus

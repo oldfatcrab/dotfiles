@@ -27,14 +27,14 @@ fi
 
 # Catppuccin Waybar supplies palette tokens, not layout rules. This keeps its
 # Base/Text roles while using the repository's Contrast palette.
-# Use the status-window level for the bar and its separately drawn items.
-sketchybar --bar topmost=on height=40 color=0xff{{ $base }} border_width=2 border_color=0xff{{ $crust }}
+# Float above application windows; sketchybar-toggle yields the top edge.
+sketchybar --bar topmost=window height=40 color=0xff{{ $base }} border_width=2 border_color=0xff{{ $crust }}
 
 default=(
 	padding_left=5
 	padding_right=5
-	icon.font="Liga SFMono Nerd Font:Bold:16.0"
-	label.font=".AppleSystemUIFont:Regular:13.0"
+	icon.font="Liga SFMono Nerd Font:Bold:18.0"
+	label.font=".AppleSystemUIFont:Regular:15.0"
 	icon.color=0xff{{ $subtext1 }}
 	label.color=0xff{{ $text }}
 	icon.padding_left=6
@@ -54,7 +54,7 @@ sketchybar --add event hyprspace_workspace_change
 for sid in {1..9}; do
 	space=(
 		icon="$sid"
-		icon.font=".AppleSystemUIFont:Regular:13.0"
+		icon.font=".AppleSystemUIFont:Regular:15.0"
 		label.drawing=off
 		icon.padding_right=6
 		background.color=0xff{{ $surface0 }}
@@ -109,3 +109,9 @@ sketchybar \
 	--subscribe battery system_woke power_source_change
 
 sketchybar --update
+
+# Restart the optional helper on reload; keep only this user's instance.
+if command -v sketchybar-toggle >/dev/null 2>&1; then
+	pkill -u "$(id -u)" -x sketchybar-toggle || true
+	sketchybar-toggle --trigger-zone 3 --menu-bar-height 50 --debounce 150 &
+fi
