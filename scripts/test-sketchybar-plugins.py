@@ -21,10 +21,10 @@ with tempfile.TemporaryDirectory() as directory:
         path.chmod(0o700)
     env = dict(os.environ, PATH=f"{directory}:/usr/bin:/bin", NAME="audio")
     for settings, label, icon in [
-        ("38, false", "38%", "󰕾"),
-        ("0, false", "0%", "󰖁"),
-        ("38, true", "mute", "󰝟"),
-        ("", "", "󰕾"),
+        ("38, false", "38%", "􀊩"),
+        ("0, false", "0%", "􀊡"),
+        ("38, true", "mute", "􀊣"),
+        ("", "", "􀊩"),
     ]:
         result = subprocess.check_output(
             ["/bin/sh", str(plugins / "executable_audio.sh")],
@@ -45,21 +45,22 @@ with tempfile.TemporaryDirectory() as directory:
             text=True,
         ).splitlines()
         assert result == ["--set", "space.1", f"background.drawing={state}",
-                          f"icon.highlight={state}"], result
+                          f"icon.highlight={state}", f"label.highlight={state}"], result
 
     battery = bin_dir / "battery.sh"
     battery.write_bytes(subprocess.check_output(["chezmoi", "execute-template", "--file", str(plugins / "executable_battery.sh.tmpl")]))
     pmset = bin_dir / "pmset"
     pmset.write_text('#!/bin/sh\nprintf "%s\\n" "$BATTERY_TEST"\n')
     pmset.chmod(0o700)
-    for snapshot, icon, label in [
-        ("Now drawing from 'AC Power'", "􀡷", "AC"),
-        ("95%; discharging", "􀛨", "95%"),
-        ("20%; discharging", "􀛩", "20%"),
-        ("5%; discharging", "􀛪", "5%"),
-        ("AC Power 50%; charging", "􀢋", "50%"),
+    for snapshot, icon, label, background in [
+        ("Now drawing from 'AC Power'", "􀡸", "AC 􀋦", "0xffbac2de"),
+        ("95%; discharging", "􁠸", "95%", "0xffbac2de"),
+        ("20%; discharging", "􁠸", "20%", "0xffe6ba60"),
+        ("5%; discharging", "􁠸", "5%", "0xffe64f5c"),
+        ("AC Power 50%; charging", "􀫯", "50%", "0xffbac2de"),
     ]:
         result = subprocess.check_output(["bash", str(battery)], env=dict(env, NAME="battery", BATTERY_TEST=snapshot), text=True).splitlines()
         assert f"icon={icon}" in result and f"label={label}" in result, result
+        assert "icon.color=0xff313244" in result and f"icon.background.color={background}" in result, result
 
 print("PASS: audio, clock, workspace focus, and SF power symbols")

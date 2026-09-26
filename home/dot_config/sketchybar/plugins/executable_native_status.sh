@@ -5,10 +5,9 @@ cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/sketchybar"
 if [[ "${1:-}" == vpn ]]; then
 	if ! vpn_list="$(scutil --nc list 2>/dev/null)"; then
 		label=unavailable
-	elif grep -Eq '^[* ]*\(Connected\).* VPN ' <<< "$vpn_list"; then
-		label=on
 	else
-		label=off
+		label="$(sed -nE '/^[* ]*\(Connected\).* VPN /s/.*"([^"]+)"[[:space:]]*\[VPN:.*/\1/p' <<< "$vpn_list" | head -n 1)"
+		[[ -n "$label" ]] || label=off
 	fi
 	sketchybar --set "$NAME" label="$label"
 	exit 0
@@ -52,7 +51,7 @@ case "${1:-}" in
 				done < "$items_file"
 			fi
 			: > "$items_file"
-			sketchybar --set "$NAME" drawing=on icon=􀢹 label=unavailable
+			sketchybar --set "$NAME" drawing=on icon=􀒶 label=unavailable
 			exit 0
 		fi
 		sketchybar --set "$NAME" drawing=off
@@ -63,13 +62,13 @@ case "${1:-}" in
 			[[ "$id" =~ ^[0-9]+$ ]] || continue
 			item="display.$id"
 			if ! sketchybar --query "$item" >/dev/null 2>&1; then
-				sketchybar --add item "$item" right
-				sketchybar --move "$item" after memory
+				sketchybar --add item "$item" right --set "$item" icon.color="${ICON_FG_COLOR:?set ICON_FG_COLOR from the palette}" icon.background.drawing=on icon.background.color="${ICON_BG_COLOR:?set ICON_BG_COLOR from the palette}" icon.padding_right=7 icon.background.height=22 icon.background.y_offset=-1 icon.background.corner_radius=5 icon.background.padding_left=2 icon.background.padding_right=2
+				sketchybar --move "$item" before memory
 			fi
 			if [[ "$is_focused" == 1 ]]; then
-				sketchybar --set "$item" icon=􀢹 label="$name" icon.highlight=on icon.highlight_color="${HIGHLIGHT_COLOR:?set HIGHLIGHT_COLOR from the palette}" background.drawing=on click_script="open 'x-apple.systempreferences:com.apple.Displays-Settings.extension'"
+				sketchybar --set "$item" icon=􀒶 label="$name" icon.highlight=off background.border_color="${BORDER_COLOR:?set BORDER_COLOR from the palette}" background.drawing=on click_script="open 'x-apple.systempreferences:com.apple.Displays-Settings.extension'"
 			else
-				sketchybar --set "$item" icon=􀢹 label="$name" icon.highlight=off background.drawing=off click_script="open 'x-apple.systempreferences:com.apple.Displays-Settings.extension'"
+				sketchybar --set "$item" icon=􀒶 label="$name" icon.highlight=off background.drawing=off click_script="open 'x-apple.systempreferences:com.apple.Displays-Settings.extension'"
 			fi
 			printf '%s\n' "$id" >> "$new_items"
 		done <<< "$output"

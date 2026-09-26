@@ -56,4 +56,11 @@ vm_output="$(vm_stat 2>/dev/null)" && memory_bytes="$(sysctl -n hw.memsize 2>/de
   ' total="$memory_bytes"
 )" || memory="N/A"
 
-sketchybar --set cpu label="$cpu" --set memory label="$memory"
+gpu="$(ioreg -r -c IOAccelerator -d 1 -k PerformanceStatistics 2>/dev/null | awk '
+  match($0, /"Device Utilization %"=[0-9]+/) {
+    value = substr($0, RSTART, RLENGTH)
+    sub(/.*=/, "", value)
+    if (value + 0 <= 100) { printf "%d%%", value; exit }
+  }
+')" || gpu=""
+sketchybar --set cpu label="$cpu" --set gpu label="${gpu:-N/A}" --set memory label="$memory"

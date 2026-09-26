@@ -30,8 +30,8 @@ if [ "$SENDER" = "hyprspace_workspace_change" ] || [ -z "$SENDER" ]; then
     [ -z "$focused" ] && exit 0
 
     if [ "$sid" = "$focused" ]; then
-        sketchybar --set "$NAME" background.drawing=on icon.highlight=on
+        sketchybar --set "$NAME" background.drawing=on icon.highlight=on label.highlight=on
     else
-        sketchybar --set "$NAME" background.drawing=off icon.highlight=off
+        sketchybar --set "$NAME" background.drawing=off icon.highlight=off label.highlight=off
     fi
 fi

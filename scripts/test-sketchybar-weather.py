@@ -20,7 +20,7 @@ with tempfile.TemporaryDirectory() as tmp:
         path = folder / name
         path.write_text(body)
         path.chmod(0o700)
-    for code, temperature, icon in [('113', '26', '􀆮'), ('296', '-2', '􀇇'), ('338', '-10', '􀇥')]:
+    for code, temperature, icon in [('113', '26', '􀆮'), ('296', '-2', '􀇇'), ('338', '-10', '􀇏')]:
         env = dict(os.environ, PATH=f'{tmp}:' + os.environ['PATH'], CONFIG_DIR=tmp, NAME='weather',
                    SKETCHYBAR_WEATHER_LOCATION='Toronto', LOCATION_AVAILABLE='no',
                    WEATHER_URL_FILE=str(folder / 'url'),

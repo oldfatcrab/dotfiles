@@ -25,6 +25,7 @@ with tempfile.TemporaryDirectory() as directory:
     stubs = {
         "vm_stat": '#!/bin/sh\nprintf "%s\\n" "$VM_OUTPUT"\n[ "$VM_FAIL" != 1 ]\n',
         "sysctl": '#!/bin/sh\nprintf "%s\\n" "$MEM_BYTES"\n[ "$SYSCTL_FAIL" != 1 ]\n',
+        "ioreg": '#!/bin/sh\nprintf "%s\\n" "$GPU_OUTPUT"\n',
         "sketchybar": '#!/bin/sh\nprintf "%s\\n" "$@"\n',
     }
     for name, body in stubs.items():
@@ -43,6 +44,7 @@ with tempfile.TemporaryDirectory() as directory:
             "Pages stored in compressor: 900.\n"
         ),
         MEM_BYTES=str(4096 * 350),
+        GPU_OUTPUT='"PerformanceStatistics" = {"Device Utilization %"=37}',
     )
 
     def run(cache_name, ticks, overrides=None, memory="50%"):
@@ -53,7 +55,8 @@ with tempfile.TemporaryDirectory() as directory:
             text=True,
         ).splitlines()
         assert result[0:3] == ["--set", "cpu", result[2]], result
-        assert result[3:] == ["--set", "memory", f"label={memory}"], result
+        assert result[3:6] == ["--set", "gpu", "label=37%"], result
+        assert result[6:] == ["--set", "memory", f"label={memory}"], result
         return result[2]
 
     assert run("sequence", "100 200") == "label=N/A"
@@ -78,4 +81,8 @@ with tempfile.TemporaryDirectory() as directory:
         run("invalid-memory", "100 200", {"MEM_BYTES": bad}, memory="N/A")
     run("failed-memory", "100 200", {"VM_FAIL": "1"}, memory="N/A")
 
-print("PASS: CPU tick deltas, rebaselining, failures, and resident memory accounting")
+    result = subprocess.check_output(["/bin/sh", str(plugin)], env=dict(env,
+        XDG_CACHE_HOME=str(root / "gpu-missing"), NATIVE_TICKS="100 200", GPU_OUTPUT=""), text=True).splitlines()
+    assert result[3:6] == ["--set", "gpu", "label=N/A"], result
+
+print("PASS: CPU tick deltas, GPU utilization, failures, and resident memory accounting")

@@ -9,6 +9,7 @@ assert.equal(before[0], '\ue001');
 assert.equal(before[1], '—');
 assert.equal(before[2], '\ue002');
 assert.equal(before[8], ':default:');
+assert.equal(labels([window('1', 'A'), window('1', 'Beta')], icons)[0], '\ue001\ue002');
 const after = labels([window('2', 'A')], icons);
 assert.equal(after[0], '—'); // Last window closed/moved out.
 assert.equal(after[1], '\ue001');

@@ -42,7 +42,7 @@ function labels(windows, icons) {
   prefixes.sort((a, b) => b[0].length - a[0].length);
   return Array.from({ length: 9 }, (_, i) => {
     const apps = [...new Set(windows.filter(w => w.workspace === String(i + 1)).map(w => w['app-name']))].sort();
-    return apps.map(app => exact.get(app) ?? prefixes.find(([prefix]) => app.startsWith(prefix))?.[1] ?? ':default:').join(' ') || '—';
+    return apps.map(app => exact.get(app) ?? prefixes.find(([prefix]) => app.startsWith(prefix))?.[1] ?? ':default:').join('') || '—';
   });
 }
 

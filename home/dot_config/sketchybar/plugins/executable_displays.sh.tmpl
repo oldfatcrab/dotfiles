@@ -13,5 +13,7 @@ else
 fi
 export HYPRSPACE_BIN
 
-HIGHLIGHT_COLOR="0xff{{ (index (index (include "../themes/catppuccin-contrast.toml" | fromToml) "colors") "lavender") | trimPrefix "#" }}" \
+BORDER_COLOR="0xff{{ (index (index (include "../themes/catppuccin-contrast.toml" | fromToml) "colors") "surface1") | trimPrefix "#" }}" \
+	ICON_BG_COLOR="0xff{{ (index (index (include "../themes/catppuccin-contrast.toml" | fromToml) "colors") "subtext1") | trimPrefix "#" }}" \
+	ICON_FG_COLOR="0xff{{ (index (index (include "../themes/catppuccin-contrast.toml" | fromToml) "colors") "surface0") | trimPrefix "#" }}" \
 	"$PLUGIN_DIR/native_status.sh" displays

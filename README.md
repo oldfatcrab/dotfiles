@@ -15,6 +15,7 @@ concrete, reviewed requirement.
 ├── AGENTS.md           # instructions for automated contributors
 ├── CLAUDE.md           # pointer to AGENTS.md for Claude
 ├── Brewfiles/          # shared and personal Homebrew Bundle manifests
+├── Formula/            # opt-in local SketchyBar build, separate from Brewfiles
 ├── DECISIONS.md        # durable design decisions and Omarchy divergences
 ├── docs/               # implementation history, research, and agent conventions
 ├── themes/             # portable palette data for future app configurations
@@ -94,13 +95,19 @@ is intentionally empty.
   with font updates without a separate downloaded mapping script.
   It deliberately does not emulate Omarchy's Linux-only Quickshell panels,
   tray, or device-management backends. Colors follow Catppuccin roles: Base bar,
-  Surface0 items, Text labels, Subtext1 secondary icons, and Lavender focused
-  workspace border/number. Battery icons use Yellow at 10–29% and Red below
-  10%; normal levels stay neutral. Item backgrounds have symmetric 6pt
-  outer content padding and a 6pt icon–label gap; backgrounds are 26pt high
-  with 1pt outlines. Labels and workspace numbers use `SF Pro:Semibold:15.0` within SketchyBar
-  only. SF Symbols supply the display and power pictograms; audio retains a
-  Nerd Font override. Bluetooth is omitted. The bar explicitly loads the installed
+  Surface0 items, and Text labels. The selected workspace uses Lavender fill
+  with dark Base numbers and app glyphs. Center and right icon backgrounds use
+  Subtext1 with dark Surface0 glyphs; labels remain bright on Surface0. Battery
+  icon backgrounds use Yellow at 10–29% and Red below 10%; normal levels stay
+  neutral. Item backgrounds have symmetric 6pt outer content padding; status
+  icons have a 22pt bright background and 7pt right inset. Workspace
+  number–app spacing is 12pt; app glyphs use a 20pt font with no inserted
+  spaces and `label.y_offset=-1`. CPU/GPU/memory, power, and volume labels reserve
+  48pt for `100%`; when battery percentage is unavailable, the label shows
+  `AC` followed by `bolt.fill`. Item backgrounds are 26pt high with 1pt
+  outlines. Labels and workspace numbers use `SF Pro:Semibold:15.0` within
+  SketchyBar only. SF Symbols supply the status pictograms, including audio,
+  monitor, and battery. Bluetooth is omitted. The bar explicitly loads the installed
   SF Pro font on reload. `topmost=window` floats above application windows.
   Homebrew-managed `sketchybar-toggle` starts from the bar configuration:
   the top 3px hides the bar, moving below 50px restores it after 150ms.
@@ -124,11 +131,13 @@ is intentionally empty.
   `open -W -a ~/.local/share/sketchybar/StatusHelper.app --args authorize`.
   Rebuilding this locally signed app may require granting access again.
   It caches readings locally and exits. No privacy permissions are changed
-  automatically. The VPN item reports connected macOS network services from
+  automatically. The VPN item shows the connected macOS network service name from
   `scutil --nc list`; proxy-only tools and unmanaged tunnels may not appear.
-  Display names come from Hyprspace, with the focused display highlighted in
-  Lavender, refreshed on events and every two seconds. CPU refreshes every
-  second using differences in native host CPU ticks; memory shows resident
+  The right group reads CPU, GPU, memory, monitor, battery, volume, Wi-Fi, VPN
+  from left to right. Display names come from Hyprspace, with the focused display
+  marked by a Surface1 border, refreshed on events and every two seconds.
+  CPU refreshes every second using differences in native host CPU ticks; GPU shows the driver's
+  `Device Utilization %` when available. Memory shows resident
   active + wired + compressor pages as a percentage of physical RAM, excluding
   reclaimable inactive pages. This is not Activity Monitor's Memory Pressure.
   The native Swift helper builds into the XDG data directory only after source changes;
@@ -143,11 +152,26 @@ is intentionally empty.
   Reloading the bar keeps the currently running binary; executing bordersrc
   sends the configured options to the existing Borders process.
 
-  **Target-machine limitation (2026-09-26):** SketchyBar 2.24.0 runs from a
-  temporary one-line background-layer patch, verified by repeated clicks. Its
-  temporary LaunchAgent was manually restored after being absent from the GUI
-  session. The Homebrew service remains unloaded; the temporary registration
-  and binary do not survive logout/reboot. See TODO for persistent installation.
+  **Background-click fix:** `Formula/sketchybar-background-fix.rb`
+  pins the previously verified source and lowers only the bar background window
+  one level below component windows. It builds keg-only, retaining stock SketchyBar
+  for rollback. This opt-in local formula is not in `Brewfile.base`; the shared
+  package baseline still declares stock SketchyBar. To reproduce the local
+  installation, create a tap with `brew tap-new oldfatcrab/local` (once), copy
+  the formula into that tap's `Formula/` directory, then run:
+
+  ```sh
+  brew install oldfatcrab/local/sketchybar-background-fix
+  brew services stop FelixKratz/formulae/sketchybar
+  brew services start oldfatcrab/local/sketchybar-background-fix
+  ```
+
+  To roll back, stop `oldfatcrab/local/sketchybar-background-fix` and start
+  `FelixKratz/formulae/sketchybar`. The original CLI can communicate with either
+  2.24.0 service. On 2026-09-26 the patched formula was installed and its
+  login service started; the stock service was stopped. Runtime checks confirmed
+  background layer 2 below component layer 3 with `topmost=window`.
+  Interactive click verification and a real logout/login remain pending.
 
   Catppuccin references: [style guide](https://github.com/catppuccin/catppuccin/blob/main/docs/style-guide.md),
   [Waybar](https://github.com/catppuccin/waybar), and
@@ -166,8 +190,12 @@ is intentionally empty.
   rendering plugin through a local trigger, avoiding its bootstrap's exported
   registry flag bug. A small local layout adapter places Codex quota at the right
   edge of the center group, clears inherited child outlines, and shows remaining
-  percentages plus reset countdowns for both five-hour and weekly windows.
-  Clicking quota opens Codex; the separate agent launcher is omitted.
+  percentages plus reset countdowns for both five-hour and weekly windows without
+  repeating their names. The first-row label is written with the upstream slider
+  update to avoid refresh flicker. Its ChatGPT glyph is resolved from the installed
+  app font at 18pt in a 31×24pt icon background; the icon item reserves 38pt
+  total before the progress bars. Reset labels use a fixed 104pt column.
+  Clicking quota opens Codex by bundle ID; the separate agent launcher is omitted.
   `home/dot_config/showy-quota/` selects a local Contrast theme rendered from
   the canonical palette using the upstream Catppuccin role mapping. Only Codex
   is selected for this bar; authentication stays in CodexBar. Never put

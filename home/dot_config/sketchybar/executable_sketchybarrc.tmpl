@@ -76,11 +76,13 @@ for sid in {1..9}; do
 		icon.font="SF Pro:Semibold:15.0"
 		label.drawing=on
 		label="—"
-		label.font="sketchybar-app-font:Regular:16.0"
-		icon.padding_right=3
-		background.color=0xff{{ $surface0 }}
+		label.font="sketchybar-app-font:Regular:20.0"
+		label.y_offset=-1
+		icon.padding_right=9
+		background.color=0xff{{ $lavender }}
 		background.border_color=0xff{{ $lavender }}
-		icon.highlight_color=0xff{{ $lavender }}
+		icon.highlight_color=0xff{{ $base }}
+		label.highlight_color=0xff{{ $base }}
 		script="$PLUGIN_DIR/hyprspace_workspace.sh"
 		click_script="$HYPRSPACE_BIN workspace $sid"
 	)
@@ -107,10 +109,11 @@ sketchybar --add item front_app left \
 
 # Omarchy's center anchor maps to SketchyBar's center section. Native launchers
 # deliberately replace Quickshell's Linux-only panels and backends.
-clock=(update_freq=30 icon=􀧞 script="$PLUGIN_DIR/clock.sh" click_script="open -a Calendar")
-keyboard=(update_freq=5 icon=􀇳 script="$PLUGIN_DIR/keyboard_layout.sh" click_script="open 'x-apple.systempreferences:com.apple.Keyboard-Settings.extension'")
-weather=(update_freq=900 icon=􀇔 label="N/A" script="$PLUGIN_DIR/weather.sh" click_script="open -a Weather")
-updates=(update_freq=3600 icon=􀄩 script="$PLUGIN_DIR/brew_updates.sh")
+status_icon=(icon.color=0xff{{ $surface0 }} icon.background.drawing=on icon.background.color=0xff{{ $subtext1 }} icon.padding_right=7 icon.background.height=22 icon.background.y_offset=-1 icon.background.corner_radius=5 icon.background.padding_left=2 icon.background.padding_right=2)
+clock=(update_freq=30 icon=􀧞 script="$PLUGIN_DIR/clock.sh" click_script="open -a Calendar" "${status_icon[@]}")
+keyboard=(update_freq=5 icon=􀺑 script="$PLUGIN_DIR/keyboard_layout.sh" click_script="open 'x-apple.systempreferences:com.apple.Keyboard-Settings.extension'" "${status_icon[@]}")
+weather=(update_freq=900 icon=􀇕 label="N/A" script="$PLUGIN_DIR/weather.sh" click_script="open -a Weather" "${status_icon[@]}")
+updates=(update_freq=3600 icon=􀄩 script="$PLUGIN_DIR/brew_updates.sh" "${status_icon[@]}")
 
 sketchybar \
 	--add item keyboard center --set keyboard "${keyboard[@]}" \
@@ -121,22 +124,25 @@ sketchybar \
 	--subscribe keyboard input_source_changed system_woke \
 	--subscribe weather system_woke
 
-audio=(update_freq=2 icon.font="Liga SFMono Nerd Font:Regular:18.0" icon=󰕾 script="$PLUGIN_DIR/audio.sh" click_script="open 'x-apple.systempreferences:com.apple.Sound-Settings.extension'")
-network=(update_freq=30 icon=􀙇 script="$PLUGIN_DIR/native_status.sh wifi" click_script="open 'x-apple.systempreferences:com.apple.wifi-settings-extension'")
-vpn=(update_freq=30 icon=􀎡 script="$PLUGIN_DIR/native_status.sh vpn" click_script="open 'x-apple.systempreferences:com.apple.Network-Settings.extension'")
-display=(update_freq=2 updates=on drawing=off script="$PLUGIN_DIR/displays.sh")
-cpu=(update_freq=1 icon=􀧓 script="$PLUGIN_DIR/system_metrics.sh")
-memory=(icon=􀫦 label="N/A")
-battery=(update_freq=120 script="$PLUGIN_DIR/battery.sh" click_script="open 'x-apple.systempreferences:com.apple.Battery-Settings.extension'")
+percent_label=(label.width=48 label.align=right)
+audio=("${percent_label[@]}" update_freq=2 icon=􀊩 script="$PLUGIN_DIR/audio.sh" click_script="open 'x-apple.systempreferences:com.apple.Sound-Settings.extension'" "${status_icon[@]}")
+network=(update_freq=30 icon=􀙇 script="$PLUGIN_DIR/native_status.sh wifi" click_script="open 'x-apple.systempreferences:com.apple.wifi-settings-extension'" "${status_icon[@]}")
+vpn=(update_freq=30 icon=􀉣 script="$PLUGIN_DIR/native_status.sh vpn" click_script="open 'x-apple.systempreferences:com.apple.Network-Settings.extension'" "${status_icon[@]}")
+display=(update_freq=2 updates=on drawing=off script="$PLUGIN_DIR/displays.sh" "${status_icon[@]}")
+cpu=("${percent_label[@]}" update_freq=1 icon=􀧓 script="$PLUGIN_DIR/system_metrics.sh" "${status_icon[@]}")
+gpu=("${percent_label[@]}" icon=􀐟 label="N/A" "${status_icon[@]}")
+memory=("${percent_label[@]}" icon=􀧖 label="N/A" "${status_icon[@]}")
+battery=("${percent_label[@]}" update_freq=120 script="$PLUGIN_DIR/battery.sh" click_script="open 'x-apple.systempreferences:com.apple.Battery-Settings.extension'" "${status_icon[@]}")
 
 sketchybar \
-	--add item audio right --set audio "${audio[@]}" \
-	--add item network right --set network "${network[@]}" \
 	--add item vpn right --set vpn "${vpn[@]}" \
-	--add item display right --set display "${display[@]}" \
+	--add item network right --set network "${network[@]}" \
+	--add item audio right --set audio "${audio[@]}" \
 	--add item battery right --set battery "${battery[@]}" \
-	--add item cpu right --set cpu "${cpu[@]}" \
+	--add item display right --set display "${display[@]}" \
 	--add item memory right --set memory "${memory[@]}" \
+	--add item gpu right --set gpu "${gpu[@]}" \
+	--add item cpu right --set cpu "${cpu[@]}" \
 	--subscribe audio volume_change system_woke \
 	--subscribe network wifi_change system_woke \
 	--subscribe vpn system_woke \

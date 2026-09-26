@@ -672,7 +672,7 @@ after an authorized apply.
 
 ## 2026-09-25 — Use native macOS typography and semantic bar colors
 
-**Status:** accepted
+**Status:** superseded by the 2026-09-26 SketchyBar read-outs and inactive-border decisions
 
 **Context:** The terminal-style bold monospaced top bar did not match macOS;
 window focus and status colors needed consistent roles against a red desktop
@@ -724,7 +724,9 @@ plain `SF Pro` resolved to Helvetica on this machine, so it is not used.
 
 **Decision:** Keep Hyprspace workspaces 1–9 and the current bar geometry.
 Use SF Pro only in SketchyBar, superseding the earlier bar-font choice;
-retain a Nerd Font override for audio and use SF Symbols for display/power.
+use SF Symbols for status icons, including audio, display, and power. Use
+Subtext1 behind dark Surface0 status glyphs, while labels stay bright on
+Surface0; fill the selected workspace Lavender with dark numbers/app glyphs.
 Explicitly load the installed SF Pro font on reload. Omit Bluetooth. Use Carbon
 for the current input method, CoreWLAN for available SSIDs, Hyprspace for
 monitor names/focus, native host tick deltas for CPU, and wttr.in for weather.
@@ -752,7 +754,8 @@ than copying stock Mocha hex values. Package installation uses Homebrew where
 available; the release-only showy-quota runtime uses a checksum-verified script.
 No system font preference, media widget, new workspace manager, or tmux wiring
 is introduced. Component declarations stay in the existing main file;
-`helpers/` is reserved for native support code, not a second item layer.
+`helpers/` contains support code and the quota IPC adapter, not a second item
+declaration layer.
 
 **Rationale:** Extend the working native macOS bar without replacing its
 layout or maintaining a fork of the quota renderer. Authentication remains
@@ -766,6 +769,24 @@ verified; display/power glyphs were compared with native symbols. Live quota
 layout checks passed. After explicit user authorization, native Wi-Fi and
 weather refresh returned a real SSID and temperature; live VPN state matched
 the system connection services. Full source and focused behavior checks passed.
+
+## 2026-09-26 — Keep the SketchyBar background fix opt-in
+
+**Status:** accepted
+
+**Decision:** Pin the verified one-line background-window-level patch in
+`Formula/sketchybar-background-fix.rb` as a keg-only local Homebrew formula.
+Keep stock SketchyBar in the shared Brewfile for rollback; install and run the
+patched service separately on the affected machine. Never run both services
+at once.
+
+**Rationale:** The stock bar background can cover component clicks at the same
+window level. A local, checksum-verified build makes the fix persistent without
+silently replacing the package baseline or changing unrelated SketchyBar code.
+
+**Validation:** The formula built and installed; runtime inspection showed
+background layer 2 below component layer 3. Interactive click testing and a
+logout/login persistence check remain open in TODO.
 
 ## 2026-09-26 — Codex execution delegation
 

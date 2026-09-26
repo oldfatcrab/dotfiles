@@ -7,12 +7,12 @@ volume="${settings%%,*}"
 muted="${settings##*, }"
 
 case "$muted" in
-true) icon=󰝟; label="mute" ;;
+true) icon=􀊣; label="mute" ;;
 *)
   case "$volume" in
-  '' | *[!0-9]*) icon=󰕾; label="" ;;
-  0) icon=󰖁; label="0%" ;;
-  *) icon=󰕾; label="${volume}%" ;;
+  '' | *[!0-9]*) icon=􀊩; label="" ;;
+  0) icon=􀊡; label="0%" ;;
+  *) icon=􀊩; label="${volume}%" ;;
   esac
   ;;
 esac

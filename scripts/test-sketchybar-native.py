@@ -72,7 +72,9 @@ with tempfile.TemporaryDirectory() as tmp:
         ADDED=str(added),
         MONITORS="two",
         HYPRSPACE_BIN="/stub/hyprspace",
-        HIGHLIGHT_COLOR="0xffb4befe",
+        BORDER_COLOR="0xff45475a",
+        ICON_BG_COLOR="0xffbac2de",
+        ICON_FG_COLOR="0xff313244",
         VPN_CONNECTED="no",
     )
     subprocess.run(["/bin/bash", str(plugins / "executable_keyboard_layout.sh")], env=env, check=True)
@@ -96,11 +98,13 @@ with tempfile.TemporaryDirectory() as tmp:
     output = calls.read_text().splitlines()
     assert "--set keyboard label=ABC - Extended" in output, output
     assert "--set wifi label=Studio Wi-Fi" in output, output
-    assert "--set vpn label=off" in output and "--set vpn label=on" in output, output
-    assert any("--set display.1 icon=􀢹 label=Mi 27 NU icon.highlight=on icon.highlight_color=0xffb4befe" in line for line in output), output
-    assert any("--set display.2 icon=􀢹 label=Studio icon.highlight=off" in line for line in output), output
+    assert "--set vpn label=off" in output and "--set vpn label=Stub" in output, output
+    assert "--move display.1 before memory" in output, output
+    assert any("--add item display.1 right --set display.1 icon.color=0xff313244 icon.background.drawing=on icon.background.color=0xffbac2de" in line for line in output), output
+    assert any("--set display.1 icon=􀒶 label=Mi 27 NU icon.highlight=off background.border_color=0xff45475a" in line for line in output), output
+    assert any("--set display.2 icon=􀒶 label=Studio icon.highlight=off" in line for line in output), output
     assert "--remove display.2" in output, output
     assert output.count("--remove display.1") == 1, output
-    assert "--set display_status drawing=on icon=􀢹 label=unavailable" in output, output
+    assert "--set display_status drawing=on icon=􀒶 label=unavailable" in output, output
 
 print("PASS: keyboard, Wi-Fi, rounded location, VPN, display focus, hot-unplug cleanup, and query failure")

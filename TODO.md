@@ -112,10 +112,11 @@ Unchecked items are planned work, not authorization to change a target machine.
   right-group placement. Offline layout/battery/native checks and source
   validation passed; live checks after scoped apply confirmed placement,
   zero child borders, and aligned quota rows/markers.
-- [x] 2026-09-26 — Restored the unloaded temporary SketchyBar LaunchAgent with
+- [x] 2026-09-26 — Restored the then-unloaded temporary SketchyBar LaunchAgent with
   `launchctl bootstrap gui/$(id -u) /tmp/local.sketchybar-background-test.plist`.
-  Live query confirmed `hidden=off`; the existing patched binary remains in use.
-  The exact reason the job disappeared is unknown; persistence is still below.
+  Live query confirmed `hidden=off` at that time. The reason the job disappeared
+  is unknown; the temporary binary and job have since been replaced by the
+  Homebrew service below.
 - [x] 2026-09-26 — Scoped apply/reload moved Codex-only quota to the center
   group's right edge, removed the agent launcher, and wired quota clicks to
   Codex. Live checks confirmed both remaining percentages/reset countdowns and
@@ -139,24 +140,25 @@ Unchecked items are planned work, not authorization to change a target machine.
 - [ ] Visually verify the 2026-09-26 desktop appearance and auto-hide:
   the top 3px hides SketchyBar; moving below 50px restores it after 150ms.
   Check native menu interaction and confirm background clicks still leave
-  items visible with the existing temporary binary patch.
-- [ ] Make the verified SketchyBar fix persistent through Homebrew. On this
+  items visible with the installed patched service.
+- [x] 2026-09-26 — Installed the verified SketchyBar fix through Homebrew. On this
   machine, clicking the bar background raised it above same-level item
   windows. Tests of `topmost`, `sticky`, and paused Hyprspace did not help;
   runtime settings and Hyprspace were restored. Official 2.24.0 source at
   `6284ee816601486ace33ca48a0271832eec6de35` was patched in `src/bar.c`:
   `window_set_level(&bar->window, g_bar_manager.window_level - 1);`.
-  The temporary binary `/tmp/sketchybar-background-fix/bin/sketchybar` runs
-  via `local.sketchybar-background-test`, registered from
-  `/tmp/local.sketchybar-background-test.plist`. User click tests passed;
-  the original `topmost=on` measurement was background layer 24 below
-  component layer 25; these numeric levels predate `topmost=window`. The original
-  Homebrew binary and LaunchAgent remain intact, but that service is unloaded.
-  Temporary registration does not persist across logout. Proposed next step:
-  an explicitly authorized local Homebrew formula using official source plus
-  this patch, followed by service/relogin verification. Neither a durable
-  formula nor its installation has been completed; `--HEAD` was not a fix
-  in the upstream source inspected on 2026-09-25.
+  The temporary `/tmp` binary is now absent; on 2026-09-26 the stock Homebrew
+  service was confirmed running again. `Formula/sketchybar-background-fix.rb`
+  now contains the pinned, checksum-verified, keg-only build and persistent
+  Homebrew service definition. Local compilation and version checks passed.
+  With explicit authorization, `brew install oldfatcrab/local/sketchybar-background-fix`
+  and `brew services start oldfatcrab/local/sketchybar-background-fix` completed;
+  the original service was stopped and its installation retained for rollback.
+  Runtime checks confirmed background layer 2 below item layer 3 with
+  `topmost=window`.
+- [ ] Verify background clicks interactively and confirm the installed patched
+  Homebrew service survives logout/login. The automation API cannot bind
+  SketchyBar for mouse testing. Do not run stock and patched services together.
 - [ ] Install and evaluate the [OpenRouter Ori harness](https://openrouter.ai/docs/guides/guides/ori),
   including which existing coding agents it should wrap.
 - [ ] Install [Chromium](https://formulae.brew.sh/cask/chromium).
