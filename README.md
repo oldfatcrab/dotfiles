@@ -86,23 +86,55 @@ is intentionally empty.
   for inactive windows. SketchyBar's
   template uses the same palette for a three-section bar: workspaces/front app,
   centered calendar and status read-outs, and macOS-native system launchers.
+  Workspaces 1–9 show deduplicated application icons from Hyprspace windows,
+  with a chevron separating them from the front app. Empty workspaces show
+  `—`; failed queries show `?`. One shared query refreshes on events and every
+  two seconds, including window moves/closures. The Node plugin reads the
+  installed app font's embedded APPM mapping (font 3+), so icons stay aligned
+  with font updates without a separate downloaded mapping script.
   It deliberately does not emulate Omarchy's Linux-only Quickshell panels,
   tray, or device-management backends. Colors follow Catppuccin roles: Base bar,
   Surface0 items, Text labels, Subtext1 secondary icons, and Lavender focused
   workspace border/number. Battery icons use Yellow at 10–29% and Red below
   10%; normal levels stay neutral. Item backgrounds have symmetric 6pt
   outer content padding and a 6pt icon–label gap; backgrounds are 26pt high
-  with 1pt outlines. Labels and workspace numbers use the native macOS
-  `.AppleSystemUIFont:Regular:15.0`; pictograms use the installed Nerd Font at 18pt
-  for glyph coverage. `topmost=window` floats above application windows.
+  with 1pt outlines. Labels and workspace numbers use `SF Pro:Semibold:15.0` within SketchyBar
+  only. SF Symbols supply the display and power pictograms; audio retains a
+  Nerd Font override. Bluetooth is omitted. The bar explicitly loads the installed
+  SF Pro font on reload. `topmost=window` floats above application windows.
   Homebrew-managed `sketchybar-toggle` starts from the bar configuration:
   the top 3px hides the bar, moving below 50px restores it after 150ms.
   It polls mouse position; it does not detect whether a native menu is open.
   Reloading replaces the current user's helper instance. If the helper is
   unavailable, the bar still starts. To recover a hidden bar manually, run
   `sketchybar --bar hidden=off y_offset=0` after stopping the helper.
-  The Raycast button is removed. The clock reads `Sep 26, 2026 13:14` and
-  refreshes each second; volume responds to events with a two-second mute fallback.
+  The Raycast button is removed. The centered clock reads `Sat 26 Sep 13:14` (24-hour time) and
+  refreshes every 30 seconds; volume responds to events with a two-second mute fallback.
+  The centered keyboard item reads the current input method's localized name
+  through Carbon, including Chinese input methods, rather than the last keyboard
+  layout preference. A distributed input-source event and five-second fallback
+  refresh it. Weather fetches wttr.in every 15 minutes, shows condition icons and
+  Celsius, and displays `N/A` on failure. Set `weather-location` to a city to
+  pin it; otherwise the native helper supplies coordinates rounded to two
+  decimal places to wttr.in. If location is unavailable, it displays `N/A`.
+  Wi-Fi shows the CoreWLAN SSID when macOS permits access, otherwise
+  `unavailable`; it polls every 30 seconds because `wifi_change` does not work
+  reliably on newer macOS. The single-run `StatusHelper.app` requests location
+  access only when explicitly launched in authorization mode; grant it yourself:
+  `open -W -a ~/.local/share/sketchybar/StatusHelper.app --args authorize`.
+  Rebuilding this locally signed app may require granting access again.
+  It caches readings locally and exits. No privacy permissions are changed
+  automatically. The VPN item reports connected macOS network services from
+  `scutil --nc list`; proxy-only tools and unmanaged tunnels may not appear.
+  Display names come from Hyprspace, with the focused display highlighted in
+  Lavender, refreshed on events and every two seconds. CPU refreshes every
+  second using differences in native host CPU ticks; memory shows resident
+  active + wired + compressor pages as a percentage of physical RAM, excluding
+  reclaimable inactive pages. This is not Activity Monitor's Memory Pressure.
+  The native Swift helper builds into the XDG data directory only after source changes;
+  Xcode Command Line Tools are required. `plugins/` contains update scripts,
+  `helpers/` contains native support code; component declarations remain in
+  `sketchybarrc`. SketchyBar does not require an `items/` directory.
   Device buttons open their corresponding System Settings panes. Homebrew's
   outdated count is informational, without an unrelated Settings shortcut.
 
@@ -111,11 +143,11 @@ is intentionally empty.
   Reloading the bar keeps the currently running binary; executing bordersrc
   sends the configured options to the existing Borders process.
 
-  **Current target-machine limitation (2026-09-25):** SketchyBar 2.24.0 runs
-  a temporary one-line background-layer patch, verified by repeated clicks.
-  The Homebrew service is unloaded while the temporary service runs; see
-  TODO for the remaining persistent Homebrew installation work. Do not treat
-  the temporary fix as surviving logout/reboot.
+  **Target-machine limitation (2026-09-26):** SketchyBar 2.24.0 runs from a
+  temporary one-line background-layer patch, verified by repeated clicks. Its
+  temporary LaunchAgent was manually restored after being absent from the GUI
+  session. The Homebrew service remains unloaded; the temporary registration
+  and binary do not survive logout/reboot. See TODO for persistent installation.
 
   Catppuccin references: [style guide](https://github.com/catppuccin/catppuccin/blob/main/docs/style-guide.md),
   [Waybar](https://github.com/catppuccin/waybar), and
@@ -124,8 +156,27 @@ is intentionally empty.
   accents and follows their semantic roles; it is not an official flavor.
   SketchyBar's [plugin sharing discussion](https://github.com/FelixKratz/SketchyBar/discussions/12)
   is the community discovery entry point. Candidates discussed but not installed:
-  native caffeinate toggle, [Now Playing](https://github.com/wthrajat/sketchybar-now-playing),
-  and [showy-quota](https://github.com/enieuwy/showy-quota) (requires CodexBar).
+  native caffeinate toggle. Now Playing integration is intentionally omitted.
+- [showy-quota](https://github.com/enieuwy/showy-quota) uses CodexBar's provider
+  data for SketchyBar quota strips. CodexBar, Bash 4+, jq, and the app-icon font
+  are declared in `Brewfiles/Brewfile.base`; upstream showy-quota has no official
+  Homebrew formula, so `bash scripts/install-showy-quota.sh` installs its pinned
+  v0.9.0 release after checking the published SHA-256. The native renderer is
+  included, without requiring Rust. The bar invokes the installed upstream
+  rendering plugin through a local trigger, avoiding its bootstrap's exported
+  registry flag bug. A small local layout adapter places Codex quota at the right
+  edge of the center group, clears inherited child outlines, and shows remaining
+  percentages plus reset countdowns for both five-hour and weekly windows.
+  Clicking quota opens Codex; the separate agent launcher is omitted.
+  `home/dot_config/showy-quota/` selects a local Contrast theme rendered from
+  the canonical palette using the upstream Catppuccin role mapping. Only Codex
+  is selected for this bar; authentication stays in CodexBar. Never put
+  credentials in this repo.
+  The adapter uses its default local `codexbar serve` lifecycle/cache, and
+  provider count determines the strip width. tmux wiring is deferred in TODO.
+  SF Pro and SF Symbols install through Apple's package installers and require
+  interactive administrator authentication: `brew install --cask font-sf-pro sf-symbols`.
+  Installing these packages does not change the macOS system font setting.
 - `themes/codex-catppuccin-contrast.json.tmpl` renders a ChatGPT desktop
   Appearance import token from the same palette. It retains the observable
   built-in `catppuccin` ID because `codex-theme-v1` has no published schema.
@@ -194,8 +245,13 @@ Codex uses its native `~/.codex/` directory; no `CODEX_HOME` override is
 required. `home/dot_codex/private_AGENTS.md.tmpl` manages global contributor guidance.
 `home/dot_codex/modify_private_config.toml` updates only selected TOML fields,
 preserving local project trust, MCP connections, hooks, and unrelated settings.
-The shared route is Astra (low), Luna (medium), and Sol for complex execution
-as described in the global instructions. Host/model availability still needs
+Astra (low by default; medium when selected) coordinates and delegates complete
+work packages to Luna (xhigh), Sol (medium), or Sol (high), as described in the
+global instructions. `home/dot_codex/agents/` defines portable `explorer`,
+`worker`, `sol_worker`, and `sol_high_worker` roles with explicit model settings.
+Explicit spawn settings and concise context keep execution
+on the selected worker model. Delegation is instruction-driven, not a guaranteed
+quota reduction; verify actual worker models and task usage after changes. Host/model availability still needs
 verification on each machine.
 
 Run `python3 scripts/validate-codex-settings.py` to check both personal/work

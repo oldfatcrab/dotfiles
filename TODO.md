@@ -28,7 +28,9 @@ Unchecked items are planned work, not authorization to change a target machine.
 - [ ] 2026-09-25 — Codex portable settings source prepared: global guidance,
   selected model/agent fields, and personal-machine appearance/memory settings.
   Pending explicitly authorized target apply; local private context
-  is provisioned separately. Desktop `session-flags: features.thread_tools`
+  is provisioned separately. On 2026-09-26, local routing guidance and Luna
+  xhigh were updated directly and synchronized to source; broader target apply
+  and real-task usage comparison remain pending. Desktop `session-flags: features.thread_tools`
   warning remains unresolved; the desktop references a flag its CLI does not list.
 
 - [ ] Validate the existing managed Zsh, Powerlevel10k configuration, and Ghostty
@@ -85,6 +87,48 @@ Unchecked items are planned work, not authorization to change a target machine.
   launchers and read-outs. Linux service panels remain intentionally absent.
 
 ### Deferred installation and activation
+
+- [x] 2026-09-26 — Completed guide step 20 for Hyprspace: workspace 1–9
+  application icons, a separator before the front app, and `—` for empty
+  workspaces. Font APPM mapping, per-workspace deduplication, window moves,
+  invalid data, and empty workspaces passed the Node behavior check. Scoped
+  `chezmoi apply --exclude scripts` and `sketchybar --reload` completed;
+  live queries matched all nine labels to Hyprspace and confirmed a two-second
+  shared refresh interval and separator placement.
+- [ ] Connect showy-quota to tmux later, reusing its shared CodexBar cache and
+  the existing native tmux status configuration; no TPM or second fetcher.
+- [x] 2026-09-26 — Applied the SketchyBar/showy-quota configuration with
+  `chezmoi apply -r --exclude scripts ~/.config/sketchybar ~/.config/showy-quota`
+  and reloaded the existing bar. Live queries confirmed centered 24-hour clock,
+  `Squirrel - Simplified` input source, weather icon + Celsius, CPU update_freq=1,
+  memory, `Mi 27 NU` name/focus highlight, and real Codex quota strips using
+  Contrast colors through managed `codexbar serve`. Source validation and four
+  plugin behavior checks passed. CodexBar 0.66.0, app-icon font 3.0.1, and
+  checksum-verified showy-quota v0.9.0 are installed on this machine.
+- [x] 2026-09-26 — Verified SF Pro/SF Symbols are installed. Explicitly load
+  SF Pro on bar reload; rendered display/power glyphs were compared with native
+  SF Symbols. Scoped apply/reload and live queries confirmed the new icons.
+- [x] 2026-09-26 — Removed Bluetooth and repaired quota child outlines and
+  right-group placement. Offline layout/battery/native checks and source
+  validation passed; live checks after scoped apply confirmed placement,
+  zero child borders, and aligned quota rows/markers.
+- [x] 2026-09-26 — Restored the unloaded temporary SketchyBar LaunchAgent with
+  `launchctl bootstrap gui/$(id -u) /tmp/local.sketchybar-background-test.plist`.
+  Live query confirmed `hidden=off`; the existing patched binary remains in use.
+  The exact reason the job disappeared is unknown; persistence is still below.
+- [x] 2026-09-26 — Scoped apply/reload moved Codex-only quota to the center
+  group's right edge, removed the agent launcher, and wired quota clicks to
+  Codex. Live checks confirmed both remaining percentages/reset countdowns and
+  aligned rows. The local bootstrap avoids the upstream exported-registry bug.
+- [x] 2026-09-26 — Scoped apply/build installed StatusHelper.app; the user
+  approved location access. Same-app status returned 3 (authorized); live
+  plugin refresh obtained a real SSID, 31°C weather, and VPN on. The managed
+  helper uses CoreWLAN/Core Location and sends only two-decimal coordinates
+  to wttr.in, explicitly approved by the user. Source validation and native,
+  weather, quota, and CPU/memory behavior checks passed.
+  Missing readings remain unavailable/N/A; no public-IP lookup is substituted.
+  The VPN component uses system-managed connection status; proxy-only tools
+  and unmanaged tunnels may not appear.
 
 - [x] 2026-09-26 — Installed `sketchybar-toggle` 0.5.0 with Homebrew,
   declared it in Brewfile.base, and applied its managed startup configuration.

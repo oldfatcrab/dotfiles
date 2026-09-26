@@ -717,3 +717,63 @@ plain `SF Pro` resolved to Helvetica on this machine, so it is not used.
 
 **Implementation / validation:** <Managed files and commands that verify it>
 ```
+
+## 2026-09-26 — Expand native SketchyBar read-outs and reuse showy-quota
+
+**Status:** accepted
+
+**Decision:** Keep Hyprspace workspaces 1–9 and the current bar geometry.
+Use SF Pro only in SketchyBar, superseding the earlier bar-font choice;
+retain a Nerd Font override for audio and use SF Symbols for display/power.
+Explicitly load the installed SF Pro font on reload. Omit Bluetooth. Use Carbon
+for the current input method, CoreWLAN for available SSIDs, Hyprspace for
+monitor names/focus, native host tick deltas for CPU, and wttr.in for weather.
+Package the shared native helper as a single-run app with a location usage
+description. Authorization is an explicit user action; Wi-Fi/location reads
+wait for the initial authorization callback. Send only two-decimal coordinates
+to wttr.in with the user's approval, retaining a manual city override. Show
+N/A when location is unavailable rather than substituting public-IP location.
+VPN status comes from macOS-managed network connection services, not utun counts.
+Missing or permission-restricted readings are explicitly unavailable.
+Workspace application strips use Hyprspace's complete window list rather than
+Mission Control's native space IDs, preserving the existing 1–9 workspace
+model. Read mappings from the installed app font's APPM metadata; refresh all
+nine labels in one batch on events with a two-second polling fallback.
+
+Reuse the pinned showy-quota release and its upstream SketchyBar adapter.
+Create the update trigger locally because the upstream bootstrap exports a
+registry-loaded flag without the Bash associative arrays it refers to.
+Wrap updates with a local layout adjustment for the center group's right edge,
+clearing inherited child outlines and aligning the upstream zero-width quota
+rows. Show only Codex, with remaining percentages and reset countdowns for both
+windows; clicking the quota replaces the separate Codex launcher.
+Render its custom Catppuccin Contrast theme from the canonical palette rather
+than copying stock Mocha hex values. Package installation uses Homebrew where
+available; the release-only showy-quota runtime uses a checksum-verified script.
+No system font preference, media widget, new workspace manager, or tmux wiring
+is introduced. Component declarations stay in the existing main file;
+`helpers/` is reserved for native support code, not a second item layer.
+
+**Rationale:** Extend the working native macOS bar without replacing its
+layout or maintaining a fork of the quota renderer. Authentication remains
+in CodexBar, and the tmux integration can later share the same cache.
+
+**Validation:** Source rendering, four plugin behavior checks, and native
+helper compilation passed. The user authorized scoped apply/reload; live
+queries confirmed the input source, weather, CPU/memory, focused monitor, and
+Contrast Codex quota strips. SF Pro/SF Symbols installation was subsequently
+verified; display/power glyphs were compared with native symbols. Live quota
+layout checks passed. After explicit user authorization, native Wi-Fi and
+weather refresh returned a real SSID and temperature; live VPN state matched
+the system connection services. Full source and focused behavior checks passed.
+
+## 2026-09-26 — Codex execution delegation
+
+Keep Astra as the user-selected coordinator and delegate complete execution
+packages to Luna xhigh or Sol medium/high according to complexity. Explicit
+spawn settings and minimal inherited context reduce accidental parent-model
+execution; acceptance checks inspect diffs and evidence without routinely
+repeating the worker’s investigation. This is instruction-driven delegation,
+not a guaranteed quota reduction. Preserve the config modify-template and the
+global guidance template’s conditional private context when importing local
+changes with chezmoi add.

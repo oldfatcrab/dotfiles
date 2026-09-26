@@ -4,20 +4,24 @@
 {{- $yellow := index $colors "yellow" | trimPrefix "#" -}}
 {{- $red := index $colors "red" | trimPrefix "#" -}}
 #!/usr/bin/env bash
+set -euo pipefail
 
-PERCENTAGE=$(pmset -g batt | grep -o '[0-9]\+%' | cut -d% -f1)
+snapshot=$(pmset -g batt)
+PERCENTAGE=$(printf '%s\n' "$snapshot" | grep -o '[0-9]\+%' | head -1 | cut -d% -f1 || true)
 
 if [[ -z "$PERCENTAGE" ]]; then
-    sketchybar --set "$NAME" icon= label="AC" icon.color=0xff{{ $subtext1 }}
+    sketchybar --set "$NAME" icon=􀡷 label="AC" icon.color=0xff{{ $subtext1 }}
     exit 0
 fi
 
 case ${PERCENTAGE} in
-9[0-9] | 100) ICON=""; ICON_COLOR="0xff{{ $subtext1 }}" ;;
-[6-8][0-9]) ICON=""; ICON_COLOR="0xff{{ $subtext1 }}" ;;
-[3-5][0-9]) ICON=""; ICON_COLOR="0xff{{ $subtext1 }}" ;;
-[1-2][0-9]) ICON=""; ICON_COLOR="0xff{{ $yellow }}" ;;
-*) ICON=""; ICON_COLOR="0xff{{ $red }}" ;;
+9[0-9] | 100) ICON="􀛨"; ICON_COLOR="0xff{{ $subtext1 }}" ;;
+[6-8][0-9]) ICON="􀺸"; ICON_COLOR="0xff{{ $subtext1 }}" ;;
+[3-5][0-9]) ICON="􀺶"; ICON_COLOR="0xff{{ $subtext1 }}" ;;
+[1-2][0-9]) ICON="􀛩"; ICON_COLOR="0xff{{ $yellow }}" ;;
+*) ICON="􀛪"; ICON_COLOR="0xff{{ $red }}" ;;
 esac
+
+if [[ "$snapshot" == *"AC Power"* ]]; then ICON="􀢋"; fi
 
 sketchybar --set "$NAME" icon="$ICON" icon.color="$ICON_COLOR" label="${PERCENTAGE}%"

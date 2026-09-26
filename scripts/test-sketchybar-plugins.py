@@ -35,7 +35,7 @@ with tempfile.TemporaryDirectory() as directory:
         ["/bin/sh", str(plugins / "executable_clock.sh")],
         env=dict(env, NAME="clock"), text=True,
     ).splitlines()
-    assert result == ["--set", "clock", "label=Sep 26, 2026 13:14"], result
+    assert result == ["--set", "clock", "label=Sat 26 Sep 13:14"], result
 
     for focused, state in [("1", "on"), ("2", "off")]:
         result = subprocess.check_output(
@@ -47,4 +47,19 @@ with tempfile.TemporaryDirectory() as directory:
         assert result == ["--set", "space.1", f"background.drawing={state}",
                           f"icon.highlight={state}"], result
 
-print("PASS: audio, clock format, and workspace focus colors")
+    battery = bin_dir / "battery.sh"
+    battery.write_bytes(subprocess.check_output(["chezmoi", "execute-template", "--file", str(plugins / "executable_battery.sh.tmpl")]))
+    pmset = bin_dir / "pmset"
+    pmset.write_text('#!/bin/sh\nprintf "%s\\n" "$BATTERY_TEST"\n')
+    pmset.chmod(0o700)
+    for snapshot, icon, label in [
+        ("Now drawing from 'AC Power'", "􀡷", "AC"),
+        ("95%; discharging", "􀛨", "95%"),
+        ("20%; discharging", "􀛩", "20%"),
+        ("5%; discharging", "􀛪", "5%"),
+        ("AC Power 50%; charging", "􀢋", "50%"),
+    ]:
+        result = subprocess.check_output(["bash", str(battery)], env=dict(env, NAME="battery", BATTERY_TEST=snapshot), text=True).splitlines()
+        assert f"icon={icon}" in result and f"label={label}" in result, result
+
+print("PASS: audio, clock, workspace focus, and SF power symbols")

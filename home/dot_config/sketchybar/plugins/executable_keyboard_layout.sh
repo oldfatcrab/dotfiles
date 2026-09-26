@@ -1,6 +1,3 @@
-#!/bin/sh
-
-layout="$(defaults read com.apple.HIToolbox AppleCurrentKeyboardLayoutInputSourceID 2>/dev/null | awk -F. '{print $NF}')"
-[ -n "$layout" ] || layout=""
-
-sketchybar --set "$NAME" label="$layout"
+#!/usr/bin/env bash
+set -euo pipefail
+exec bash "$CONFIG_DIR/plugins/native_status.sh" keyboard

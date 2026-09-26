@@ -9,7 +9,20 @@
 {{- $text := index $colors "text" | trimPrefix "#" -}}
 #!/usr/bin/env bash
 
+# showy-quota requires Bash 4+; macOS /bin/bash is 3.2.
+export PATH="/opt/homebrew/bin:/usr/local/bin:$HOME/.local/bin:$PATH"
+if (( BASH_VERSINFO[0] < 4 )); then
+    brew_bash=$(command -v bash)
+    if [[ "$brew_bash" == /bin/bash || "$brew_bash" == /usr/bin/bash ]]; then
+        echo "SketchyBar requires Homebrew bash (brew install bash)" >&2
+        exit 1
+    fi
+    exec "$brew_bash" "$0" "$@"
+fi
+set -euo pipefail
+
 PLUGIN_DIR="$CONFIG_DIR/plugins"
+export HYPRSPACE_BIN
 
 if [ -n "${HYPRSPACE_BIN:-}" ]; then
 	HYPRSPACE_BIN="$HYPRSPACE_BIN"
@@ -30,11 +43,16 @@ fi
 # Float above application windows; sketchybar-toggle yields the top edge.
 sketchybar --bar topmost=window height=40 color=0xff{{ $base }} border_width=2 border_color=0xff{{ $crust }}
 
+# Register newly installed SF Pro in the existing bar process after reload.
+if [[ -r /Library/Fonts/SF-Pro.ttf ]]; then
+    sketchybar --load-font /Library/Fonts/SF-Pro.ttf
+fi
+
 default=(
 	padding_left=5
 	padding_right=5
-	icon.font="Liga SFMono Nerd Font:Bold:18.0"
-	label.font=".AppleSystemUIFont:Regular:15.0"
+	icon.font="SF Pro:Semibold:15.0"
+	label.font="SF Pro:Semibold:15.0"
 	icon.color=0xff{{ $subtext1 }}
 	label.color=0xff{{ $text }}
 	icon.padding_left=6
@@ -50,13 +68,16 @@ default=(
 sketchybar --default "${default[@]}"
 
 sketchybar --add event hyprspace_workspace_change
+sketchybar --add event input_source_changed com.apple.Carbon.TISNotifySelectedKeyboardInputSourceChanged
 
 for sid in {1..9}; do
 	space=(
 		icon="$sid"
-		icon.font=".AppleSystemUIFont:Regular:15.0"
-		label.drawing=off
-		icon.padding_right=6
+		icon.font="SF Pro:Semibold:15.0"
+		label.drawing=on
+		label="—"
+		label.font="sketchybar-app-font:Regular:16.0"
+		icon.padding_right=3
 		background.color=0xff{{ $surface0 }}
 		background.border_color=0xff{{ $lavender }}
 		icon.highlight_color=0xff{{ $lavender }}
@@ -68,8 +89,17 @@ for sid in {1..9}; do
 		--subscribe space."$sid" hyprspace_workspace_change
 done
 
-focused="$("$HYPRSPACE_BIN" list-workspaces --focused 2>/dev/null)"
-[ -n "$focused" ] && sketchybar --trigger hyprspace_workspace_change FOCUSED_WORKSPACE="$focused"
+focused="$("$HYPRSPACE_BIN" list-workspaces --focused 2>/dev/null || true)"
+if [ -n "$focused" ]; then
+    sketchybar --trigger hyprspace_workspace_change FOCUSED_WORKSPACE="$focused"
+fi
+
+# One query updates all nine Hyprspace workspaces, including window moves.
+sketchybar --add item space_separator left \
+    --set space_separator icon=􀆊 icon.color=0xff{{ $lavender }} \
+        label.drawing=off background.drawing=off update_freq=2 \
+        script="$PLUGIN_DIR/workspace_apps.js" \
+    --subscribe space_separator hyprspace_workspace_change space_windows_change front_app_switched system_woke
 
 sketchybar --add item front_app left \
 	--set front_app icon.drawing=off label.padding_left=6 script="$PLUGIN_DIR/front_app.sh" \
@@ -77,36 +107,53 @@ sketchybar --add item front_app left \
 
 # Omarchy's center anchor maps to SketchyBar's center section. Native launchers
 # deliberately replace Quickshell's Linux-only panels and backends.
-clock=(update_freq=1 icon= script="$PLUGIN_DIR/clock.sh" click_script="open -a Calendar")
-keyboard=(update_freq=30 icon=󰌌 script="$PLUGIN_DIR/keyboard_layout.sh" click_script="open 'x-apple.systempreferences:com.apple.Keyboard-Settings.extension'")
-weather=(icon=󰖐 label.drawing=off icon.padding_right=6 click_script="open -a Weather")
-updates=(update_freq=3600 icon=󰏖 script="$PLUGIN_DIR/brew_updates.sh")
+clock=(update_freq=30 icon=􀧞 script="$PLUGIN_DIR/clock.sh" click_script="open -a Calendar")
+keyboard=(update_freq=5 icon=􀇳 script="$PLUGIN_DIR/keyboard_layout.sh" click_script="open 'x-apple.systempreferences:com.apple.Keyboard-Settings.extension'")
+weather=(update_freq=900 icon=􀇔 label="N/A" script="$PLUGIN_DIR/weather.sh" click_script="open -a Weather")
+updates=(update_freq=3600 icon=􀄩 script="$PLUGIN_DIR/brew_updates.sh")
 
 sketchybar \
 	--add item keyboard center --set keyboard "${keyboard[@]}" \
 	--add item weather center --set weather "${weather[@]}" \
 	--add item clock center --set clock "${clock[@]}" \
 	--add item updates center --set updates "${updates[@]}" \
-	--subscribe clock system_woke
+	--subscribe clock system_woke \
+	--subscribe keyboard input_source_changed system_woke \
+	--subscribe weather system_woke
 
-audio=(update_freq=2 icon=󰕾 script="$PLUGIN_DIR/audio.sh" click_script="open 'x-apple.systempreferences:com.apple.Sound-Settings.extension'")
-media=(icon=󰎆 label.drawing=off icon.padding_right=6 click_script="open -a Music")
-agent=(icon=󰧑 label.drawing=off icon.padding_right=6 click_script="open -a Codex")
-bluetooth=(icon=󰂯 label.drawing=off icon.padding_right=6 click_script="open 'x-apple.systempreferences:com.apple.BluetoothSettings'")
-network=(icon=󰤨 label.drawing=off icon.padding_right=6 click_script="open 'x-apple.systempreferences:com.apple.wifi-settings-extension'")
-display=(icon=󰍹 label.drawing=off icon.padding_right=6 click_script="open 'x-apple.systempreferences:com.apple.Displays-Settings.extension'")
+audio=(update_freq=2 icon.font="Liga SFMono Nerd Font:Regular:18.0" icon=󰕾 script="$PLUGIN_DIR/audio.sh" click_script="open 'x-apple.systempreferences:com.apple.Sound-Settings.extension'")
+network=(update_freq=30 icon=􀙇 script="$PLUGIN_DIR/native_status.sh wifi" click_script="open 'x-apple.systempreferences:com.apple.wifi-settings-extension'")
+vpn=(update_freq=30 icon=􀎡 script="$PLUGIN_DIR/native_status.sh vpn" click_script="open 'x-apple.systempreferences:com.apple.Network-Settings.extension'")
+display=(update_freq=2 updates=on drawing=off script="$PLUGIN_DIR/displays.sh")
+cpu=(update_freq=1 icon=􀧓 script="$PLUGIN_DIR/system_metrics.sh")
+memory=(icon=􀫦 label="N/A")
 battery=(update_freq=120 script="$PLUGIN_DIR/battery.sh" click_script="open 'x-apple.systempreferences:com.apple.Battery-Settings.extension'")
 
 sketchybar \
-	--add item media right --set media "${media[@]}" \
-	--add item agent right --set agent "${agent[@]}" \
 	--add item audio right --set audio "${audio[@]}" \
-	--add item bluetooth right --set bluetooth "${bluetooth[@]}" \
 	--add item network right --set network "${network[@]}" \
+	--add item vpn right --set vpn "${vpn[@]}" \
 	--add item display right --set display "${display[@]}" \
 	--add item battery right --set battery "${battery[@]}" \
+	--add item cpu right --set cpu "${cpu[@]}" \
+	--add item memory right --set memory "${memory[@]}" \
 	--subscribe audio volume_change system_woke \
+	--subscribe network wifi_change system_woke \
+	--subscribe vpn system_woke \
+	--subscribe display display_change space_change front_app_switched system_woke \
 	--subscribe battery system_woke power_source_change
+
+# Keep upstream rendering; its bootstrap exports an invalid registry-loaded flag.
+quota_plugin="${XDG_DATA_HOME:-$HOME/.local/share}/showy-quota/adapters/sketchybar/plugins/showy_quota.sh"
+if [ -x "$quota_plugin" ]; then
+    sketchybar --add event showy_quota_refresh \
+        --add item showy_quota.trigger center \
+        --set showy_quota.trigger drawing=off updates=on update_freq=10 script="$PLUGIN_DIR/quota_update.js" \
+        --subscribe showy_quota.trigger showy_quota_refresh
+    if ! "$PLUGIN_DIR/quota_update.js"; then
+        echo "SketchyBar: quota update failed; remaining items will still load" >&2
+    fi
+fi
 
 sketchybar --update
 
