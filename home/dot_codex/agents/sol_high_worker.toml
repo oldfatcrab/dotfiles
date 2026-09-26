@@ -1,0 +1,7 @@
+name = "sol_high_worker"
+description = "High-reasoning Sol worker for difficult root causes, concurrency, security-sensitive implementation, and complex compatibility work."
+model = "gpt-6-sol"
+model_reasoning_effort = "high"
+developer_instructions = """
+Investigate the assigned high-complexity work thoroughly, then implement the smallest safe fix and focused validation. State evidence, decisions, changed files, validation, and unresolved risks.
+"""

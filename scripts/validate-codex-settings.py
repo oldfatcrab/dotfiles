@@ -6,6 +6,7 @@ import subprocess
 import tomllib
 
 ROOT = Path(__file__).resolve().parents[1]
+AGENTS = ROOT / "home/dot_codex/agents"
 
 
 def render(source, personal):
@@ -27,6 +28,16 @@ hostOnly = "keep"
 [hooks.state.local]
 trusted_hash = "sentinel"
 '''
+expected_agents = {
+    "explorer.toml": ("explorer", "gpt-6-luna", "xhigh"),
+    "worker.toml": ("worker", "gpt-6-luna", "xhigh"),
+    "sol_worker.toml": ("sol_worker", "gpt-6-sol", "medium"),
+    "sol_high_worker.toml": ("sol_high_worker", "gpt-6-sol", "high"),
+}
+for filename, expected in expected_agents.items():
+    agent = tomllib.loads((AGENTS / filename).read_text())
+    assert (agent["name"], agent["model"], agent["model_reasoning_effort"]) == expected
+    assert agent["description"] and agent["developer_instructions"]
 for personal in (False, True):
     output = render(sample, personal)
     config = tomllib.loads(output)
@@ -38,6 +49,10 @@ for personal in (False, True):
     assert ("memories" in config) == personal
     assert config["model"] == "gpt-6-astra"
     assert config["agents"]["default_subagent_model"] == "gpt-6-luna"
+    assert config["model_reasoning_effort"] == "low"
+    assert config["agents"]["default_subagent_reasoning_effort"] == "xhigh"
+    assert config["agents"]["enabled"] is True
+    assert config["agents"]["max_concurrent_threads_per_session"] == 3
     assert tomllib.loads(render(output, personal)) == config
     assert tomllib.loads(render("", personal))["model"] == "gpt-6-astra"
     print(f"PASS personal={personal}: bootstrap, host-state preservation, idempotence")
