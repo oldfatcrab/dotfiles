@@ -11,6 +11,9 @@
 {{- $config = setValueAtPath "features.memories" true $config -}}
 {{- $config = setValueAtPath "memories.generate_memories" true $config -}}
 {{- $config = setValueAtPath "memories.use_memories" true $config -}}
+{{- $config = setValueAtPath "mcp_servers.jev.command" (lookPath "op" | default "op") $config -}}
+{{- $config = setValueAtPath "mcp_servers.jev.args" (list "run" "--" (lookPath "npx" | default "npx") "-y" "jev-use@0.8.0" "serve") $config -}}
+{{- $config = setValueAtPath "mcp_servers.jev.env.TYPESAFE_API_KEY" "op://environments/typesafe/TYPESAFE_API_KEY" $config -}}
 {{- $preferences := dict "conversationDetailMode" "STEPS_PROSE" "followUpQueueMode" "queue" "sansFontSize" 15 "codeFontSize" 15 "appearanceLightCodeThemeId" "catppuccin" "appearanceDarkCodeThemeId" "catppuccin" "usePointerCursors" false "appearanceDiffMarkerStyle" "color" "appearanceTheme" "system" "show-context-window-usage" true "defaultTerminalLocation" "right" "avatar-overlay-pet-visible" false -}}
 {{- range $key, $value := $preferences -}}
 {{- $config = setValueAtPath (printf "desktop.%s" $key) $value $config -}}

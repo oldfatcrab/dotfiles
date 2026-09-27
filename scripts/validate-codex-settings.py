@@ -42,8 +42,15 @@ for personal in (False, True):
     output = render(sample, personal)
     config = tomllib.loads(output)
     original = tomllib.loads(sample)
-    for section in ("projects", "mcp_servers", "hooks"):
+    for section in ("projects", "hooks"):
         assert config[section] == original[section], section
+    assert config["mcp_servers"]["local"] == original["mcp_servers"]["local"]
+    assert ("jev" in config["mcp_servers"]) == personal
+    if personal:
+        jev = config["mcp_servers"]["jev"]
+        assert jev["args"][0:2] == ["run", "--"]
+        assert jev["args"][3:] == ["-y", "jev-use@0.8.0", "serve"]
+        assert jev["env"] == {"TYPESAFE_API_KEY": "op://environments/typesafe/TYPESAFE_API_KEY"}
     assert config["desktop"]["hostOnly"] == "keep"
     assert ("appearanceTheme" in config["desktop"]) == personal
     assert ("memories" in config) == personal

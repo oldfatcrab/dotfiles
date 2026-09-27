@@ -285,6 +285,16 @@ verification on each machine.
 Run `python3 scripts/validate-codex-settings.py` to check both personal/work
 branches, first-run rendering, preservation of host-owned state, and idempotence.
 
+On personal machines, the Jev MCP server runs pinned `jev-use@0.8.0` through
+`op run`. Its `TYPESAFE_API_KEY` setting is a 1Password `op://` reference, not
+the key itself. Install and unlock 1Password/CLI and Node.js, then restart Codex
+after applying this source so it can discover the server. The reference must
+exist at `op://environments/typesafe/TYPESAFE_API_KEY`; other machines need
+their own 1Password access. The first launch may take longer while `npx`
+fetches the package. [1Password `op run` documentation](https://developer.1password.com/docs/cli/secrets-environment-variables/)
+and [jev-use documentation](https://github.com/shitianfang/jev-use) describe the
+runtime behavior. Existing host-owned MCP entries remain intact.
+
 Personal appearance and memory preferences render only when
 `is_personal_machine` is true. The dark appearance reuses the canonical theme
 template; the light appearance preserves the observed desktop settings.
