@@ -27,11 +27,13 @@ Unchecked items are planned work, not authorization to change a target machine.
 
 - [ ] 2026-09-25 — Codex portable settings source prepared: global guidance,
   selected model/agent fields, and personal-machine appearance/memory settings.
-  Pending explicitly authorized target apply; local private context
-  is provisioned separately. On 2026-09-26, local routing guidance and Luna
-  xhigh were updated directly and synchronized to source; broader target apply
-  and real-task usage comparison remain pending. Desktop `session-flags: features.thread_tools`
-  warning remains unresolved; the desktop references a flag its CLI does not list.
+  On 2026-09-27, the global delegation policy was tightened experimentally and
+  scoped-applied to `~/.codex/AGENTS.md`; broader target apply remains pending.
+  Its effects on task performance, usage, and rework quality are unverified;
+  observe representative real tasks before evaluating results or claiming
+  savings. Local private context is provisioned separately. Desktop
+  `session-flags: features.thread_tools` warning remains unresolved; the desktop
+  references a flag its CLI does not list.
 
 - [ ] Validate the existing managed Zsh, Powerlevel10k configuration, and Ghostty
   configuration on the target machine. Zsh and Powerlevel10k source already
