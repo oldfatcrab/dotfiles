@@ -1,4 +1,4 @@
-model = "gpt-5.6-terra"
+model = "gpt-6-sol"
 model_reasoning_effort = "low"
 notify = ["/Users/oldfatcrab/.codex/computer-use/Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient", "turn-ended"]
 service_tier = "default"
@@ -25,6 +25,8 @@ service_tier = "default"
   sansFontSize = 15
   show-context-window-usage = true
   usePointerCursors = false
+selected-avatar-id = "codex"
+toys-audio-visualizer-enabled = true
   [desktop.appearanceDarkChromeTheme]
     accent = "#c17de9"
     accentSource = "custom"
@@ -101,9 +103,10 @@ code = '"Liga SFMono Nerd Font"'
 [marketplaces.openai-bundled]
 source_type = "local"
 source = "/Users/oldfatcrab/.codex/.tmp/bundled-marketplaces/openai-bundled"
-  [marketplaces.openai-primary-runtime]
-    source = "/Users/oldfatcrab/.cache/codex-runtimes/codex-primary-runtime/plugins/openai-primary-runtime"
-    source_type = "local"
+
+[marketplaces.openai-primary-runtime]
+source_type = "local"
+source = "/Users/oldfatcrab/.cache/codex-runtimes/codex-primary-runtime/plugins/openai-primary-runtime"
   [marketplaces.ponytail]
     last_revision = "2ed6c52c9d7e5e56942508591085fd45dea277d3"
     last_updated = "2026-08-14T17:30:12Z"
@@ -122,25 +125,26 @@ enabled = false
 url = "https://api.ibkr.com/v1/api/mcp-public"
 
 [mcp_servers.node_repl]
+args = []
 command = "/Applications/ChatGPT.app/Contents/Resources/cua_node/bin/node_repl"
-startup_timeout_sec = 120.0
+startup_timeout_sec = 120
 
 [mcp_servers.node_repl.env]
-BROWSER_USE_AVAILABLE_BACKENDS = "chrome,iab"
-BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
-BROWSER_USE_CODEX_APP_VERSION = "26.924.22138"
-BROWSER_USE_TINYSKY_ENABLED = "1"
-CODEX_CLI_PATH = "/Applications/ChatGPT.app/Contents/Resources/codex-cli/CodexCLI.app/Contents/MacOS/codex"
-CODEX_HOME = "/Users/oldfatcrab/.codex"
-NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = ""
-NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME = ""
-NODE_REPL_INSTRUCTIONS_USE_CASE_COMPUTER_USE = ""
 NODE_REPL_NATIVE_PIPE_CONNECT_TIMEOUT_MS = "1000"
 NODE_REPL_NODE_MODULE_DIRS = "/Applications/ChatGPT.app/Contents/Resources/cua_node/lib/node_modules"
 NODE_REPL_NODE_PATH = "/Applications/ChatGPT.app/Contents/Resources/cua_node/bin/node"
 NODE_REPL_TRUSTED_CODE_PATHS = "/Users/oldfatcrab/.codex:/Applications/ChatGPT.app/Contents/Resources/cua_node/lib/node_modules"
+CODEX_HOME = "/Users/oldfatcrab/.codex"
+BROWSER_USE_AVAILABLE_BACKENDS = "chrome,iab"
+BROWSER_USE_TINYSKY_ENABLED = "1"
+NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = ""
+NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME = ""
+NODE_REPL_INSTRUCTIONS_USE_CASE_COMPUTER_USE = ""
+BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
+BROWSER_USE_CODEX_APP_VERSION = "26.924.22138"
 NODE_REPL_TRUSTED_SERVICES = '{"browser":"/Users/oldfatcrab/.codex/plugins/cache/openai-bundled/browser/26.924.22138/scripts/browser-service.mjs","sky":"@oai/sky/service"}'
 SKY_CUA_SERVICE_PATH = "/Users/oldfatcrab/.codex/computer-use/Codex Computer Use.app"
+CODEX_CLI_PATH = "/Applications/ChatGPT.app/Contents/Resources/codex-cli/CodexCLI.app/Contents/MacOS/codex"
 
 [mcp_servers.jev]
 command = "/opt/homebrew/bin/op"
