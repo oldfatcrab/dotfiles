@@ -18,7 +18,7 @@ concrete, reviewed requirement.
 ├── scripts/bootstrap.sh # explicit public/private entrypoint
 ├── Formula/            # opt-in local SketchyBar build, separate from Brewfiles
 ├── DECISIONS.md        # durable design decisions and Omarchy divergences
-├── docs/               # implementation history, research, and agent conventions
+├── docs/               # implementation research and tool-specific evidence
 ├── themes/             # portable palette data for future app configurations
 ├── home/               # maps to $HOME
 │   ├── dot_zshenv      # bootstrap into the XDG Zsh directory
@@ -48,10 +48,7 @@ not assumed by the private workstation layer.
   the complete Zsh startup set from `~/.config/zsh`.
 - [DECISIONS.md](DECISIONS.md) records durable choices; [TODO.md](TODO.md)
   records deferred work. Neither replaces the source files.
-- [docs/implementation-history.md](docs/implementation-history.md) indexes
-  every implementation commit after `889d46408030fdc3d20c09a9595b7bacbe075536`;
-  its entries point back to the current source of truth rather than prescribing
-  target-machine actions.
+- Git history is the implementation record. Use `git log` / `git show` when a source path or decision needs historical context.
 - [docs/tools/README.md](docs/tools/README.md) indexes dedicated configuration
   documents for each managed tool. Each records its Omarchy reference,
   intentional macOS/Zsh divergence, and validation boundary;
@@ -281,7 +278,7 @@ previews the ordered actions; `--apply` runs public chezmoi first, then the
 personal workstation bootstrap. AI configuration is intentionally independent:
 clone `ai-workspace` separately and run its own bootstrap. This keeps portable
 dotfiles, personal workstation choices, and agent governance from becoming one
-coupled configuration system. See [the private workstation guide](docs/workstation-private.md).
+coupled configuration system. See [the private workstation example](examples/workstation-private/README.md).
 
 ## Development policy
 

@@ -1,7 +1,14 @@
 # Private workstation directory contract
 
-A minimal private workstation repository only needs personal machine choices
-that should not live in public dotfiles.
+The public dotfiles repository owns portable macOS behavior. An optional
+`workstation-private` repository owns personal machine choices that should not
+be published, currently the personal Homebrew cask list.
+
+It does **not** own Codex instructions, agent profiles, model routing, MCP
+policy, or other agent configuration. Those belong in the separate private
+`ai-workspace` repository.
+
+## Minimal layout
 
 ```text
 Brewfiles/Brewfile.personal
@@ -9,8 +16,17 @@ scripts/bootstrap.sh
 ```
 
 The bootstrap should support `--check`, `--dry-run`, and `--apply` and
-should limit itself to those personal workstation choices.
+limit itself to those personal workstation choices.
 
-Agent configuration belongs in a separate private AI workspace. Do not copy
-Codex `AGENTS.md`, `config.toml`, custom agent profiles, MCP credentials,
-or agent runtime state into this repository.
+## Rebuild order
+
+1. Apply the public portable dotfiles layer.
+2. Clone and check/apply `workstation-private` for personal applications.
+3. Clone and check/apply `ai-workspace` independently for agent configuration.
+
+The layers are intentionally independent. Do not use chezmoi or the
+workstation bootstrap to overwrite `~/.codex/AGENTS.md` or
+`~/.codex/config.toml`.
+
+Keep agent credentials and secrets in 1Password or service-native credential
+stores rather than either Git repository.

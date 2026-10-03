@@ -6,9 +6,9 @@ settings to copy into this macOS chezmoi repository. Its [Dotfiles guide](https:
 separates user overrides in `~/.config` from package defaults in `/usr/share/omarchy`.
 
 For the shared ownership boundary, read
-[Omarchy reference research](omarchy-reference-research.md); for the commit
-ledger, read [implementation history](implementation-history.md). Tool-specific
-configuration and validation boundaries are in `docs/tools/`.
+[Omarchy reference research](omarchy-reference-research.md). Use Git history for
+implementation chronology; tool-specific configuration and validation boundaries
+are in `docs/tools/`.
 
 | Local document category | Authoritative Omarchy sources | Scope caveat |
 | --- | --- | --- |

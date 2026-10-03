@@ -24,7 +24,6 @@ validation boundary.
 | VS Code | [vscode.md](vscode.md) |
 | Codex theme | [codex-theme.md](codex-theme.md) |
 | LazyVim | [lazyvim.md](lazyvim.md) |
-| Agent workflow | [agent-workflow.md](agent-workflow.md) |
 
 For the common Omarchy configuration model and complete source map, see
 [../omarchy-reference-research.md](../omarchy-reference-research.md) and

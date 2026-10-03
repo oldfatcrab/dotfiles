@@ -38,41 +38,21 @@ are rebuilt independently rather than through one coupled configuration apply.
 
 ## 2026-09-30 — Separate public dotfiles and private workstation configuration
 
-**Status:** accepted; source implementation is complete, selected private
-target projection completed, remaining target checks pending.
+**Status:** superseded in part by the 2026-10-03 three-layer ownership decision.
 
-**Context:** Public chezmoi source contained personal Codex instructions,
-configuration, agent roles, and a five-cask personal Brewfile. Codex runtime
-state shares `~/.codex` with frequently edited configuration.
+**Context:** Public chezmoi source mixed portable configuration with personal
+application choices and then-current Codex configuration.
 
-**Decision:** Keep portable UX and the shared Homebrew baseline in this public
-repo. Add Stow and mise as shared architecture dependencies. Move selected
-Codex configuration and personal packages to a separate private repository;
-its live `config.toml` is the migration baseline, including project trust,
-MCP, plugins, and hooks. Project and service connections are configuration,
-while sessions, logs, and caches remain runtime-owned. Project the selected
-private files with `stow --no-folding` so `~/.codex` remains a real directory.
-The public bootstrap defaults to read-only check and delegates the private
-layer to its own entrypoint. 1Password is credential authority; only private
-`op://` references are versioned, and `op run` limits secret lifetime to the
-secure session. The public theme export remains optional palette data.
+**Decision:** Keep portable workstation behavior and the shared package baseline
+in public dotfiles, and move personal application choices to a private
+workstation repository.
 
-**Rationale:** The shared base package selection is already accepted and need
-not be reclassified. File-level Stow links let private source edits reach live
-Codex config while preserving runtime ownership. Deterministic bootstraps
-make order and collisions inspectable. This differs from the previous public
-chezmoi Codex templates and the former personal Brewfile ownership.
+**Rationale:** Public, portable configuration should not carry personal machine
+choices or private metadata.
 
-**Consequences:** The public source retirement follows verified private
-replacements and exact live-file backups. Selected private files now project to
-the target. The Codex Secure wrapper is installed with its backup retained;
-static doctor and bundle identity checks passed. The history audit found
-private metadata but no credential values matching its tested patterns.
-Public chezmoi apply, secure cold launch, runtime acceptance, and
-cleanup remain pending. The current Codex session was opened from ordinary
-ChatGPT.app. The user removed all Skills and MCP servers; with Jev absent,
-Codex Secure's static policy check exits before launch. Further launcher
-changes were deferred by request.
+**Consequences:** The personal Brewfile remains in `workstation-private`.
+Agent/Codex ownership later moved again to the separate `ai-workspace`; Git
+history preserves the retired Stow, Codex Secure, Jev, and routing implementation.
 Historical decisions below describe their time, not current ownership.
 
 ## 2026-09-26 — Darken inactive desktop borders
@@ -853,14 +833,3 @@ silently replacing the package baseline or changing unrelated SketchyBar code.
 **Validation:** The formula built and installed; runtime inspection showed
 background layer 2 below component layer 3. Interactive click testing and a
 logout/login persistence check remain open in TODO.
-
-## 2026-09-26 — Codex execution delegation
-
-Keep Astra as the user-selected coordinator and delegate complete execution
-packages to Luna xhigh or Sol medium/high according to complexity. Explicit
-spawn settings and minimal inherited context reduce accidental parent-model
-execution; acceptance checks inspect diffs and evidence without routinely
-repeating the worker’s investigation. This is instruction-driven delegation,
-not a guaranteed quota reduction. Preserve the config modify-template and the
-global guidance template’s conditional private context when importing local
-changes with chezmoi add.

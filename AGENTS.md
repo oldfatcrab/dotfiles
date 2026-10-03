@@ -1,89 +1,38 @@
-# Repository instructions for automated contributors
+# Repository instructions
 
-## Task-scoped reading
+## Before changing anything
 
-When a task concerns this repository, use this order:
+- Inspect `git status` and the affected source files first.
+- Source files define current behavior. Package declarations do not prove target-machine installation.
+- Read `DECISIONS.md` when a task touches a durable architecture choice or an intentional divergence.
+- Read the relevant open `TODO.md` item when changing roadmap scope or acceptance criteria.
+- Read `README.md` when changing user-facing setup or behavior.
 
-1. Read this file. Before modifying files, inspect `git status` and the
-   affected source files.
-2. Read accepted entries in `DECISIONS.md` when the task touches a durable
-   architecture choice or a documented divergence from another reference.
-3. Read the relevant `TODO.md` item when implementing or changing roadmap
-   scope, status, or acceptance criteria.
-4. Read `README.md` when changing user-facing setup or behavior.
+## Scope and ownership
 
-Source files are authoritative for current behavior. Package declarations do
-not prove target-machine installation.
+This is a macOS-oriented chezmoi repository. `.chezmoiroot` makes `home/` the source root.
 
-## Scope and layout
+- Public dotfiles: portable shell, editor, desktop, palette, and shared package configuration.
+- `workstation-private`: personal workstation choices such as personal Homebrew casks.
+- `ai-workspace`: agent principles, Codex policy, protocols, tooling governance, and AI decision history.
+- `~/.codex`: runtime-owned Codex sessions, caches, account/plugin state, and live config.
 
-This is a minimal, macOS-oriented **chezmoi** repository. The source directory
-is `~/.local/share/chezmoi/`; `.chezmoiroot` makes `home/` the source root, so
-its contents map to the target home directory.
-
-Use the following documentation boundaries:
-
-- `README.md`: user-facing setup, behavior, and repository layout.
-- `TODO.md`: roadmap, status, and acceptance criteria.
-- `DECISIONS.md`: durable architecture decisions, including intentional
-  divergences from Omarchy.
-- `AGENTS.md`: contributor-only working rules.
-
-Do not create or restore a separate project-memory document. Place durable
-operational facts in the appropriate document above.
-
-## Framework invariants
-
-- `.chezmoi.toml.tmpl` prompts once for the boolean
-  `is_personal_machine`. Use `get . "is_personal_machine"` in templates.
-- `.chezmoiignore.tmpl` contains machine-conditional ignore patterns.
-- `home/run_*` files are chezmoi scripts. Retain their naming prefixes,
-  ordering, and `.tmpl` suffix unless changing execution semantics.
-- `Brewfiles/Brewfile.base` contains the shared package baseline. The private
-  workstation repository owns personal packages and selected Codex files; this
-  public source never manages `home/dot_codex/`.
-
+Do not add agent-system configuration, credentials, or runtime state to this repository.
 ## Implementation rules
 
-- Follow chezmoi source-state names: `dot_`, `empty_`, `run_once_`, and
-  `run_onchange_`.
-- Use Go templates for OS- or machine-specific behavior. Files outside `home/`
-  require `../` in `include` paths from templates under `home/`.
+- Follow chezmoi source-state names such as `dot_`, `empty_`, `run_once_`, and `run_onchange_`.
+- Use Go templates for OS- or machine-specific behavior; preserve existing `home/run_*` ordering unless execution semantics change.
 - Executable Bash scripts use `#!/usr/bin/env bash` and `set -euo pipefail`.
-  Zsh startup files use Zsh syntax and appropriate startup semantics. Guard
-  optional commands and avoid hardcoded home paths.
-- Do not add credentials or secrets in plaintext.
-- Prefer minimal, reversible changes. Do not commit unless the user explicitly
-  asks. Run `chezmoi apply` only when explicitly requested.
+- Zsh startup files use Zsh syntax and appropriate startup semantics.
+- Guard optional commands, avoid hardcoded home paths, and never commit plaintext secrets.
+- Prefer minimal, reversible changes and preserve unrelated user work.
+- Local commits are appropriate at meaningful recovery boundaries. Do not push, open PRs, deploy, or run `chezmoi apply` without explicit intent.
 
 ## Validation
 
+- Use the smallest relevant validation first.
 - Render edited templates with `chezmoi execute-template` where practical.
-- Before applying to the target machine, review `chezmoi status` and
-  `chezmoi diff`.
-- Run `chezmoi ignored` after editing ignore rules and `chezmoi doctor` for
-  setup issues.
-- Run `scripts/validate-source.sh` before handoff when changing managed source,
-  templates, scripts, ignore rules, or package declarations; it renders
-  templates, syntax-checks managed shell and JSON sources, and runs
-  `git diff --check`. For documentation-only changes, run `git diff --check`
-  and any targeted check required by the edited document.
-- Keep README and TODO status accurate when behavior or roadmap changes.
-- Treat a completed `TODO.md` item as a committed repository state unless its
-  validation records a target-machine command result.
-- Add a DECISIONS.md entry when deliberately choosing a different approach from
-  Omarchy or another documented reference.
-
-## Agent skills
-
-### Issue tracker
-
-Issues are tracked in this repository's GitHub Issues. See `docs/agents/issue-tracker.md`.
-
-### Triage labels
-
-This repository uses the default triage label vocabulary. See `docs/agents/triage-labels.md`.
-
-### Domain docs
-
-This repository uses a single-context domain-doc layout. See `docs/agents/domain.md`.
+- For managed-source, template, script, ignore-rule, or package changes, run `scripts/validate-source.sh`.
+- For documentation-only changes, run `git diff --check` plus any targeted link/reference check.
+- Inspect `chezmoi status` and `chezmoi diff` before any explicitly authorized apply.
+- Update `README.md`, `TODO.md`, or `DECISIONS.md` only when their stated responsibility actually changed.
