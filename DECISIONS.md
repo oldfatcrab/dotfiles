@@ -9,6 +9,33 @@ implementation status, and validation commands updated by later entries are
 not current operating instructions; consult the current source and the
 relevant later decision.
 
+## 2026-10-03 — Separate agent governance from workstation configuration
+
+**Status:** accepted; supersedes the Codex-ownership portion of the 2026-09-30 decision.
+
+**Context:** The prior private workstation design coupled personal applications,
+Codex global instructions, runtime-mutated `config.toml`, custom routing agents,
+Jev credentials, and a secure launcher. Codex Desktop also writes parts of its
+live config itself, which made the tracked private config drift during normal use.
+
+**Decision:** Keep three independent layers. Public chezmoi owns portable
+workstation behavior. `workstation-private` owns personal workstation choices
+such as the personal Brewfile. A separate private `ai-workspace` owns agent
+principles, protocols, tooling governance, and stable Codex decisions. Live
+`~/.codex/config.toml` is runtime-owned; `ai-workspace` patches only explicitly
+pinned fields. Global `~/.codex/AGENTS.md` links to the thin canonical file in
+`ai-workspace`.
+
+**Rationale:** Source-of-truth boundaries should match who actually mutates the
+data. Agent governance should be portable across future agents and companies,
+while Desktop runtime state should not dirty a Git repository. This also makes
+the OpenAI implementation replaceable without changing the governing principles.
+
+**Consequences:** The old Stow-projected Codex config, custom routing profiles,
+Jev/Codex Secure source, and AGENTS template are retired from the active
+`workstation-private` tree. Git history remains the archive. The three layers
+are rebuilt independently rather than through one coupled configuration apply.
+
 ## 2026-09-30 — Separate public dotfiles and private workstation configuration
 
 **Status:** accepted; source implementation is complete, selected private

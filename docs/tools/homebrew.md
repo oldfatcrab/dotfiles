@@ -2,8 +2,8 @@
 
 ## Current configuration
 
-`Brewfiles/Brewfile.base` declares the shared baseline, including Stow and
-mise for the optional private workstation layer. The managed
+`Brewfiles/Brewfile.base` declares the shared baseline. Stow and mise remain
+present for now but are no longer required by the private workstation layer. The managed
 `run_onchange_before_20-install-brew-packages.sh.tmpl` hashes and bundles only
 that manifest. Its existing OpenJDK registration remains macOS-specific.
 Personal casks live in the private repository and are installed by its

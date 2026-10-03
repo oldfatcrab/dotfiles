@@ -33,8 +33,9 @@ concrete, reviewed requirement.
 ```
 
 `Brewfile.base` is the shared package baseline. Personal packages belong to
-an optional private workstation repository. Stow and mise are declared in the
-shared baseline because that private layer uses them.
+an optional private workstation repository. Stow and mise remain in the shared
+baseline for now; their continued admission should be revisited from observed use,
+not assumed by the private workstation layer.
 
 ## Current scope
 
@@ -266,27 +267,21 @@ chezmoi apply
 Use `chezmoi data` to inspect available template data, `chezmoi ignored` to
 check conditional paths, and `chezmoi doctor` to diagnose setup problems.
 
-## Public and private workstation layers
+## Public, private workstation, and AI layers
 
 This repository owns portable shell, editor, desktop, palette, and shared
-package configuration. A separate private repository owns personal applications,
-Codex global instructions, stable agent profiles, the complete `config.toml`,
-credential references, and Codex Secure source. Codex sessions, logs, and caches
-remain runtime-owned. The public `themes/codex-catppuccin-contrast.json.tmpl`
-is a generic, optional palette export; it does not manage `~/.codex`.
+package configuration. `workstation-private` owns personal workstation choices
+such as the personal Homebrew casks. Agent behavior and Codex policy are kept in
+a separate private `ai-workspace`; Codex runtime state remains local under
+`~/.codex`.
 
 Use `scripts/bootstrap.sh --check` (also the no-argument default) to inspect
-public target changes and invoke the private check. `--dry-run` previews the
-ordered actions; `--apply` runs public chezmoi first, then the private
-bootstrap. The script expects the private repository at
-`$HOME/.local/share/workstation-private`, or at `WORKSTATION_PRIVATE_REPO`.
-It never selects a personal remote or creates that repository. A missing
-private layer produces a setup error. The private bootstrap owns its personal
-Brewfile, selected-file `stow --no-folding` projection, mise installation,
-Codex Secure build, and doctor checks. Review `chezmoi diff` and the private
-repository's own plan before applying. See
-[the compatibility guide](docs/workstation-private.md) for the directory
-contract and migration/rollback steps.
+public target changes and invoke the personal-workstation check. `--dry-run`
+previews the ordered actions; `--apply` runs public chezmoi first, then the
+personal workstation bootstrap. AI configuration is intentionally independent:
+clone `ai-workspace` separately and run its own bootstrap. This keeps portable
+dotfiles, personal workstation choices, and agent governance from becoming one
+coupled configuration system. See [the private workstation guide](docs/workstation-private.md).
 
 ## Development policy
 

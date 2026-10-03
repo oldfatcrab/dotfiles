@@ -31,7 +31,7 @@ chezmoi --source "$source_dir" status
 chezmoi --source "$source_dir" diff
 
 if [[ "$mode" == --apply ]]; then
-    # Detect private layout and Stow collisions before changing public targets.
+    # Preflight the independent personal-workstation layer before changing public targets.
     bash "$private_entry" --dry-run
 fi
 
