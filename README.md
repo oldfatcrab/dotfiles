@@ -14,7 +14,8 @@ concrete, reviewed requirement.
 ├── .chezmoiroot        # sets home/ as the chezmoi source root
 ├── AGENTS.md           # instructions for automated contributors
 ├── CLAUDE.md           # pointer to AGENTS.md for Claude
-├── Brewfiles/          # shared and personal Homebrew Bundle manifests
+├── Brewfiles/          # shared Homebrew Bundle manifest
+├── scripts/bootstrap.sh # explicit public/private entrypoint
 ├── Formula/            # opt-in local SketchyBar build, separate from Brewfiles
 ├── DECISIONS.md        # durable design decisions and Omarchy divergences
 ├── docs/               # implementation history, research, and agent conventions
@@ -31,16 +32,14 @@ concrete, reviewed requirement.
 └── TODO.md             # product and implementation roadmap
 ```
 
-`Brewfile.base` applies on every machine and contains the shared package
-baseline, including shell, TUI, GUI, browser, service, and web applications.
-`Brewfile.personal` is included only when `is_personal_machine` is true and
-contains selected personal applications. The package safety-net list
-is intentionally empty.
+`Brewfile.base` is the shared package baseline. Personal packages belong to
+an optional private workstation repository. Stow and mise are declared in the
+shared baseline because that private layer uses them.
 
 ## Current scope
 
-- `chezmoi apply` bootstraps Homebrew, then synchronizes the applicable
-  Brewfile manifests.
+- `chezmoi apply` bootstraps Homebrew and synchronizes the public base
+  Brewfile. `scripts/bootstrap.sh` coordinates the public and private layers.
 - The source files are authoritative for current behavior: package manifests
   live in `Brewfiles/`, Zsh startup files live in `home/dot_config/zsh/`, and
   action order lives in `home/run_*.tmpl`.
@@ -267,56 +266,27 @@ chezmoi apply
 Use `chezmoi data` to inspect available template data, `chezmoi ignored` to
 check conditional paths, and `chezmoi doctor` to diagnose setup problems.
 
-## Codex settings
+## Public and private workstation layers
 
-Codex uses its native `~/.codex/` directory; no `CODEX_HOME` override is
-required. `home/dot_codex/private_AGENTS.md.tmpl` manages global contributor guidance.
-`home/dot_codex/modify_private_config.toml` updates only selected TOML fields,
-preserving local project trust, MCP connections, hooks, and unrelated settings.
-Astra (low by default; medium when selected) coordinates and delegates complete
-work packages to Luna (xhigh), Sol (medium), or Sol (high), as described in the
-global instructions. `home/dot_codex/agents/` defines portable `explorer`,
-`worker`, `sol_worker`, and `sol_high_worker` roles with explicit model settings.
-Explicit spawn settings and concise context keep execution
-on the selected worker model. Delegation is instruction-driven, not a guaranteed
-quota reduction; verify actual worker models and task usage after changes. Host/model availability still needs
-verification on each machine.
+This repository owns portable shell, editor, desktop, palette, and shared
+package configuration. A separate private repository owns personal applications,
+Codex global instructions, stable agent profiles, the complete `config.toml`,
+credential references, and Codex Secure source. Codex sessions, logs, and caches
+remain runtime-owned. The public `themes/codex-catppuccin-contrast.json.tmpl`
+is a generic, optional palette export; it does not manage `~/.codex`.
 
-Run `python3 scripts/validate-codex-settings.py` to check both personal/work
-branches, first-run rendering, preservation of host-owned state, and idempotence.
-
-On personal machines, the Jev MCP server runs pinned `jev-use@0.8.0` through
-`op run`. Its `TYPESAFE_API_KEY` setting is a 1Password `op://` reference, not
-the key itself. Install and unlock 1Password/CLI and Node.js, then restart Codex
-after applying this source so it can discover the server. The reference must
-exist at `op://environments/typesafe/TYPESAFE_API_KEY`; other machines need
-their own 1Password access. The first launch may take longer while `npx`
-fetches the package. [1Password `op run` documentation](https://developer.1password.com/docs/cli/secrets-environment-variables/)
-and [jev-use documentation](https://github.com/shitianfang/jev-use) describe the
-runtime behavior. Existing host-owned MCP entries remain intact.
-
-Personal appearance and memory preferences render only when
-`is_personal_machine` is true. The dark appearance reuses the canonical theme
-template; the light appearance preserves the observed desktop settings.
-Desktop appearance keys are version-sensitive; verify them after app upgrades.
-UI edits to managed fields must be deliberately incorporated into source or
-the next apply restores the repository values. Close the app before applying
-to avoid concurrent config writes. TOML serialization may normalize formatting.
-
-Personal background is optionally read from local `~/.codex/user-context.md`
-on personal machines. Keep that file owner-readable/writable only; provision
-it separately, for example from a 1Password document. It is not an automatically
-loaded Codex file: the template embeds it into AGENTS.md. Conditional templates
-and private permissions do not encrypt data, and rendered diffs can expose it.
-No personal background, credentials, generated memories, sessions, databases,
-plugin caches, machine-specific hooks, or historical command approvals are
-tracked. Installed third-party skills remain installer-owned; custom skill
-sources can be added individually after review.
-
-Preview only the intended Codex targets before an explicitly authorized apply;
-do not recursively add `~/.codex`. Fresh machines need their own sign-in and
-local integrations. A work-machine render leaves existing personal config
-fields unchanged; it is not a privacy cleanup of a previously personal host.
+Use `scripts/bootstrap.sh --check` (also the no-argument default) to inspect
+public target changes and invoke the private check. `--dry-run` previews the
+ordered actions; `--apply` runs public chezmoi first, then the private
+bootstrap. The script expects the private repository at
+`$HOME/.local/share/workstation-private`, or at `WORKSTATION_PRIVATE_REPO`.
+It never selects a personal remote or creates that repository. A missing
+private layer produces a setup error. The private bootstrap owns its personal
+Brewfile, selected-file `stow --no-folding` projection, mise installation,
+Codex Secure build, and doctor checks. Review `chezmoi diff` and the private
+repository's own plan before applying. See
+[the compatibility guide](docs/workstation-private.md) for the directory
+contract and migration/rollback steps.
 
 ## Development policy
 

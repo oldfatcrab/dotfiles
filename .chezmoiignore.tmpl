@@ -12,7 +12,6 @@ LICENSE
 # -----------------------------------------------------------------------------
 {{ if ne .chezmoi.os "darwin" }}
 .config/ghostty/
-Brewfiles/
 run_once_before_00-install-homebrew.sh.tmpl
 run_onchange_before_00-install-packages.sh.tmpl
 run_onchange_before_20-install-brew-packages.sh.tmpl
@@ -27,11 +26,4 @@ Library/Rime/
 
 {{ if ne .chezmoi.os "windows" }}
 AppData/Roaming/Code/
-{{ end }}
-
-# -----------------------------------------------------------------------------
-# 3. Work/Personal Machine Conditional Ignore
-# -----------------------------------------------------------------------------
-{{ if not (get . "is_personal_machine") }}
-Brewfiles/Brewfile.personal
 {{ end }}

@@ -39,9 +39,9 @@ operational facts in the appropriate document above.
 - `.chezmoiignore.tmpl` contains machine-conditional ignore patterns.
 - `home/run_*` files are chezmoi scripts. Retain their naming prefixes,
   ordering, and `.tmpl` suffix unless changing execution semantics.
-- `Brewfiles/Brewfile.base` is for all machines and contains the shared package
-  baseline. `Brewfiles/Brewfile.personal` is for personal machines only and
-  contains selected personal applications.
+- `Brewfiles/Brewfile.base` contains the shared package baseline. The private
+  workstation repository owns personal packages and selected Codex files; this
+  public source never manages `home/dot_codex/`.
 
 ## Implementation rules
 

@@ -9,6 +9,45 @@ implementation status, and validation commands updated by later entries are
 not current operating instructions; consult the current source and the
 relevant later decision.
 
+## 2026-09-30 — Separate public dotfiles and private workstation configuration
+
+**Status:** accepted; source implementation is complete, selected private
+target projection completed, remaining target checks pending.
+
+**Context:** Public chezmoi source contained personal Codex instructions,
+configuration, agent roles, and a five-cask personal Brewfile. Codex runtime
+state shares `~/.codex` with frequently edited configuration.
+
+**Decision:** Keep portable UX and the shared Homebrew baseline in this public
+repo. Add Stow and mise as shared architecture dependencies. Move selected
+Codex configuration and personal packages to a separate private repository;
+its live `config.toml` is the migration baseline, including project trust,
+MCP, plugins, and hooks. Project and service connections are configuration,
+while sessions, logs, and caches remain runtime-owned. Project the selected
+private files with `stow --no-folding` so `~/.codex` remains a real directory.
+The public bootstrap defaults to read-only check and delegates the private
+layer to its own entrypoint. 1Password is credential authority; only private
+`op://` references are versioned, and `op run` limits secret lifetime to the
+secure session. The public theme export remains optional palette data.
+
+**Rationale:** The shared base package selection is already accepted and need
+not be reclassified. File-level Stow links let private source edits reach live
+Codex config while preserving runtime ownership. Deterministic bootstraps
+make order and collisions inspectable. This differs from the previous public
+chezmoi Codex templates and the former personal Brewfile ownership.
+
+**Consequences:** The public source retirement follows verified private
+replacements and exact live-file backups. Selected private files now project to
+the target. The Codex Secure wrapper is installed with its backup retained;
+static doctor and bundle identity checks passed. The history audit found
+private metadata but no credential values matching its tested patterns.
+Public chezmoi apply, secure cold launch, runtime acceptance, and
+cleanup remain pending. The current Codex session was opened from ordinary
+ChatGPT.app. The user removed all Skills and MCP servers; with Jev absent,
+Codex Secure's static policy check exits before launch. Further launcher
+changes were deferred by request.
+Historical decisions below describe their time, not current ownership.
+
 ## 2026-09-26 — Darken inactive desktop borders
 
 **Status:** accepted

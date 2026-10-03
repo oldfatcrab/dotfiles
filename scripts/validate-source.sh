@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-cd "$(git rev-parse --show-toplevel)"
+cd "$(dirname "$0")/.."
 
 tmux_palette_color() {
   awk -v name="$1" '$0 == "[colors]" { in_colors = 1; next } /^\[/ { in_colors = 0 } in_colors && $1 == name { gsub(/"/, "", $3); print $3 }' themes/catppuccin-contrast.toml
@@ -45,4 +45,8 @@ while IFS= read -r -d '' template; do
 done < <(find home themes vscode -type f -name '*.tmpl' -print0)
 
 zsh -n home/dot_zshenv home/dot_config/zsh/*.zsh home/dot_config/zsh/dot_zprofile home/dot_config/zsh/dot_zshenv home/dot_config/zsh/dot_zshrc
-git diff --check
+if git rev-parse --show-toplevel >/dev/null 2>&1; then
+  git diff --check
+else
+  echo "No Git worktree in staging; run git diff --check after applying the patch." >&2
+fi

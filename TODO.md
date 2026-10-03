@@ -25,15 +25,22 @@ Unchecked items are planned work, not authorization to change a target machine.
 
 ### Managed configuration
 
-- [ ] 2026-09-25 — Codex portable settings source prepared: global guidance,
-  selected model/agent fields, and personal-machine appearance/memory settings.
-  On 2026-09-27, the global delegation policy was tightened experimentally and
-  scoped-applied to `~/.codex/AGENTS.md`; broader target apply remains pending.
-  Its effects on task performance, usage, and rework quality are unverified;
-  observe representative real tasks before evaluating results or claiming
-  savings. Local private context is provisioned separately. Desktop
-  `session-flags: features.thread_tools` warning remains unresolved; the desktop
-  references a flag its CLI does not list.
+- [ ] 2026-09-30 — Public/private source split is implemented in the
+  repositories: public Codex and personal Brewfile sources are retired, and the
+  shared bootstrap and documentation are present. Private replacements were
+  verified; selected live files now project from private source, with exact
+  migration backups retained. Codex Secure wrapper installation is complete;
+  static doctor and bundle identity checks passed. History audit is complete:
+  tested secret patterns found no credential values, while private metadata
+  remains in history. Public chezmoi target apply, secure cold launch and
+  runtime Phase N checks and cleanup remain pending. The current
+  Codex session was opened from ordinary ChatGPT.app. The user removed all
+  Skills and MCP servers; with Jev absent, Codex Secure's static policy check
+  exits before launch. Further launcher changes were deferred by request.
+  The earlier delegation policy has no verified performance, usage, or rework
+  outcome; observe representative tasks before claiming savings. The desktop
+  `session-flags: features.thread_tools` warning remains unresolved because
+  the desktop references a flag absent from its CLI listing.
 
 - [ ] Validate the existing managed Zsh, Powerlevel10k configuration, and Ghostty
   configuration on the target machine. Zsh and Powerlevel10k source already
@@ -190,7 +197,7 @@ Unchecked items are planned work, not authorization to change a target machine.
 - [ ] Evaluate [terminal configuration](https://omarchy.org/manual/terminal/).
 - [ ] Evaluate [shell functions](https://omarchy.org/manual/shell-functions/).
 - [ ] Define [personal-machine applications and configuration](https://omarchy.org/manual/commercial-apps-services/)
-  in [`Brewfile.personal`](Brewfiles/Brewfile.personal) and managed source files.
+  in the private workstation Brewfile and selected private source files.
 - [ ] Evaluate [Windows VM support](https://omarchy.org/manual/windows-vm/).
 - [ ] Evaluate [other packages](https://omarchy.org/manual/other-packages/).
 - [ ] Evaluate [update workflow](https://omarchy.org/manual/updates/).
@@ -312,8 +319,8 @@ command.
   in `Brewfiles/Brewfile.base`; native macOS replacements are recorded in
   `DECISIONS.md`; validated with `git diff --check`.
 - [x] 2026-09-01 — Established the selected [browser baseline](https://omarchy.org/manual/browsers/)
-  in `Brewfiles/Brewfile.personal`; Chromium installation remains in **Next
-  up**; validated with `git diff --check`.
+  in the former personal Brewfile, now owned by the private layer;
+  Chromium installation remains in **Next up**; validated with `git diff --check`.
 - [x] 2026-09-01 — Established [commercial service selections](https://omarchy.org/manual/commercial-apps-services/)
   in `Brewfiles/Brewfile.base`; validated with `git diff --check`.
 - [x] 2026-09-01 — Established selected [web applications](https://omarchy.org/manual/web-apps/)

@@ -2,13 +2,12 @@
 
 ## Current configuration
 
-`Brewfiles/Brewfile.base` declares the shared baseline; `Brewfile.personal`
-adds personal casks only when `is_personal_machine` is true. The managed
-`run_onchange_before_20-install-brew-packages.sh.tmpl` hashes both applicable
-manifests, enters the Apple Silicon or Intel Homebrew environment, runs `brew
-bundle` for each selected file, then registers Homebrew OpenJDK only when the
-system link is absent or points elsewhere. Non-core taps declare `trusted:
-true` individually.
+`Brewfiles/Brewfile.base` declares the shared baseline, including Stow and
+mise for the optional private workstation layer. The managed
+`run_onchange_before_20-install-brew-packages.sh.tmpl` hashes and bundles only
+that manifest. Its existing OpenJDK registration remains macOS-specific.
+Personal casks live in the private repository and are installed by its
+bootstrap. Non-core taps declare `trusted: true` individually.
 
 ## Omarchy reference and divergence
 
