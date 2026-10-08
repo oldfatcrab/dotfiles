@@ -11,7 +11,8 @@ completion, plugins, prompt, aliases, and ZLE layers. Empty `.zlogin` and
 
 History is stored under `ZDOTDIR`, uses a 1,024,000-entry in-memory/save limit,
 and enables append, incremental append, shared history, duplicate expiry,
-space-ignore, and duplicate-search options. `zinit` loads `zsh-eza`; zoxide
+space-ignore, and duplicate-search options. `zinit` loads `zsh-eza` and the
+Oh My Zsh `git` plugin with its Git and clipboard libraries after `compinit`; zoxide
 replaces `cd`; autosuggestions loads after fzf/completion setup.
 
 ## Omarchy reference and divergence

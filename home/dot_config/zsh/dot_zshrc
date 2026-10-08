@@ -36,6 +36,11 @@ zinit light z-shell/zsh-eza
 autoload -Uz compinit
 compinit -d "$XDG_CACHE_HOME/zsh/.zcompdump"
 
+# Oh My Zsh Git aliases and their branch/clipboard helpers.
+zinit snippet OMZL::git.zsh
+zinit snippet OMZL::clipboard.zsh
+zinit snippet OMZP::git
+
 if (( $+commands[vivid] )); then
   export LS_COLORS="$(vivid generate "$XDG_CONFIG_HOME/vivid/themes/catppuccin-contrast.yml")"
   zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}

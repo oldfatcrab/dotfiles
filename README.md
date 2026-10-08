@@ -46,6 +46,8 @@ not assumed by the private workstation layer.
   action order lives in `home/run_*.tmpl`.
 - `home/dot_zshenv` defaults `XDG_CONFIG_HOME` to `~/.config` and bootstraps
   the complete Zsh startup set from `~/.config/zsh`.
+- Zinit loads the Oh My Zsh `git` plugin and its Git/clipboard helpers,
+  providing Git aliases and functions in interactive shells.
 - [DECISIONS.md](DECISIONS.md) records durable choices; [TODO.md](TODO.md)
   records deferred work. Neither replaces the source files.
 - Git history is the implementation record. Use `git log` / `git show` when a source path or decision needs historical context.
