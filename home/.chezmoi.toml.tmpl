@@ -6,3 +6,10 @@
 
 [data]
     is_personal_machine = {{ $is_personal }}
+
+# Hide actionable script entries from inspection, without disabling apply.
+[diff]
+    exclude = ["scripts"]
+
+[status]
+    exclude = ["scripts"]

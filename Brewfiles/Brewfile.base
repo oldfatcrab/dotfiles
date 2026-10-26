@@ -54,6 +54,7 @@ brew "stow"
 brew "tailscale"
 brew "hashicorp/tap/terraform", trusted: true
 brew "terraform-ls"
+brew "unison"
 brew "uv"
 brew "yt-dlp"
 brew "yazi"
