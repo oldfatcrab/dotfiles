@@ -15,6 +15,7 @@ brew "FelixKratz/formulae/borders", trusted: true
 brew "can1357/tap/omp", trusted: true
 brew "chafa"
 brew "charmbracelet/tap/crush", trusted: true
+brew "cloudflared"
 brew "docker"
 brew "docker-agent"
 brew "dua-cli"
