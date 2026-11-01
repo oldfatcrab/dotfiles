@@ -68,3 +68,6 @@ source "$ZDOTDIR/aliases.zsh"
 source "$ZDOTDIR/syntax-highlighting.zsh"
 source "$ZDOTDIR/vi-mode.zsh"
 source $(brew --prefix)/opt/zsh-vi-mode/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
+
+# Optional personal workstation hooks; installed separately from public dotfiles.
+[[ -r "$HOME/.config/zsh/ghostty-cursor-fx.zsh" ]] && source "$HOME/.config/zsh/ghostty-cursor-fx.zsh"
