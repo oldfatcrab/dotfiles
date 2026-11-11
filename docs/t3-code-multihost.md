@@ -1,5 +1,8 @@
 # T3 Code installation and remote-host intent (2026-11-12)
 
+**2026-11-12 reprioritization:** T3 Code Provider/CLI/service setup on the Mac mini is postponed to **P10**. The application and `t3 v0.1.8` CLI are already present; do not configure accounts, services, Tailscale or VPS/Vancouver nodes during P6. Remote topology remains brainstorm only.
+
+
 - **Mac mini M4:** `Brewfiles/Brewfile.base` now installs `cask "t3-code"` (Homebrew 0.1.8 at the time of verification). Run `brew bundle --file=Brewfiles/Brewfile.base` as part of a controlled workstation bootstrap; do not use that command only to test the T3 cask, because it also installs unrelated dependencies.
 - **Removed:** `brew "herdr"` from Brewfile; Homebrew `herdr` and obsolete `orca` cask uninstalled. The `orca` Homebrew cask was Plotly's abandoned chart renderer, *not* the earlier agent UI concept. The agent concepts Orca and Herdr are not part of the active stack.
 - **Global Pi extensions:** the three old `orca-*.ts` and one `herdr-*.ts` were removed from `~/.pi/agent/extensions` auto-discovery, archived under the owner-only `~/.local/state/pi-retired-extensions-20261112`; only `magpie.ts` remains in that directory. Do not re-enable them in a bootstrap script.
