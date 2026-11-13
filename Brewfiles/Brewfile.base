@@ -45,6 +45,9 @@ brew "opencode"
 brew "pi-coding-agent"
 brew "powerlevel10k"
 brew "python@3.14"
+# P5-R encrypted off-machine backup tools (restic snapshots via rclone)
+brew "rclone"
+brew "restic"
 brew "ripgrep"
 brew "FelixKratz/formulae/sketchybar", trusted: true
 brew "malpern/tap/sketchybar-toggle", trusted: true
