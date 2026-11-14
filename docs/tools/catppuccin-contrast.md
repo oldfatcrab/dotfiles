@@ -21,7 +21,8 @@ They establish the runtime-theme comparison; neither defines this palette.
 
 ## Consumers and validation
 
-P10K, Ghostty, fzf, syntax highlighting, vivid, Carapace, btop, LazyVim, and
-the Codex import consume it. Render the affected template and validate its
-native output; edit this file only for a palette-wide decision. See the
+P10K, Ghostty, fzf, syntax highlighting, vivid, Carapace, btop, LazyVim,
+the Codex import, and the T3 Code published theme consume it. Render the
+affected template and validate its native output; edit this file only for a
+palette-wide decision. See the
 accepted palette and bold-ANSI decisions in `DECISIONS.md`.

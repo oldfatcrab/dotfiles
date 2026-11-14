@@ -8,15 +8,26 @@ tmux_palette_color() {
 }
 
 while IFS= read -r -d '' template; do
+  # Init-only template uses promptBoolOnce, unavailable during execute-template.
+  [[ "$template" == home/.chezmoi.toml.tmpl ]] && continue
   chezmoi execute-template --file "$template" >/dev/null
 
   case "$template" in
     themes/codex-catppuccin-contrast.json.tmpl) chezmoi execute-template --file "$template" | sed 's/^codex-theme-v1://' | jq -e . >/dev/null ;;
+    home/private_dot_t3/private_userdata/themes/cappuccin-contrast.json.tmpl)
+      chezmoi execute-template --file "$template" | jq -e '
+        .appearance == "dark" and
+        (.canvas | test("^#[0-9a-fA-F]{6}$")) and
+        (.accent | test("^#[0-9a-fA-F]{6}$")) and
+        ((.colors | length) == 59) and
+        ([.colors[] | test("^#[0-9a-fA-F]{6}$")] | all)
+      ' >/dev/null
+      ;;
     *.json.tmpl) chezmoi execute-template --file "$template" | jq -e . >/dev/null ;;
     *.sh.tmpl) chezmoi execute-template --file "$template" | bash -n ;;
     home/dot_config/zsh/*.tmpl) chezmoi execute-template --file "$template" | zsh -n ;;
     home/dot_config/tmux/tmux.conf.tmpl)
-      tmux_socket="chezmoi-source-$BASHPID"
+      tmux_socket="chezmoi-source-$$"
       tmux_dir=$(mktemp -d)
       tmux_config="$tmux_dir/.config/tmux/tmux.conf"
       cleanup_tmux_validation() {

@@ -207,6 +207,10 @@ not assumed by the private workstation layer.
 - `themes/codex-catppuccin-contrast.json.tmpl` renders a ChatGPT desktop
   Appearance import token from the same palette. It retains the observable
   built-in `catppuccin` ID because `codex-theme-v1` has no published schema.
+- `home/private_dot_t3/private_userdata/themes/cappuccin-contrast.json.tmpl`
+  publishes the T3 Code **Cappuccin Contrast** theme from the canonical palette.
+  Apply the managed JSON and run `t3 theme set cappuccin-contrast`; the local
+  custom `Cappuccin` is preserved. See `docs/tools/t3-code.md`.
 - `home/dot_config/bat/config` sets the Catppuccin Contrast theme and concise
   interactive style. Interactive Zsh aliases replace `cat`, `less`, `man`,
   `rg`, `watch`, and `diff` with bat or bat-extras equivalents, and colorize

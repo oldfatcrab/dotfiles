@@ -23,6 +23,7 @@ validation boundary.
 | btop | [btop.md](btop.md) |
 | VS Code | [vscode.md](vscode.md) |
 | Codex theme | [codex-theme.md](codex-theme.md) |
+| T3 Code theme | [t3-code.md](t3-code.md) |
 | LazyVim | [lazyvim.md](lazyvim.md) |
 
 For the common Omarchy configuration model and complete source map, see
