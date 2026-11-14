@@ -59,15 +59,15 @@ not assumed by the private workstation layer.
 - Package declarations do not claim that a target machine has already been
   configured.
 - `home/dot_config/zsh/dot_p10k.zsh.tmpl` renders the Powerlevel10k
-  configuration from `themes/catppuccin-contrast.toml`. The shared Brewfile
+  configuration from `themes/bicerin.toml`. The shared Brewfile
   installs Powerlevel10k, and `.zshrc` loads its theme before `$ZDOTDIR/.p10k.zsh`.
 - `home/dot_config/zsh/fzf.zsh.tmpl` renders fzf's Catppuccin-style colors from the
   same palette while retaining the existing fzf command and options.
-- `home/dot_config/vivid/themes/catppuccin-contrast.yml.tmpl` renders `LS_COLORS`
+- `home/dot_config/vivid/themes/bicerin.yml.tmpl` renders `LS_COLORS`
   from the same palette for Zsh and Carapace file completions, while
   `home/dot_config/carapace/styles.json.tmpl` renders Carapace value and
   description styles.
-- `themes/catppuccin-contrast.toml` is the canonical palette data for terminal
+- `themes/bicerin.toml` is the canonical palette data for terminal
   and editor configurations. `home/dot_config/ghostty/config.tmpl` renders
   Ghostty's colors from it, including its named, deeper ANSI bold ramp, and
   manages the Mac substitute for Omarchy's Linux-only `foot`: Liga SFMono Nerd
@@ -76,13 +76,13 @@ not assumed by the private workstation layer.
 - `home/dot_config/tmux/tmux.conf.tmpl` configures Omarchy's non-keybinding
   tmux behavior: panes, sessions, mouse, clipboard, and CSI-u extended keys.
   Its session/window/state/hostname modules follow Omarchy and its colours
-  render directly from Contrast; the two-row rounded presentation is local.
+  render directly from Bicerin; the two-row rounded presentation is local.
   The managed `~/.tmux.conf` symlink makes it the default startup
   configuration. TPM, theme runtimes, auto-restoration, and Linux-specific
   Omarchy launch/theme hooks remain absent.
 - `home/dot_config/hyprspace/config.toml` retains nine workspaces and the
   configured macOS bindings. `home/dot_config/borders/executable_bordersrc.tmpl`
-  renders a 12pt border using Contrast `lavender` for focus and `surface1`
+  renders a 12pt border using Bicerin `lavender` for focus and `surface1`
   for inactive windows. SketchyBar's
   template uses the same palette for a three-section bar: workspaces/front app,
   centered calendar and status read-outs, and macOS-native system launchers.
@@ -175,7 +175,7 @@ not assumed by the private workstation layer.
   Catppuccin references: [style guide](https://github.com/catppuccin/catppuccin/blob/main/docs/style-guide.md),
   [Waybar](https://github.com/catppuccin/waybar), and
   [Polybar](https://github.com/catppuccin/polybar). The ports supply palette
-  variables rather than a mandatory bar design. Contrast keeps its custom
+  variables rather than a mandatory bar design. Bicerin keeps its custom
   accents and follows their semantic roles; it is not an official flavor.
   SketchyBar's [plugin sharing discussion](https://github.com/FelixKratz/SketchyBar/discussions/12)
   is the community discovery entry point. Candidates discussed but not installed:
@@ -195,7 +195,7 @@ not assumed by the private workstation layer.
   app font at 18pt in a 31×24pt icon background; the icon item reserves 38pt
   total before the progress bars. Reset labels use a fixed 104pt column.
   Clicking quota opens Codex by bundle ID; the separate agent launcher is omitted.
-  `home/dot_config/showy-quota/` selects a local Contrast theme rendered from
+  `home/dot_config/showy-quota/` selects a local Bicerin theme rendered from
   the canonical palette using the upstream Catppuccin role mapping. Only Codex
   is selected for this bar; authentication stays in CodexBar. Never put
   credentials in this repo.
@@ -204,14 +204,17 @@ not assumed by the private workstation layer.
   SF Pro and SF Symbols install through Apple's package installers and require
   interactive administrator authentication: `brew install --cask font-sf-pro sf-symbols`.
   Installing these packages does not change the macOS system font setting.
-- `themes/codex-catppuccin-contrast.json.tmpl` renders a ChatGPT desktop
+- `themes/codex-bicerin.json.tmpl` renders a ChatGPT desktop
   Appearance import token from the same palette. It retains the observable
   built-in `catppuccin` ID because `codex-theme-v1` has no published schema.
 - `home/private_dot_t3/private_userdata/themes/bicerin.json.tmpl`
   publishes the T3 Code **Bicerin** theme from the canonical palette.
-  Apply the managed JSON and run `t3 theme set bicerin`; the local
-  custom `Cappuccin` is preserved. See `docs/tools/t3-code.md`.
-- `home/dot_config/bat/config` sets the Catppuccin Contrast theme and concise
+  `home/dot_config/t3-code/appearance.json` also backs up the portable T3
+  display options (SF Pro interface/composer; Liga SFMono Nerd Font code/terminal;
+  15pt across panes). A guarded merger updates only appearance fields and
+  preserves private runtime state, while the on-change hook activates Bicerin
+  when T3 is installed. See `docs/tools/t3-code.md`.
+- `home/dot_config/bat/config` sets the Bicerin theme and concise
   interactive style. Interactive Zsh aliases replace `cat`, `less`, `man`,
   `rg`, `watch`, and `diff` with bat or bat-extras equivalents, and colorize
   `grep` results through batgrep. The explicit `batfind` and `batlog` functions
@@ -225,8 +228,8 @@ not assumed by the private workstation layer.
   of circled dots beneath the logo. The palette placement deliberately uses
   ANSI cursor positioning tied to the default macOS logo's 34-column indent.
 - `home/dot_config/btop/btop.conf` selects btop's managed truecolor Catppuccin
-  Contrast theme, rendered by
-  `home/dot_config/btop/themes/catppuccin_contrast.theme.tmpl` from the
+  Bicerin theme, rendered by
+  `home/dot_config/btop/themes/bicerin.theme.tmpl` from the
   canonical palette.
 - `home/dot_config/nvim/` is the vendored LazyVim starter configuration. Its
   Catppuccin override renders the canonical palette on every machine as a

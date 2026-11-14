@@ -1,6 +1,6 @@
-{{- $palette := include "../themes/catppuccin-contrast.toml" | fromToml -}}
+{{- $palette := include "../themes/bicerin.toml" | fromToml -}}
 # Omarchy's native tmux configuration without its key bindings. Colours render
-# from themes/catppuccin-contrast.toml; no tmux theme runtime is required.
+# from themes/bicerin.toml; no tmux theme runtime is required.
 
 # General
 set -g default-terminal "tmux-256color"
@@ -28,7 +28,7 @@ setw -g automatic-rename-format '#{b:pane_current_path}'
 set -g set-titles on
 set -g set-titles-string '#h:#W'
 
-# Status layout follows Omarchy; only its ANSI colours become Contrast roles.
+# Status layout follows Omarchy; only its ANSI colours become Bicerin roles.
 set -g status-position top
 set -g status 2
 set -g status-format[1] "#[fill={{ $palette.colors.base }}]"

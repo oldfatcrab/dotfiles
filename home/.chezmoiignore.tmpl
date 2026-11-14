@@ -17,6 +17,9 @@ run_onchange_before_00-install-packages.sh.tmpl
 run_onchange_before_20-install-brew-packages.sh.tmpl
 Library/Application Support/Code/
 Library/Rime/
+.config/t3-code/
+.local/bin/t3-appearance-apply
+run_onchange_after_50-apply-t3-appearance.sh.tmpl
 {{ end }}
 
 {{ if ne .chezmoi.os "linux" }}

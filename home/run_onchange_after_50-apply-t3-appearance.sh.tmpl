@@ -1,0 +1,18 @@
+{{- $policy := include "../home/dot_config/t3-code/appearance.json" -}}
+{{- $palette := include "../themes/bicerin.toml" -}}
+#!/usr/bin/env bash
+set -euo pipefail
+# Bicerin appearance policy: {{ $policy | sha256sum }}
+# Bicerin palette: {{ $palette | sha256sum }}
+
+[[ "$(uname -s)" == "Darwin" ]] || exit 0
+if [[ -x "$HOME/.local/bin/t3-appearance-apply" ]]; then
+  "$HOME/.local/bin/t3-appearance-apply"
+fi
+if [[ -f "$HOME/.t3/userdata/settings.json" && -f "$HOME/.t3/userdata/themes/bicerin.json" ]]; then
+  if command -v t3 >/dev/null 2>&1; then
+    t3 theme set bicerin
+  elif [[ -x "$HOME/.t3/bin/t3" ]]; then
+    "$HOME/.t3/bin/t3" theme set bicerin
+  fi
+fi

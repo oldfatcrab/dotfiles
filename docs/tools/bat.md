@@ -2,7 +2,7 @@
 
 ## Current configuration
 
-`home/dot_config/bat/config` selects Catppuccin Contrast and concise display.
+`home/dot_config/bat/config` selects Bicerin and concise display.
 The rendered TextMate theme lives beside it; the run-on-change hook rebuilds
 bat's cache. `aliases.zsh` maps `cat`, `less`, `man`, `grep`, `rg`, `watch`,
 and `diff` to bat/bat-extras workflows. `batfind` and `batlog` are explicit

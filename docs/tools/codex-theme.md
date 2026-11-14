@@ -1,8 +1,8 @@
-# Codex Catppuccin Contrast import
+# Codex Bicerin import
 
 ## Current configuration
 
-`themes/codex-catppuccin-contrast.json.tmpl` renders a `codex-theme-v1:`
+`themes/codex-bicerin.json.tmpl` renders a `codex-theme-v1:`
 appearance-import payload from canonical `mauve`, `text`, `base`, `green`, and
 `red` keys. It keeps the observed built-in `catppuccin` code-theme ID and
 leaves code/UI font fields `null`; the observed-format limits are documented in

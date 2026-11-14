@@ -2,7 +2,7 @@
 
 **Research date:** 2026-09-22
 **Scope:** manage a LazyVim starter configuration in this chezmoi repository,
-with Catppuccin Contrast as the only theme customization on every managed
+with Bicerin as the only theme customization on every managed
 machine. This note does not install or apply anything.
 
 ## Recommendation
@@ -35,9 +35,9 @@ plugin merges with LazyVim's Catppuccin spec.
 The shared spec should override the already-present `catppuccin/nvim`
 plugin, set LazyVim's colorscheme to `catppuccin-mocha`, and render
 `color_overrides.mocha` plus only necessary highlights from
-`themes/catppuccin-contrast.toml`, using the repository's established
-`include "../themes/catppuccin-contrast.toml" | fromToml` pattern. Do not
-invent `contrast` as a Catppuccin flavour: upstream supports only latte,
+`themes/bicerin.toml`, using the repository's established
+`include "../themes/bicerin.toml" | fromToml` pattern. Do not
+invent `bicerin` as an upstream Catppuccin flavour: upstream supports only latte,
 frappé, macchiato, and mocha, while its documented `color_overrides` API is
 the supported way to customize a palette. Start with color overrides; add
 highlight overrides only after a specific LazyVim surface needs correction.

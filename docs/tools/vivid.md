@@ -2,7 +2,7 @@
 
 ## Current configuration
 
-`home/dot_config/vivid/themes/catppuccin-contrast.yml.tmpl` maps the canonical
+`home/dot_config/vivid/themes/bicerin.yml.tmpl` maps the canonical
 palette to vivid's full file-category hierarchy. Interactive `.zshrc` runs
 `vivid generate` on that rendered theme, exports `LS_COLORS`, and passes the
 split value to Zsh's completion `list-colors` style.

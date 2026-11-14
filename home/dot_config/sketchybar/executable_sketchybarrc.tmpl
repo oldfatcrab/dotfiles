@@ -1,4 +1,4 @@
-{{- $palette := include "../themes/catppuccin-contrast.toml" | fromToml -}}
+{{- $palette := include "../themes/bicerin.toml" | fromToml -}}
 {{- $colors := index $palette "colors" -}}
 {{- $base := index $colors "base" | trimPrefix "#" -}}
 {{- $crust := index $colors "crust" | trimPrefix "#" -}}
@@ -39,7 +39,7 @@ if [ ! -x "$HYPRSPACE_BIN" ]; then
 fi
 
 # Catppuccin Waybar supplies palette tokens, not layout rules. This keeps its
-# Base/Text roles while using the repository's Contrast palette.
+# Base/Text roles while using the repository's Bicerin palette.
 # Float above application windows; sketchybar-toggle yields the top edge.
 sketchybar --bar topmost=window height=40 color=0xff{{ $base }} border_width=2 border_color=0xff{{ $crust }}
 

@@ -57,7 +57,7 @@ Catppuccin's Hyprland and Waybar projects are palette exporters, not desktop
 layout specifications: Hyprland receives named Lua `rgb(...)`/alpha values and
 Waybar receives named GTK CSS variables. Neither upstream configuration
 prescribes a border width, gaps, bar height, widget order, or widget styling.
-The local Catppuccin Contrast palette must therefore remain the colour source;
+The local Bicerin palette must therefore remain the colour source;
 do not substitute upstream Mocha hex values.
 [Catppuccin Hyprland Mocha](https://raw.githubusercontent.com/catppuccin/hyprland/main/themes/catppuccin-mocha.lua),
 [Catppuccin Waybar Mocha](https://raw.githubusercontent.com/catppuccin/waybar/main/themes/mocha.css),

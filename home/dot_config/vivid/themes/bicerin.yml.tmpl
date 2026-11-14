@@ -1,4 +1,4 @@
-{{- $palette := include "../themes/catppuccin-contrast.toml" | fromToml -}}
+{{- $palette := include "../themes/bicerin.toml" | fromToml -}}
 {{- $colors := index $palette "colors" -}}
 {{- $base := index $colors "base" | trimPrefix "#" -}}
 {{- $blue := index $colors "blue" | trimPrefix "#" -}}
@@ -14,7 +14,7 @@
 {{- $surface2 := index $colors "surface2" | trimPrefix "#" -}}
 {{- $text := index $colors "text" | trimPrefix "#" -}}
 {{- $yellow := index $colors "yellow" | trimPrefix "#" -}}
-# Rendered from themes/catppuccin-contrast.toml; keep the palette authoritative.
+# Rendered from themes/bicerin.toml; keep the palette authoritative.
 colors:
   base: '{{ $base }}'
   blue: '{{ $blue }}'

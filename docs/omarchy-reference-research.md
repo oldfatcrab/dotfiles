@@ -51,9 +51,9 @@ Sources: [Dotfiles manual](https://omarchy.org/manual/dotfiles/),
 
 | Category | Omarchy reference | Local boundary |
 | --- | --- | --- |
-| Terminal / Ghostty | Omarchy's Ghostty config imports the active runtime theme and contains Hyprland-oriented settings such as `async-backend=epoll`. | The managed Ghostty template renders the fixed Catppuccin Contrast palette. Linux state paths and epoll are not portable design input. |
+| Terminal / Ghostty | Omarchy's Ghostty config imports the active runtime theme and contains Hyprland-oriented settings such as `async-backend=epoll`. | The managed Ghostty template renders the fixed Bicerin palette. Linux state paths and epoll are not portable design input. |
 | Shell tools | Bash aliases and init wire eza, fzf, zoxide, bat and other selected utilities into the interactive workflow. | Zsh uses its own aliases and native integration files; install declarations do not establish target availability. |
-| btop and colours | btop selects `color_theme="current"`, delegating palette choice to Omarchy's active theme. | The btop theme is rendered deterministically from `themes/catppuccin-contrast.toml`; no runtime theme switcher is managed. |
+| btop and colours | btop selects `color_theme="current"`, delegating palette choice to Omarchy's active theme. | The btop theme is rendered deterministically from `themes/bicerin.toml`; no runtime theme switcher is managed. |
 | Prompt / editor tooling | Bash initialises Starship when interactive and available; the manual positions Neovim and terminal tools as part of the desktop. | The repository deliberately uses Powerlevel10k and managed LazyVim source. This is a preference/platform divergence, not an Omarchy gap. |
 | Completion | Bash loads bash-completion and then fzf completion/key bindings when their files exist. | Zsh runs `compinit`, then Carapace, vivid-derived completion colours, and fzf widgets. The richer Zsh completion stack is intentional. |
 | Desktop, system, and app integration | Default sources also own Hyprland, systemd, pacman, udev, audio, fonts, and Wayland-session details. | These are out of scope for the macOS source unless a separately reviewed native equivalent exists. VS Code, Codex-theme, Fastfetch, and Neovim settings are local additions, not purported Omarchy ports. |

@@ -1,8 +1,8 @@
-# Catppuccin Contrast palette
+# Bicerin palette
 
 ## Current configuration
 
-`themes/catppuccin-contrast.toml` is the only colour-value authority. It keeps
+`themes/bicerin.toml` is the only colour-value authority. It keeps
 enhanced Frappé accents on the stock Mocha neutral ramp, semantic role tables,
 and a separate deeper ANSI bright ramp (`crimson` through `verdigris`).
 Templates consume named keys; no consumer should copy its hex values.
@@ -24,5 +24,6 @@ They establish the runtime-theme comparison; neither defines this palette.
 P10K, Ghostty, fzf, syntax highlighting, vivid, Carapace, btop, LazyVim,
 the Codex import, and the T3 Code published theme consume it. Render the
 affected template and validate its native output; edit this file only for a
-palette-wide decision. See the
-accepted palette and bold-ANSI decisions in `DECISIONS.md`.
+palette-wide decision. See the accepted palette and bold-ANSI decisions in
+`DECISIONS.md`. The T3 font/layout policy is separate from the shared color
+palette; see `docs/tools/t3-code.md`.

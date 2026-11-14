@@ -3,7 +3,7 @@
 ## Current configuration
 
 `home/dot_config/zsh/dot_p10k.zsh.tmpl` renders the two-line transient P10K
-layout from `themes/catppuccin-contrast.toml`. Interactive `.zshrc` first
+layout from `themes/bicerin.toml`. Interactive `.zshrc` first
 sources Homebrew's P10K theme, then this generated configuration. The prompt
 does not parse palette data at shell runtime.
 

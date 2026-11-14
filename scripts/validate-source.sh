@@ -4,7 +4,7 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 
 tmux_palette_color() {
-  awk -v name="$1" '$0 == "[colors]" { in_colors = 1; next } /^\[/ { in_colors = 0 } in_colors && $1 == name { gsub(/"/, "", $3); print $3 }' themes/catppuccin-contrast.toml
+  awk -v name="$1" '$0 == "[colors]" { in_colors = 1; next } /^\[/ { in_colors = 0 } in_colors && $1 == name { gsub(/"/, "", $3); print $3 }' themes/bicerin.toml
 }
 
 while IFS= read -r -d '' template; do
@@ -13,7 +13,7 @@ while IFS= read -r -d '' template; do
   chezmoi execute-template --file "$template" >/dev/null
 
   case "$template" in
-    themes/codex-catppuccin-contrast.json.tmpl) chezmoi execute-template --file "$template" | sed 's/^codex-theme-v1://' | jq -e . >/dev/null ;;
+    themes/codex-bicerin.json.tmpl) chezmoi execute-template --file "$template" | sed 's/^codex-theme-v1://' | jq -e . >/dev/null ;;
     home/private_dot_t3/private_userdata/themes/bicerin.json.tmpl)
       chezmoi execute-template --file "$template" | jq -e '
         .appearance == "dark" and
@@ -55,6 +55,8 @@ while IFS= read -r -d '' template; do
   esac
 done < <(find home themes vscode -type f -name '*.tmpl' -print0)
 
+jq -e 'length == 26 and .fontFamilyCode == "Liga SFMono Nerd Font" and .fontFamilyTerminal == "Liga SFMono Nerd Font" and .fontFamilySans == "SF Pro" and .fontFamilyComposer == "SF Pro" and .fontSizeCode == 15 and .fontSizeTerminal == 15 and .fontSizePrompt == 15 and .fontSizeInterface == 15' home/dot_config/t3-code/appearance.json >/dev/null
+python3 -c 'from pathlib import Path; p=Path("home/dot_local/bin/executable_t3-appearance-apply"); compile(p.read_text(), str(p), "exec")'
 zsh -n home/dot_zshenv home/dot_config/zsh/*.zsh home/dot_config/zsh/dot_zprofile home/dot_config/zsh/dot_zshenv home/dot_config/zsh/dot_zshrc
 if git rev-parse --show-toplevel >/dev/null 2>&1; then
   git diff --check

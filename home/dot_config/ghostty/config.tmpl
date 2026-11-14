@@ -1,11 +1,11 @@
-{{- $palette := include "../themes/catppuccin-contrast.toml" | fromToml -}}
+{{- $palette := include "../themes/bicerin.toml" | fromToml -}}
 {{- $colors := index $palette "colors" -}}
 {{- $ui := index $palette "ui" -}}
 {{- $terminal := index $palette "terminal" -}}
 {{- $ansi := index $terminal "ansi" -}}
 {{- $editor := index $palette "editor" -}}
 {{- $highlight := index $editor "highlight" -}}
-# Render colors from themes/catppuccin-contrast.toml; keep it authoritative.
+# Render colors from themes/bicerin.toml; keep it authoritative.
 background = {{ index $colors (index $terminal "background") }}
 foreground = {{ index $colors (index $terminal "foreground") }}
 cursor-color = {{ index $colors (index $terminal "cursor") }}

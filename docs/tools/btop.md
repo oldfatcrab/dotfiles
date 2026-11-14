@@ -3,7 +3,7 @@
 ## Current configuration
 
 `home/dot_config/btop/btop.conf` points to the rendered truecolour theme at
-`$XDG_CONFIG_HOME/btop/themes/catppuccin_contrast.theme`, keeps the theme
+`$XDG_CONFIG_HOME/btop/themes/bicerin.theme`, keeps the theme
 background, enables vim keys and terminal synchronized output, uses braille
 graphs, and configures CPU/memory/network/process panels. The theme itself is
 rendered from the canonical palette.

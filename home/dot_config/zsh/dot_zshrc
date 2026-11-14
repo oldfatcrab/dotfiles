@@ -42,7 +42,7 @@ zinit snippet OMZL::clipboard.zsh
 zinit snippet OMZP::git
 
 if (( $+commands[vivid] )); then
-  export LS_COLORS="$(vivid generate "$XDG_CONFIG_HOME/vivid/themes/catppuccin-contrast.yml")"
+  export LS_COLORS="$(vivid generate "$XDG_CONFIG_HOME/vivid/themes/bicerin.yml")"
   zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 fi
 

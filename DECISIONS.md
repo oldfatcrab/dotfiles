@@ -62,7 +62,7 @@ Historical decisions below describe their time, not current ownership.
 **Context:** Catppuccin recommends Overlay0 for inactive borders, but the
 user finds it too bright beside the active Lavender border.
 
-**Decision:** Use existing Contrast Surface1 for JankyBorders inactive
+**Decision:** Use existing Bicerin Surface1 for JankyBorders inactive
 windows; retain Lavender focus and the existing border width.
 
 **Rationale:** A darker neutral separates focused and unfocused windows
@@ -140,7 +140,7 @@ semantic accents. Only terminal ANSI bold rendering changes through Ghostty's
 `bold-color = bright` behavior.
 
 **Implementation / validation:**
-`themes/catppuccin-contrast.toml`; validate TOML, render
+`themes/bicerin.toml`; validate TOML, render
 `home/dot_config/ghostty/config.tmpl`, check palette entries 9–14, and run
 `git diff --check`. Do not apply without explicit authorization.
 
@@ -188,7 +188,7 @@ authoritative terminal/editor palette.
 
 **Decision:** Manage `home/dot_config/ghostty/config.tmpl`, rendering its
 background, foreground, ANSI palette, cursor, selection, and search colors
-from `themes/catppuccin-contrast.toml`. Use `Liga SFMono Nerd Font` at 16pt
+from `themes/bicerin.toml`. Use `Liga SFMono Nerd Font` at 16pt
 with synthetic-style behavior; it keeps the native macOS SF Mono character
 while supplying Nerd Font glyphs. The
 shared Brewfile also declares JetBrains Mono, Caskaydia Mono, Meslo LG, Fira
@@ -222,11 +222,11 @@ diff`, and `git diff --check`. Do not apply without explicit authorization.
 **Status:** accepted
 
 **Context:** The P10K wizard configuration expresses its classic prompt using
-ANSI colour indices, while `themes/catppuccin-contrast.toml` is this
+ANSI colour indices, while `themes/bicerin.toml` is this
 repository's authoritative palette.
 
 **Decision:** Place the source at `home/dot_config/zsh/dot_p10k.zsh.tmpl`. At
-render time, parse `../themes/catppuccin-contrast.toml` with chezmoi's
+render time, parse `../themes/bicerin.toml` with chezmoi's
 `fromToml` and use
 only existing, semantically nearest palette colours for P10K foregrounds and
 backgrounds.
@@ -255,7 +255,7 @@ logic.
 **Decision:** Remove all managed Starship configuration, initialization,
 package declaration, and tests. Preserve the supplied P10K configuration at
 `home/dot_p10k.zsh`, but do not install or initialize P10K yet. Keep the
-palette independently in `themes/catppuccin-contrast.toml`.
+palette independently in `themes/bicerin.toml`.
 
 **Rationale:** A custom adjacency renderer would make Starship an unnecessary
 data source rather than the prompt engine. A data-only TOML palette is
@@ -310,7 +310,7 @@ activated environment.
 
 **Status:** accepted
 
-**Context:** Neovim and Catppuccin Contrast are shared configuration.
+**Context:** Neovim and Bicerin are shared configuration.
 LazyVim's starter is designed to become the user's own configuration; its
 runtime plugins, state, and cache are separate from that configuration.
 
@@ -321,7 +321,7 @@ chezmoi script, use a submodule, or manage Neovim data/state/cache. Commit
 `lazy-lock.json` only after a successful target sync.
 
 Render exactly one plugin spec on every machine from
-`themes/catppuccin-contrast.toml`. It overrides Catppuccin's supported Mocha
+`themes/bicerin.toml`. It overrides Catppuccin's supported Mocha
 palette keys and selects `catppuccin-mocha`; it does not create an invented
 Catppuccin flavour or copy color literals into Lua.
 
@@ -335,7 +335,7 @@ target-machine startup downloads lazy.nvim and plugins, then validates with
 rendering.
 
 **Implementation / validation:** `home/dot_config/nvim/` and
-`themes/catppuccin-contrast.toml`; render the template for both machine
+`themes/bicerin.toml`; render the template for both machine
 scopes, run `git diff --check`, and defer target startup until explicitly
 authorized.
 
@@ -362,7 +362,7 @@ Mocha neutral ramp**. “Frappé HD on Mocha” is an informal shorthand only; i
 is not an official Catppuccin flavor or an upstream-endorsed palette.
 
 Use the enhanced accents and unchanged stock Mocha neutral ramp defined in
-[`themes/catppuccin-contrast.toml`](themes/catppuccin-contrast.toml).
+[`themes/bicerin.toml`](themes/bicerin.toml).
 Its `[colors]` table is the sole source of color values; this decision records
 their provenance and design rationale rather than duplicating the palette.
 
@@ -417,7 +417,7 @@ distinction between the derived accent palette and official Catppuccin
 concepts. At the time of this decision, no theme configuration was managed.
 The later P10K and Ghostty rendering decisions document its current consumers.
 
-**Implementation / validation:** `themes/catppuccin-contrast.toml` is the
+**Implementation / validation:** `themes/bicerin.toml` is the
 machine-readable source of truth. When a theme configuration is added, map its
 values from that file and validate terminal/editor syntax roles in normal use.
 
@@ -693,10 +693,10 @@ with `zsh -n <file>` and a fresh interactive Zsh session.
 
 **Context:** Omarchy supplies native tmux behavior plus Linux/Hyprland launch,
 theme, and Bash workflow integration. Catppuccin/tmux supports manual cloning
-or TPM, but only its upstream flavours, not this repository's Contrast palette.
+or TPM, but only its upstream flavours, not this repository's Bicerin palette.
 
 **Decision:** Maintain one native `tmux.conf.tmpl` that follows Omarchy's
-non-keybinding behavior and renders its colours from the canonical Contrast
+non-keybinding behavior and renders its colours from the canonical Bicerin
 palette. Its module selection remains Omarchy's session, window, state, and
 hostname layout; the two-row, rounded status presentation is local. Do not add
 TPM, a theme runtime, session restoration, Bash layouts, or desktop lifecycle
@@ -723,7 +723,7 @@ after an authorized apply.
 **Context:** The terminal-style bold monospaced top bar did not match macOS;
 window focus and status colors needed consistent roles against a red desktop
 and dark panels. Waybar and Polybar ports provide palettes, not a mandatory
-layout. The existing Contrast palette remains authoritative.
+layout. The existing Bicerin palette remains authoritative.
 
 **Decision:** Use Base/Surface0 backgrounds, Text labels, Subtext1 secondary
 icons, and Lavender for the focused workspace. Reserve Yellow/Red battery
@@ -732,7 +732,7 @@ borders at width 12. Render bar labels and workspace numbers with
 `.AppleSystemUIFont:Regular:13.0`; retain Nerd Font only for pictograms.
 
 **Rationale:** Native proportional typography and restrained semantic accents
-fit the user's macOS UI while preserving the shared custom Contrast palette.
+fit the user's macOS UI while preserving the shared custom Bicerin palette.
 No additional font installation or theme runtime is required.
 
 **Consequences:** This follows Catppuccin role guidance without claiming
@@ -795,7 +795,7 @@ Wrap updates with a local layout adjustment for the center group's right edge,
 clearing inherited child outlines and aligning the upstream zero-width quota
 rows. Show only Codex, with remaining percentages and reset countdowns for both
 windows; clicking the quota replaces the separate Codex launcher.
-Render its custom Catppuccin Contrast theme from the canonical palette rather
+Render its custom Bicerin theme from the canonical palette rather
 than copying stock Mocha hex values. Package installation uses Homebrew where
 available; the release-only showy-quota runtime uses a checksum-verified script.
 No system font preference, media widget, new workspace manager, or tmux wiring
@@ -810,7 +810,7 @@ in CodexBar, and the tmux integration can later share the same cache.
 **Validation:** Source rendering, four plugin behavior checks, and native
 helper compilation passed. The user authorized scoped apply/reload; live
 queries confirmed the input source, weather, CPU/memory, focused monitor, and
-Contrast Codex quota strips. SF Pro/SF Symbols installation was subsequently
+Bicerin Codex quota strips. SF Pro/SF Symbols installation was subsequently
 verified; display/power glyphs were compared with native symbols. Live quota
 layout checks passed. After explicit user authorization, native Wi-Fi and
 weather refresh returned a real SSID and temperature; live VPN state matched

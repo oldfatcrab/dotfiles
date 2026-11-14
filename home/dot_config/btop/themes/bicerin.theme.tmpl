@@ -1,4 +1,4 @@
-{{- $palette := include "../themes/catppuccin-contrast.toml" | fromToml -}}
+{{- $palette := include "../themes/bicerin.toml" | fromToml -}}
 {{- $colors := index $palette "colors" -}}
 {{- $base := index $colors "base" -}}
 {{- $text := index $colors "text" -}}
@@ -17,7 +17,7 @@
 {{- $sky := index $colors "sky" -}}
 {{- $sapphire := index $colors "sapphire" -}}
 {{- $lavender := index $colors "lavender" -}}
-# Colors are rendered from themes/catppuccin-contrast.toml; keep the palette authoritative.
+# Colors are rendered from themes/bicerin.toml; keep the palette authoritative.
 
 # Main background, empty for terminal default, need to be empty if you want transparent background
 theme[main_bg]="{{ $base }}"

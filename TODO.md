@@ -50,8 +50,8 @@ Unchecked items are planned work, not authorization to change a target machine.
   the fzf configuration. Prioritize complete system-tool configuration before
   editor or tmux integration.
 - [x] 2026-09-22 — Added the LazyVim starter source under
-  `home/dot_config/nvim/` and a shared Catppuccin Contrast override rendered
-  from `themes/catppuccin-contrast.toml`. Its selected LazyExtras are managed
+  `home/dot_config/nvim/` and a shared Bicerin override rendered
+  from `themes/bicerin.toml`. Its selected LazyExtras are managed
   in `lazyvim.json`; `lazy-lock.json` was updated after target `:Lazy sync`.
   Run `:LazyHealth` after a fresh target sync before further plugin updates.
 - [ ] After LazyVim is configured, evaluate its selected picker before adding fzf
@@ -62,7 +62,7 @@ Unchecked items are planned work, not authorization to change a target machine.
 - [ ] Define and manage the Visual Studio Code extension list in a Brewfile.
 - [x] Configure Ghostty; see the 2026-09-08 completed entry.
 - [x] 2026-09-22 — Configured native tmux with Omarchy's non-keybinding pane,
-  window, session, and protocol behavior. Contrast colours render directly
+  window, session, and protocol behavior. Bicerin colours render directly
   from the canonical palette; module selection follows Omarchy while its
   two-row rounded presentation is local. TPM, theme runtimes, session
   restoration, and Bash layout helpers remain absent.
@@ -74,7 +74,7 @@ Unchecked items are planned work, not authorization to change a target machine.
   fzf-based tmux navigator by default.
 -->
 - [x] 2026-09-23 — Configured Hyprspace, SketchyBar, and JankyBorders from
-  Catppuccin Contrast. Hyprspace retains its nine workspaces and existing
+  Bicerin. Hyprspace retains its nine workspaces and existing
   bindings; SketchyBar maps the portable Omarchy bar roles to native macOS
   launchers and read-outs. Linux service panels remain intentionally absent.
 
@@ -94,7 +94,7 @@ Unchecked items are planned work, not authorization to change a target machine.
   and reloaded the existing bar. Live queries confirmed centered 24-hour clock,
   `Squirrel - Simplified` input source, weather icon + Celsius, CPU update_freq=1,
   memory, `Mi 27 NU` name/focus highlight, and real Codex quota strips using
-  Contrast colors through managed `codexbar serve`. Source validation and four
+  Bicerin colors through managed `codexbar serve`. Source validation and four
   plugin behavior checks passed. CodexBar 0.66.0, app-icon font 3.0.1, and
   checksum-verified showy-quota v0.9.0 are installed on this machine.
 - [x] 2026-09-26 — Verified SF Pro/SF Symbols are installed. Explicitly load

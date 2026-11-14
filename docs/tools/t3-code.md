@@ -1,33 +1,47 @@
-# T3 Code — managed Bicerin theme
+# T3 Code — Bicerin theme and portable appearance
 
-## Ownership and installation
+## Ownership
 
-- T3 Code is installed by `Brewfiles/Brewfile.base` with `cask "t3-code"`. Do **not** duplicate the package declaration in `workstation-private`.
-- The single color authority is `themes/catppuccin-contrast.toml` (enhanced Frappé accents / Mocha neutrals). **Bicerin** is the agreed display name; the older canonical filename remains unchanged to avoid breaking other consumers.
-- Chezmoi renders `home/private_dot_t3/private_userdata/themes/bicerin.json.tmpl` into `~/.t3/userdata/themes/bicerin.json`. T3 Code publishes themes from this directory.
-- The published theme is named **Bicerin** and has the ID `bicerin`, separate from the user's device-local **Cappuccin** custom theme (`cappuccin`). This avoids a documented precedence collision while preserving the original.
-- The rendered JSON has two base colors (`canvas`, `accent`) plus 59 explicit T3 theme roles. Every hex color is resolved from the canonical palette. No secrets, app databases, or other user settings are managed by chezmoi.
+- Homebrew: `Brewfiles/Brewfile.base` provides `cask "t3-code"`; no duplicate in `workstation-private`.
+- Colors: `themes/bicerin.toml` is the sole value authority. Chezmoi renders `home/private_dot_t3/private_userdata/themes/bicerin.json.tmpl` to `~/.t3/userdata/themes/bicerin.json` (published theme ID `bicerin`).
+- UI appearance: `home/dot_config/t3-code/appearance.json` is a portable **26-key allowlist**. Chezmoi installs it at `~/.config/t3-code/appearance.json`.
+- Runtime merger: `home/dot_local/bin/executable_t3-appearance-apply` installs `~/.local/bin/t3-appearance-apply` and updates only approved fields in `~/.t3/userdata/client-settings.json`.
+- `home/run_onchange_after_50-apply-t3-appearance.sh.tmpl` runs the merger and activates Bicerin after a normal chezmoi apply on macOS when T3's files and CLI exist. Re-run manually after the application's **first launch** if it was not installed yet.
+- The original local `Cappuccin` theme (`cappuccin`) stays in Electron Local Storage. We neither modify LevelDB nor version runtime state, accounts, browser profiles, credentials, model preferences, or chat history.
 
-## Apply or reproduce on another machine
+## Appearance values
+
+| T3 field | Managed value | Alignment |
+| --- | --- | --- |
+| `fontFamilySans`, `fontFamilyComposer` | `SF Pro` | macOS/SketchyBar interface font |
+| `fontFamilyCode`, `fontFamilyTerminal` | `Liga SFMono Nerd Font` | VS Code editor and Ghostty |
+| `fontSizeInterface`, `fontSizePrompt`, `fontSizeCode`, `fontSizeTerminal` | `15` | VS Code editor, chat, and integrated terminal |
+| `fontSmoothing` | `true` | Preserve previously enabled smoothing |
+| `appearanceContrast` | `100` | Preserve T3's existing local setting; not the same API/scale as Codex's `contrast` |
+| `glassOpacity` | `80` | Preserve current transparency |
+| `chatWidth` | `comfortable` | Preserve current layout |
+| `panelAnimationDurationMs` | `0` | Preserve current reduced animation |
+| Diff/sidebar/wrap/timestamps/effort | Existing local choices | Snapshot as portable visual defaults |
+
+The JSON policy has the exact remaining appearance field values. Any new/changed T3 setting key requires a conscious update of the merger's allowlist; nonappearance settings must stay runtime-owned.
+
+## Apply or reproduce
 
 ```sh
 # From ~/workspace/dotfiles:
 bash scripts/validate-source.sh
-chezmoi apply ~/.t3/userdata/themes/bicerin.json
-t3 theme show
+chezmoi apply ~/.t3/userdata/themes/bicerin.json ~/.config/t3-code/appearance.json ~/.local/bin/t3-appearance-apply
+~/.local/bin/t3-appearance-apply
 t3 theme set bicerin
+t3 theme show
 ```
 
-The `t3` CLI may need to be installed via T3 Code's own settings on a new workstation; installing the Homebrew desktop cask alone does not guarantee it is on PATH.
+A normal full `chezmoi apply` also runs the on-change hook; avoid running a full apply merely to install T3 because it may touch unrelated managed configurations. The T3 CLI may need to be installed from the application first. A first-run T3 instance may not yet have `client-settings.json`; the merger skips it safely.
 
-The `t3 theme set` command publishes the environment's selected theme to connected clients; when offline they adopt it on reconnect. Alternatively, select **Bicerin** under T3 Code → Settings → Appearance after publishing. This command does **not** change T3 credentials, providers, or service/network configuration.
+Before the first change, the merger makes a **local, permission-restricted** backup at `~/.t3/userdata/client-settings.pre-bicerin.json`; this file is deliberately *not* committed to dotfiles. The nonsecret, portable appearance policy **is** committed. The script writes atomically and preserves all unrelated fields. If T3 is running, reopen the app later to ensure it adopts changed fonts; we do not forcibly terminate active sessions.
 
-To update colors, edit only `themes/catppuccin-contrast.toml`, validate, re-apply the managed JSON, and run `t3 theme set bicerin` again. Do not edit Chromium Local Storage/LevelDB by hand. The existing custom `Cappuccin` remains a separate local theme that you may keep as a rollback.
+## Validation and boundaries
 
-## Scope and validation
+Run `bash scripts/validate-source.sh`, `git diff --check`, inspect `chezmoi diff`, and verify the published theme via `t3 theme show`. The 59 T3-specific color roles plus two top-level colors derive from Bicerin's semantic palette. This is a personal Catppuccin-derived theme, not an upstream flavor.
 
-Local custom T3 themes live in Electron Local Storage under `~/Library/Application Support/t3code-v2/Local Storage/leveldb/`; these files are *not* machine-portable templates and can be locked by the running application. Instead use T3's supported published-theme directory. The app currently exposes 61 color roles, including `canvas` and `accent`, which are represented as top-level values in the published JSON.
-
-The theme uses role-appropriate Catppuccin neutrals for panels and UI text; mauve for the accent, teal/green/yellow/red for status, and rosewater for the terminal cursor. It is a local contrast variant, not an official upstream Catppuccin flavor.
-
-Official reference: https://github.com/pingdotgg/t3code/blob/main/docs/user/appearance.md
+Never add the entire `~/.t3/userdata` directory or Electron Local Storage database to this repo: they contain unrelated local/private state.

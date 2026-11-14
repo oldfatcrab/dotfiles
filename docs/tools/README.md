@@ -7,7 +7,7 @@ validation boundary.
 | Tool | Document |
 | --- | --- |
 | Homebrew and macOS package boundary | [homebrew.md](homebrew.md) |
-| Canonical palette | [catppuccin-contrast.md](catppuccin-contrast.md) |
+| Canonical palette | [bicerin.md](bicerin.md) |
 | Interactive shell | [zsh.md](zsh.md) |
 | Prompt | [powerlevel10k.md](powerlevel10k.md) |
 | Terminal | [ghostty.md](ghostty.md) |

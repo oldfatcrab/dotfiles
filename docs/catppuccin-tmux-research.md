@@ -5,12 +5,12 @@
 ## Outcome
 
 Catppuccin/tmux is deliberately not installed. Its documented flavours are
-Latte, Frappé, Macchiato, and Mocha; this repository's Contrast palette is not
+Latte, Frappé, Macchiato, and Mocha; this repository's Bicerin palette is not
 an upstream flavour. More importantly, the plugin generates status-line
 options, which conflicts with retaining Omarchy's chosen native modules.
 
 `home/dot_config/tmux/tmux.conf.tmpl` instead renders native tmux values from
-`themes/catppuccin-contrast.toml`: `mantle`/`text` for the bar, `base` for its
+`themes/bicerin.toml`: `mantle`/`text` for the bar, `base` for its
 blank spacing row, `blue`/`crust` for the session and mode accent, and
 `overlay0` for inactive elements. The module selection remains Omarchy's
 session, `#I:#W`, COPY/PREFIX/ZOOM state, and hostname; the two-row bar and
@@ -26,4 +26,4 @@ reference for optional modules, not a dependency.
 `scripts/validate-source.sh` renders the template and starts an isolated tmux
 server through the managed `~/.tmux.conf` symlink. It checks the resolved
 session and current-window status formats, the second-line `fill` style, and
-the rendered Contrast bar roles.
+the rendered Bicerin bar roles.
