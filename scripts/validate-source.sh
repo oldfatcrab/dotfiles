@@ -14,7 +14,7 @@ while IFS= read -r -d '' template; do
 
   case "$template" in
     themes/codex-catppuccin-contrast.json.tmpl) chezmoi execute-template --file "$template" | sed 's/^codex-theme-v1://' | jq -e . >/dev/null ;;
-    home/private_dot_t3/private_userdata/themes/cappuccin-contrast.json.tmpl)
+    home/private_dot_t3/private_userdata/themes/bicerin.json.tmpl)
       chezmoi execute-template --file "$template" | jq -e '
         .appearance == "dark" and
         (.canvas | test("^#[0-9a-fA-F]{6}$")) and
